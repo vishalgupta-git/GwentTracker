@@ -1,0 +1,7 @@
+# Note: crawlers only read robots.txt at a domain root. This file takes
+# effect if the site moves to its own domain; on github.io/GwentTracker/
+# submit the sitemap through Google Search Console instead.
+User-agent: *
+Allow: /
+
+Sitemap: https://vishalgupta-git.github.io/GwentTracker/sitemap.xml

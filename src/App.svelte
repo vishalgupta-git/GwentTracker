@@ -3,7 +3,10 @@
   import CardList from '$lib/components/CardList.svelte'
   import MissableList from '$lib/components/MissableList.svelte'
   import UploadZone from '$lib/components/UploadZone.svelte'
+  import CardFan from '$lib/components/CardFan.svelte'
   import FactionProgress from '$lib/components/FactionProgress.svelte'
+  import Faq from '$lib/components/Faq.svelte'
+  import HowItWorks from '$lib/components/HowItWorks.svelte'
   import Ornament from '$lib/components/Ornament.svelte'
   import StatRing from '$lib/components/StatRing.svelte'
   import ThemeToggle from '$lib/components/ThemeToggle.svelte'
@@ -18,6 +21,7 @@
   import { filterGroups, regionsOf, SOURCE_KIND_LABEL, type Filters, type SourceKind } from '$lib/collection/filters'
   import { clearLastSave, loadLastSave, storeLastSave } from '$lib/collection/lastSave'
   import { clearMarks, marks } from '$lib/collection/marks.svelte'
+  import { FAN_DISCLAIMER } from '$lib/content/site'
   import { readSave } from '$lib/save/read'
   import { isSaveFile } from '$lib/save/parse'
   import type { ReferenceCard, SaveCards } from '$lib/types'
@@ -211,30 +215,41 @@
     {/if}
 
     {#if !result}
-      <section class="mx-auto max-w-3xl pt-6 text-center sm:pt-12">
-        <p class="text-gold mb-3 text-xs font-semibold tracking-[0.3em] uppercase">The Witcher 3 · Wild Hunt</p>
-        <h1 class="font-display text-gold-gradient text-4xl leading-tight font-bold sm:text-6xl">
-          Complete your<br />Gwent collection
-        </h1>
-        <p class="text-muted-foreground mx-auto mt-5 max-w-xl text-base sm:text-lg">
-          Drop in your save and see every card you're missing, where to win or buy it, and which ones you're about to
-          lose for good.
-        </p>
-        <Ornament class="mx-auto my-8 max-w-xs" />
-        <UploadZone {onfile} {onsample} {loading} />
+      <section class="grid items-center gap-10 pt-4 sm:pt-10 lg:grid-cols-[1.05fr_1fr] lg:gap-14">
+        <div class="order-2 text-center lg:order-1 lg:text-left">
+          <p class="text-gold mb-3 text-xs font-semibold tracking-[0.3em] uppercase">The Witcher 3 · Gwent tracker</p>
+          <h1 class="font-display text-gold-gradient text-4xl leading-tight font-bold sm:text-5xl xl:text-6xl">
+            Complete your Gwent collection
+          </h1>
+          <p class="text-muted-foreground mx-auto mt-5 max-w-xl text-base sm:text-lg lg:mx-0">
+            Drop in your Witcher 3 save and see every Gwent card you're missing, where to win or buy it, and which ones
+            you're about to lose for good.
+          </p>
+          <Ornament class="mx-auto my-7 max-w-xs lg:mx-0" />
+          <UploadZone {onfile} {onsample} {loading} />
+        </div>
+        <div class="order-1 px-6 lg:order-2 lg:px-0">
+          <CardFan />
+        </div>
       </section>
 
-      <section class="mx-auto mt-14 grid max-w-4xl gap-4 sm:grid-cols-3">
-        {#each FEATURES as f (f.title)}
-          <div class="panel p-5">
-            <div class="bg-gold/15 text-gold mb-3 grid size-10 place-items-center rounded-lg">
-              <f.icon class="size-5" />
+      <div class="mt-20 space-y-20">
+        <HowItWorks />
+
+        <section aria-label="Features" class="mx-auto grid max-w-5xl gap-4 sm:grid-cols-3">
+          {#each FEATURES as f (f.title)}
+            <div class="panel p-5">
+              <div class="bg-gold/15 text-gold mb-3 grid size-10 place-items-center rounded-lg">
+                <f.icon class="size-5" />
+              </div>
+              <h3 class="font-display font-semibold">{f.title}</h3>
+              <p class="text-muted-foreground mt-1 text-sm">{f.text}</p>
             </div>
-            <h2 class="font-display font-semibold">{f.title}</h2>
-            <p class="text-muted-foreground mt-1 text-sm">{f.text}</p>
-          </div>
-        {/each}
-      </section>
+          {/each}
+        </section>
+
+        <Faq />
+      </div>
     {:else}
       <section class="panel overflow-hidden">
         <div class="flex flex-wrap items-center justify-between gap-3 border-b px-5 py-4 sm:px-6">
@@ -463,9 +478,12 @@
         (both MIT). Card images from the
         <a class="hover:text-gold underline" href="https://witcher.fandom.com/">Witcher Wiki</a>.
       </p>
+      <p>{FAN_DISCLAIMER}</p>
       <p>
-        The Witcher 3: Wild Hunt, Gwent and all card artwork are property of CD Projekt Red. Unaffiliated,
-        non-commercial fan project.
+        The Witcher 3: Wild Hunt, Gwent and all card artwork are property of CD PROJEKT RED. Free, non-commercial
+        fan project · <a class="hover:text-gold underline" href="https://github.com/vishalgupta-git/GwentTracker"
+          >Source on GitHub</a
+        >
       </p>
     </div>
   </footer>
