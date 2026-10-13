@@ -3,7 +3,7 @@
   import { Button } from '$lib/components/ui/button'
   import * as Dialog from '$lib/components/ui/dialog'
   import { catalog } from '$lib/collection/catalog'
-  import { cardArt, deckColor, SOURCE_LABEL } from '$lib/display'
+  import { ABILITY, cardArt, deckColor, ROW_LABEL, SOURCE_LABEL } from '$lib/display'
   import { marks, toggleMark } from '$lib/collection/marks.svelte'
   import type { CardGroup } from '$lib/types'
   import Check from '@lucide/svelte/icons/check'
@@ -13,6 +13,7 @@
 
   let { group, onclose }: { group: CardGroup | null; onclose: () => void } = $props()
 
+  const card = $derived(group?.cards[0])
   const missables = $derived(
     group ? catalog.missables.filter((m) => group!.cards.some((c) => m.cardIds.includes(c.index))) : [],
   )
@@ -56,6 +57,30 @@
             <blockquote class="border-gold/60 text-muted-foreground border-l-2 pl-3 text-sm italic">
               {group.flavor}
             </blockquote>
+          {/if}
+
+          {#if card && (card.strength != null || card.rows.length || card.abilities.length)}
+            <div class="space-y-2 text-sm">
+              {#if card.strength != null || card.rows.length}
+                <dl class="flex flex-wrap gap-x-5 gap-y-1">
+                  {#if card.strength != null}
+                    <div class="flex gap-1.5">
+                      <dt class="text-muted-foreground">Strength</dt>
+                      <dd class="font-semibold tabular-nums">{card.strength}</dd>
+                    </div>
+                  {/if}
+                  {#if card.rows.length}
+                    <div class="flex gap-1.5">
+                      <dt class="text-muted-foreground">{card.strength != null ? 'Row' : 'Affects'}</dt>
+                      <dd class="font-semibold">{card.rows.map((r) => ROW_LABEL[r]).join(card.strength != null ? ' or ' : ' and ')}</dd>
+                    </div>
+                  {/if}
+                </dl>
+              {/if}
+              {#each card.abilities as a (a)}
+                <p><span class="font-semibold">{ABILITY[a].label}:</span> <span class="text-muted-foreground">{ABILITY[a].text}</span></p>
+              {/each}
+            </div>
           {/if}
 
           <div class="flex flex-wrap items-center gap-3">

@@ -1,4 +1,5 @@
-import type { CardGroup, Location } from '../types'
+import { ABILITY } from '../display'
+import type { Ability, CardGroup, Location } from '../types'
 import { describeLocation } from './diff'
 
 /** How a card is obtained, collapsed from the catalog's location types. */
@@ -41,19 +42,31 @@ export interface Filters {
   query: string
   region: string | null
   kind: SourceKind | null
+  ability: Ability | null
+  /** Only cards that count toward "Collect 'Em All". */
+  achievement: boolean
 }
 
-export const NO_FILTERS: Filters = { query: '', region: null, kind: null }
+export const NO_FILTERS: Filters = { query: '', region: null, kind: null, ability: null, achievement: false }
+
+/** Abilities present in these groups, by label. */
+export function abilitiesOf(groups: CardGroup[]): Ability[] {
+  const found = new Set(groups.flatMap((g) => g.cards[0]?.abilities ?? []))
+  return [...found].sort((a, b) => ABILITY[a].label.localeCompare(ABILITY[b].label))
+}
 
 /**
- * Text search over name/deck/type/locations; region and kind must match the
+ * Text search over name/deck/type/abilities/locations; region and kind must match the
  * same location (e.g. "buy" + "Novigrad" = a Novigrad merchant).
  */
 export function filterGroups(groups: CardGroup[], f: Filters): CardGroup[] {
   const q = f.query.trim().toLowerCase()
   return groups.filter((g) => {
-    if (q && ![g.name, g.deck, g.type, ...g.locations.map(describeLocation)].some((s) => s.toLowerCase().includes(q)))
-      return false
+    const abilities = g.cards[0]?.abilities ?? []
+    const haystack = [g.name, g.deck, g.type, ...abilities.map((a) => ABILITY[a].label), ...g.locations.map(describeLocation)]
+    if (q && !haystack.some((s) => s.toLowerCase().includes(q))) return false
+    if (f.ability && !abilities.includes(f.ability)) return false
+    if (f.achievement && !g.achievement) return false
     if (!f.region && !f.kind) return true
     return g.locations.some(
       (l) => (!f.region || l.region === f.region) && (!f.kind || sourceKind(l) === f.kind),

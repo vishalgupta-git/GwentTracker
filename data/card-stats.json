@@ -1,0 +1,1716 @@
+{
+ "0": {
+  "rows": [],
+  "abilities": [
+   "decoy"
+  ]
+ },
+ "1": {
+  "rows": [],
+  "abilities": [
+   "horn"
+  ]
+ },
+ "2": {
+  "rows": [],
+  "abilities": [
+   "scorch"
+  ]
+ },
+ "3": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "weather"
+  ]
+ },
+ "4": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [
+   "weather"
+  ]
+ },
+ "5": {
+  "rows": [
+   "siege"
+  ],
+  "abilities": [
+   "weather"
+  ]
+ },
+ "6": {
+  "rows": [],
+  "abilities": [
+   "weather"
+  ]
+ },
+ "7": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "hero"
+  ],
+  "strength": 15
+ },
+ "8": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [],
+  "strength": 6
+ },
+ "9": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [
+   "hero",
+   "medic"
+  ],
+  "strength": 7
+ },
+ "10": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "hero"
+  ],
+  "strength": 15
+ },
+ "11": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "hero"
+  ],
+  "strength": 7
+ },
+ "12": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "horn"
+  ],
+  "strength": 2
+ },
+ "13": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [],
+  "strength": 5
+ },
+ "14": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [],
+  "strength": 5
+ },
+ "15": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "scorch"
+  ],
+  "strength": 7
+ },
+ "16": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "hero",
+   "spy"
+  ],
+  "strength": 0
+ },
+ "17": {
+  "rows": [
+   "melee",
+   "ranged"
+  ],
+  "abilities": [
+   "agile",
+   "moraleBoost"
+  ],
+  "strength": 6
+ },
+ "18": {
+  "rows": [
+   "siege"
+  ],
+  "abilities": [
+   "muster"
+  ],
+  "strength": 2
+ },
+ "19": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [
+   "muster"
+  ],
+  "strength": 4
+ },
+ "20": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [
+   "avenger"
+  ],
+  "strength": 0
+ },
+ "21": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [],
+  "strength": 8
+ },
+ "22": {
+  "rows": [],
+  "abilities": [
+   "mardroeme"
+  ]
+ },
+ "23": {
+  "rows": [
+   "ranged",
+   "siege"
+  ],
+  "abilities": [
+   "weather"
+  ]
+ },
+ "26": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "hero",
+   "muster"
+  ],
+  "strength": 15
+ },
+ "27": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "hero",
+   "muster"
+  ],
+  "strength": 15
+ },
+ "28": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [],
+  "strength": 3
+ },
+ "100": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "hero"
+  ],
+  "strength": 10
+ },
+ "101": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "hero"
+  ],
+  "strength": 10
+ },
+ "102": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "hero"
+  ],
+  "strength": 10
+ },
+ "103": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [
+   "hero"
+  ],
+  "strength": 10
+ },
+ "105": {
+  "rows": [
+   "siege"
+  ],
+  "abilities": [
+   "spy"
+  ],
+  "strength": 1
+ },
+ "106": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [],
+  "strength": 5
+ },
+ "107": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [],
+  "strength": 5
+ },
+ "108": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [],
+  "strength": 2
+ },
+ "109": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "spy"
+  ],
+  "strength": 4
+ },
+ "111": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [],
+  "strength": 5
+ },
+ "112": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [],
+  "strength": 5
+ },
+ "113": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [],
+  "strength": 4
+ },
+ "114": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [],
+  "strength": 4
+ },
+ "115": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [],
+  "strength": 6
+ },
+ "116": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "spy"
+  ],
+  "strength": 5
+ },
+ "120": {
+  "rows": [
+   "siege"
+  ],
+  "abilities": [],
+  "strength": 6
+ },
+ "121": {
+  "rows": [
+   "siege"
+  ],
+  "abilities": [],
+  "strength": 6
+ },
+ "125": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "tightBond"
+  ],
+  "strength": 1
+ },
+ "126": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "tightBond"
+  ],
+  "strength": 1
+ },
+ "127": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "tightBond"
+  ],
+  "strength": 1
+ },
+ "130": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [
+   "tightBond"
+  ],
+  "strength": 5
+ },
+ "131": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [
+   "tightBond"
+  ],
+  "strength": 5
+ },
+ "132": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [
+   "tightBond"
+  ],
+  "strength": 5
+ },
+ "135": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [],
+  "strength": 1
+ },
+ "136": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [],
+  "strength": 1
+ },
+ "140": {
+  "rows": [
+   "siege"
+  ],
+  "abilities": [
+   "tightBond"
+  ],
+  "strength": 8
+ },
+ "141": {
+  "rows": [
+   "siege"
+  ],
+  "abilities": [
+   "tightBond"
+  ],
+  "strength": 8
+ },
+ "145": {
+  "rows": [
+   "siege"
+  ],
+  "abilities": [],
+  "strength": 6
+ },
+ "146": {
+  "rows": [
+   "siege"
+  ],
+  "abilities": [],
+  "strength": 6
+ },
+ "150": {
+  "rows": [
+   "siege"
+  ],
+  "abilities": [
+   "moraleBoost"
+  ],
+  "strength": 1
+ },
+ "151": {
+  "rows": [
+   "siege"
+  ],
+  "abilities": [
+   "moraleBoost"
+  ],
+  "strength": 1
+ },
+ "152": {
+  "rows": [
+   "siege"
+  ],
+  "abilities": [
+   "moraleBoost"
+  ],
+  "strength": 1
+ },
+ "160": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "tightBond"
+  ],
+  "strength": 4
+ },
+ "170": {
+  "rows": [
+   "siege"
+  ],
+  "abilities": [],
+  "strength": 6
+ },
+ "175": {
+  "rows": [
+   "siege"
+  ],
+  "abilities": [
+   "medic"
+  ],
+  "strength": 5
+ },
+ "200": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "hero"
+  ],
+  "strength": 10
+ },
+ "201": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "hero",
+   "medic"
+  ],
+  "strength": 10
+ },
+ "202": {
+  "rows": [
+   "siege"
+  ],
+  "abilities": [
+   "hero"
+  ],
+  "strength": 10
+ },
+ "203": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [
+   "hero"
+  ],
+  "strength": 10
+ },
+ "205": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [],
+  "strength": 2
+ },
+ "206": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [],
+  "strength": 6
+ },
+ "207": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [],
+  "strength": 4
+ },
+ "208": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [],
+  "strength": 6
+ },
+ "209": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [],
+  "strength": 3
+ },
+ "210": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [],
+  "strength": 4
+ },
+ "211": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [],
+  "strength": 5
+ },
+ "212": {
+  "rows": [
+   "siege"
+  ],
+  "abilities": [],
+  "strength": 3
+ },
+ "213": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "spy"
+  ],
+  "strength": 7
+ },
+ "214": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "spy"
+  ],
+  "strength": 9
+ },
+ "215": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [],
+  "strength": 2
+ },
+ "217": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [],
+  "strength": 4
+ },
+ "218": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "spy"
+  ],
+  "strength": 4
+ },
+ "219": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [],
+  "strength": 2
+ },
+ "220": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [],
+  "strength": 6
+ },
+ "221": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [],
+  "strength": 3
+ },
+ "230": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [
+   "medic"
+  ],
+  "strength": 1
+ },
+ "231": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [
+   "medic"
+  ],
+  "strength": 1
+ },
+ "235": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [],
+  "strength": 10
+ },
+ "236": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [],
+  "strength": 10
+ },
+ "240": {
+  "rows": [
+   "siege"
+  ],
+  "abilities": [],
+  "strength": 10
+ },
+ "241": {
+  "rows": [
+   "siege"
+  ],
+  "abilities": [],
+  "strength": 5
+ },
+ "245": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "tightBond"
+  ],
+  "strength": 3
+ },
+ "246": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "tightBond"
+  ],
+  "strength": 3
+ },
+ "247": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "tightBond"
+  ],
+  "strength": 3
+ },
+ "248": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "tightBond"
+  ],
+  "strength": 3
+ },
+ "250": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "tightBond"
+  ],
+  "strength": 2
+ },
+ "251": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "tightBond"
+  ],
+  "strength": 2
+ },
+ "252": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "tightBond"
+  ],
+  "strength": 2
+ },
+ "255": {
+  "rows": [
+   "siege"
+  ],
+  "abilities": [],
+  "strength": 6
+ },
+ "260": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "tightBond"
+  ],
+  "strength": 5
+ },
+ "261": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "tightBond"
+  ],
+  "strength": 5
+ },
+ "265": {
+  "rows": [
+   "siege"
+  ],
+  "abilities": [
+   "medic"
+  ],
+  "strength": 0
+ },
+ "300": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [
+   "hero"
+  ],
+  "strength": 10
+ },
+ "301": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [
+   "hero"
+  ],
+  "strength": 10
+ },
+ "302": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "hero",
+   "moraleBoost"
+  ],
+  "strength": 10
+ },
+ "303": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [
+   "hero"
+  ],
+  "strength": 10
+ },
+ "305": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [],
+  "strength": 6
+ },
+ "306": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [
+   "moraleBoost"
+  ],
+  "strength": 10
+ },
+ "307": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [],
+  "strength": 6
+ },
+ "308": {
+  "rows": [
+   "melee",
+   "ranged"
+  ],
+  "abilities": [
+   "agile"
+  ],
+  "strength": 6
+ },
+ "309": {
+  "rows": [
+   "melee",
+   "ranged"
+  ],
+  "abilities": [
+   "agile"
+  ],
+  "strength": 6
+ },
+ "310": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [],
+  "strength": 2
+ },
+ "311": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [],
+  "strength": 1
+ },
+ "312": {
+  "rows": [
+   "melee",
+   "ranged"
+  ],
+  "abilities": [
+   "agile"
+  ],
+  "strength": 3
+ },
+ "313": {
+  "rows": [
+   "melee",
+   "ranged"
+  ],
+  "abilities": [
+   "agile"
+  ],
+  "strength": 6
+ },
+ "320": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "muster"
+  ],
+  "strength": 5
+ },
+ "321": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "muster"
+  ],
+  "strength": 5
+ },
+ "322": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "muster"
+  ],
+  "strength": 5
+ },
+ "325": {
+  "rows": [
+   "melee",
+   "ranged"
+  ],
+  "abilities": [
+   "agile"
+  ],
+  "strength": 5
+ },
+ "326": {
+  "rows": [
+   "melee",
+   "ranged"
+  ],
+  "abilities": [
+   "agile"
+  ],
+  "strength": 5
+ },
+ "330": {
+  "rows": [
+   "melee",
+   "ranged"
+  ],
+  "abilities": [
+   "agile"
+  ],
+  "strength": 6
+ },
+ "331": {
+  "rows": [
+   "melee",
+   "ranged"
+  ],
+  "abilities": [
+   "agile"
+  ],
+  "strength": 6
+ },
+ "332": {
+  "rows": [
+   "melee",
+   "ranged"
+  ],
+  "abilities": [
+   "agile"
+  ],
+  "strength": 6
+ },
+ "335": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "muster"
+  ],
+  "strength": 3
+ },
+ "336": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "muster"
+  ],
+  "strength": 3
+ },
+ "337": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "muster"
+  ],
+  "strength": 3
+ },
+ "340": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [],
+  "strength": 5
+ },
+ "341": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [],
+  "strength": 5
+ },
+ "342": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [],
+  "strength": 5
+ },
+ "343": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [],
+  "strength": 5
+ },
+ "344": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [],
+  "strength": 5
+ },
+ "350": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [
+   "muster"
+  ],
+  "strength": 2
+ },
+ "351": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [
+   "muster"
+  ],
+  "strength": 2
+ },
+ "352": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [
+   "muster"
+  ],
+  "strength": 2
+ },
+ "355": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [],
+  "strength": 4
+ },
+ "360": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [],
+  "strength": 4
+ },
+ "365": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [
+   "medic"
+  ],
+  "strength": 0
+ },
+ "366": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [
+   "medic"
+  ],
+  "strength": 0
+ },
+ "367": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [
+   "medic"
+  ],
+  "strength": 0
+ },
+ "368": {
+  "rows": [
+   "siege"
+  ],
+  "abilities": [
+   "scorch"
+  ],
+  "strength": 8
+ },
+ "400": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "hero"
+  ],
+  "strength": 10
+ },
+ "401": {
+  "rows": [
+   "melee",
+   "ranged"
+  ],
+  "abilities": [
+   "agile",
+   "hero",
+   "moraleBoost"
+  ],
+  "strength": 8
+ },
+ "402": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "hero"
+  ],
+  "strength": 10
+ },
+ "403": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [
+   "hero"
+  ],
+  "strength": 10
+ },
+ "405": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [],
+  "strength": 5
+ },
+ "407": {
+  "rows": [
+   "siege"
+  ],
+  "abilities": [],
+  "strength": 6
+ },
+ "410": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [],
+  "strength": 6
+ },
+ "413": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [],
+  "strength": 5
+ },
+ "415": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [],
+  "strength": 5
+ },
+ "417": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [],
+  "strength": 5
+ },
+ "420": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [],
+  "strength": 4
+ },
+ "423": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [],
+  "strength": 5
+ },
+ "425": {
+  "rows": [
+   "siege"
+  ],
+  "abilities": [],
+  "strength": 5
+ },
+ "427": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [],
+  "strength": 2
+ },
+ "430": {
+  "rows": [
+   "melee",
+   "ranged"
+  ],
+  "abilities": [
+   "agile"
+  ],
+  "strength": 2
+ },
+ "433": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [],
+  "strength": 2
+ },
+ "435": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [],
+  "strength": 2
+ },
+ "437": {
+  "rows": [
+   "melee",
+   "ranged"
+  ],
+  "abilities": [
+   "agile"
+  ],
+  "strength": 2
+ },
+ "440": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [],
+  "strength": 5
+ },
+ "443": {
+  "rows": [
+   "siege"
+  ],
+  "abilities": [],
+  "strength": 6
+ },
+ "445": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [],
+  "strength": 2
+ },
+ "447": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [],
+  "strength": 2
+ },
+ "450": {
+  "rows": [
+   "siege"
+  ],
+  "abilities": [
+   "muster"
+  ],
+  "strength": 6
+ },
+ "451": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "muster"
+  ],
+  "strength": 4
+ },
+ "452": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "muster"
+  ],
+  "strength": 4
+ },
+ "453": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "muster"
+  ],
+  "strength": 4
+ },
+ "455": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "muster"
+  ],
+  "strength": 2
+ },
+ "456": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "muster"
+  ],
+  "strength": 2
+ },
+ "457": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "muster"
+  ],
+  "strength": 2
+ },
+ "460": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "muster"
+  ],
+  "strength": 4
+ },
+ "461": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "muster"
+  ],
+  "strength": 4
+ },
+ "462": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "muster"
+  ],
+  "strength": 4
+ },
+ "463": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "muster"
+  ],
+  "strength": 4
+ },
+ "464": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "muster"
+  ],
+  "strength": 5
+ },
+ "470": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "muster"
+  ],
+  "strength": 1
+ },
+ "471": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "muster"
+  ],
+  "strength": 1
+ },
+ "472": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "muster"
+  ],
+  "strength": 1
+ },
+ "475": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "muster"
+  ],
+  "strength": 6
+ },
+ "476": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "muster"
+  ],
+  "strength": 6
+ },
+ "477": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "muster"
+  ],
+  "strength": 6
+ },
+ "478": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [
+   "scorch"
+  ],
+  "strength": 7
+ },
+ "500": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "hero"
+  ],
+  "strength": 11
+ },
+ "501": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [
+   "hero"
+  ],
+  "strength": 10
+ },
+ "502": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "hero",
+   "muster"
+  ],
+  "strength": 10
+ },
+ "503": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [
+   "hero",
+   "mardroeme"
+  ],
+  "strength": 8
+ },
+ "504": {
+  "rows": [
+   "siege"
+  ],
+  "abilities": [
+   "horn"
+  ],
+  "strength": 2
+ },
+ "505": {
+  "rows": [
+   "siege"
+  ],
+  "abilities": [],
+  "strength": 4
+ },
+ "506": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [],
+  "strength": 6
+ },
+ "507": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [],
+  "strength": 4
+ },
+ "508": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [],
+  "strength": 4
+ },
+ "509": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "medic"
+  ],
+  "strength": 2
+ },
+ "510": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [],
+  "strength": 6
+ },
+ "511": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [],
+  "strength": 4
+ },
+ "512": {
+  "rows": [
+   "melee",
+   "ranged"
+  ],
+  "abilities": [
+   "agile",
+   "moraleBoost"
+  ],
+  "strength": 12
+ },
+ "513": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "berserker"
+  ],
+  "strength": 4
+ },
+ "514": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "moraleBoost"
+  ],
+  "strength": 14
+ },
+ "515": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [
+   "berserker"
+  ],
+  "strength": 2
+ },
+ "516": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [
+   "tightBond"
+  ],
+  "strength": 8
+ },
+ "517": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "tightBond"
+  ],
+  "strength": 6
+ },
+ "518": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [],
+  "strength": 4
+ },
+ "519": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [],
+  "strength": 4
+ },
+ "520": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [
+   "muster"
+  ],
+  "strength": 4
+ },
+ "521": {
+  "rows": [
+   "siege"
+  ],
+  "abilities": [
+   "tightBond"
+  ],
+  "strength": 6
+ },
+ "522": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [],
+  "strength": 6
+ },
+ "523": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "tightBond"
+  ],
+  "strength": 4
+ },
+ "524": {
+  "rows": [
+   "ranged"
+  ],
+  "abilities": [
+   "scorch"
+  ],
+  "strength": 6
+ },
+ "525": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "avenger"
+  ],
+  "strength": 0
+ },
+ "526": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "tightBond"
+  ],
+  "strength": 4
+ },
+ "527": {
+  "rows": [
+   "melee"
+  ],
+  "abilities": [
+   "tightBond"
+  ],
+  "strength": 4
+ }
+}

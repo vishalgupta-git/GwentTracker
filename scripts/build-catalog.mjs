@@ -105,6 +105,21 @@ for (const file of DECK_FILES) {
   }
 }
 
+// Strength, rows and abilities from the game (scripts/extract-card-stats.mjs).
+const stats = JSON.parse(readFileSync(join(root, 'data/card-stats.json'), 'utf8'))
+for (const card of cards) {
+  const st = stats[card.index]
+  if (!st) {
+    if (card.type !== 'Leader') fail(`card ${card.index}: no stats in data/card-stats.json`)
+    card.rows = []
+    card.abilities = []
+    continue
+  }
+  if (st.strength != null) card.strength = st.strength
+  card.rows = st.rows
+  card.abilities = st.abilities
+}
+
 // Extra save indices for copies of the same card (e.g. crinfrid2, crinfrid3).
 for (const card of cards)
   for (const alias of card.aliases ?? []) {

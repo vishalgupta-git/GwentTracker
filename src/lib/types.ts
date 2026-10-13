@@ -12,6 +12,23 @@ export interface Location {
   note?: string
 }
 
+export type Row = 'melee' | 'ranged' | 'siege'
+export type Ability =
+  | 'agile'
+  | 'avenger'
+  | 'berserker'
+  | 'decoy'
+  | 'hero'
+  | 'horn'
+  | 'mardroeme'
+  | 'medic'
+  | 'moraleBoost'
+  | 'muster'
+  | 'scorch'
+  | 'spy'
+  | 'tightBond'
+  | 'weather'
+
 /** One entry of the bundled catalog.json. `index` is the save's card id. */
 export interface ReferenceCard {
   index: number
@@ -23,6 +40,11 @@ export interface ReferenceCard {
   missable: boolean
   /** Counts toward the "Collect 'Em All" achievement. */
   achievement: boolean
+  /** Unit strength; absent for specials and leaders. */
+  strength?: number
+  /** Rows a unit can be played in, or rows a weather card hits. */
+  rows: Row[]
+  abilities: Ability[]
   flavor?: string
   /** Summon cards are not stored in the save; they mirror this parent index. */
   attachedTo?: number

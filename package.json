@@ -14,7 +14,8 @@
     "precheck": "npm run catalog",
     "pretest": "npm run catalog",
     "test": "vitest run",
-    "card-art": "node scripts/fetch-card-art.mjs"
+    "card-art": "node scripts/fetch-card-art.mjs",
+    "card-stats": "node scripts/extract-card-stats.mjs"
   },
   "devDependencies": {
     "@fontsource-variable/cinzel": "^5.3.0",

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import type { CardGroup, Location } from '../types'
-import { filterGroups, NO_FILTERS, regionsOf, sourceKind } from './filters'
+import type { CardGroup, Location, ReferenceCard } from '../types'
+import { abilitiesOf, filterGroups, NO_FILTERS, regionsOf, sourceKind } from './filters'
 
 const group = (name: string, locations: Location[]): CardGroup => ({
   key: `Neutral/${name}`,
@@ -56,9 +56,28 @@ describe('filters', () => {
   })
 
   it('combines text search with filters', () => {
-    expect(filterGroups(all, { query: 'merchant', region: null, kind: 'win' }).map((g) => g.name)).toEqual([
+    expect(filterGroups(all, { ...NO_FILTERS, query: 'merchant', kind: 'win' }).map((g) => g.name)).toEqual([
       'Mixed card',
     ])
+  })
+})
+
+describe('ability and achievement filters', () => {
+  const spy = {
+    ...group('Spy card', []),
+    achievement: true,
+    cards: [{ index: 1, abilities: ['spy', 'hero'], rows: ['siege'] } as unknown as ReferenceCard],
+  }
+  const groups = [...all, spy]
+
+  it('lists abilities present, by label', () => {
+    expect(abilitiesOf(groups)).toEqual(['hero', 'spy'])
+  })
+
+  it('filters by ability, achievement and ability text', () => {
+    expect(filterGroups(groups, { ...NO_FILTERS, ability: 'spy' }).map((g) => g.name)).toEqual(['Spy card'])
+    expect(filterGroups(groups, { ...NO_FILTERS, achievement: true }).map((g) => g.name)).toEqual(['Spy card'])
+    expect(filterGroups(groups, { ...NO_FILTERS, query: 'hero' }).map((g) => g.name)).toEqual(['Spy card'])
   })
 })
 

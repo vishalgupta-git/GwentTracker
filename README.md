@@ -28,6 +28,10 @@ progressing the story. This tool does.
   in-game cards. Switch between a card grid and a compact list.
 - **All cards view** — the whole collection, with cards you don't own faded.
 - **Where to find each card** — the merchant, player or quest, with region.
+- **Route plan** — everything you still need, grouped by region and by who
+  to visit, busiest stops first. Copy or download it as a checklist.
+- **Card stats** — strength, row and abilities (Spy, Medic, Muster, …) for
+  every card, plus an ability filter.
 - **Filter by region and source** — e.g. only cards you can *win* in
   *Novigrad*, to plan your next trip.
 - **Missable warnings** — cards you lose for good after a certain quest, with
@@ -68,9 +72,10 @@ src/
   lib/components/              UI components (ui/ = shadcn-svelte sources)
 data/catalog/                  card YAMLs vendored from rfvgyhn/gwent-tracker
 data/card-faces.json           card index → card image source
+data/card-stats.json           strength, rows, abilities (from the game files)
 public/cards/                  card images (WebP)
 samples/sample-collection.json data for "Try a sample" and the tests
-scripts/                       catalog build, card image fetch
+scripts/                       catalog build, card image fetch, stats extraction
 ```
 
 The card catalog (`src/lib/data/catalog.json`) is generated from

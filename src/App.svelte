@@ -2,6 +2,7 @@
   import CardDetail from '$lib/components/CardDetail.svelte'
   import CardList from '$lib/components/CardList.svelte'
   import MissableList from '$lib/components/MissableList.svelte'
+  import RoutePlan from '$lib/components/RoutePlan.svelte'
   import UploadZone from '$lib/components/UploadZone.svelte'
   import CardFan from '$lib/components/CardFan.svelte'
   import FactionProgress from '$lib/components/FactionProgress.svelte'
@@ -17,15 +18,25 @@
   import * as Tabs from '$lib/components/ui/tabs'
   import { catalog } from '$lib/collection/catalog'
   import { BASE_GAME, diff, parseSaveJson, type Scope } from '$lib/collection/diff'
-  import { checklistText } from '$lib/collection/export'
-  import { filterGroups, regionsOf, SOURCE_KIND_LABEL, type Filters, type SourceKind } from '$lib/collection/filters'
+  import { checklistText, routeText } from '$lib/collection/export'
+  import { planRoute } from '$lib/collection/route'
+  import {
+    abilitiesOf,
+    filterGroups,
+    regionsOf,
+    SOURCE_KIND_LABEL,
+    type Filters,
+    type SourceKind,
+  } from '$lib/collection/filters'
+  import { ABILITY } from '$lib/display'
   import { clearLastSave, loadLastSave, storeLastSave } from '$lib/collection/lastSave'
   import { clearMarks, marks } from '$lib/collection/marks.svelte'
   import { FAN_DISCLAIMER } from '$lib/content/site'
   import { readSave } from '$lib/save/read'
   import { isSaveFile } from '$lib/save/parse'
-  import type { ReferenceCard, SaveCards } from '$lib/types'
+  import type { Ability, ReferenceCard, SaveCards } from '$lib/types'
   import Check from '@lucide/svelte/icons/check'
+  import ChevronDown from '@lucide/svelte/icons/chevron-down'
   import ClipboardCopy from '@lucide/svelte/icons/clipboard-copy'
   import Download from '@lucide/svelte/icons/download'
   import FileUp from '@lucide/svelte/icons/file-up'
@@ -33,6 +44,7 @@
   import MapPinned from '@lucide/svelte/icons/map-pinned'
   import ShieldCheck from '@lucide/svelte/icons/shield-check'
   import TriangleAlert from '@lucide/svelte/icons/triangle-alert'
+  import Trophy from '@lucide/svelte/icons/trophy'
   import X from '@lucide/svelte/icons/x'
   import List from '@lucide/svelte/icons/list'
   import Search from '@lucide/svelte/icons/search'
@@ -47,6 +59,8 @@
   let query = $state('')
   let region = $state<string | null>(null)
   let kind = $state<SourceKind | null>(null)
+  let ability = $state<Ability | null>(null)
+  let achievementOnly = $state(false)
   let tab = $state('missing')
   let selectedKey = $state<string | null>(null)
   let view = $state<'grid' | 'list'>(readJson('view', 'grid'))
@@ -72,8 +86,9 @@
   const result = $derived(owned ? diff(catalog, owned, scope, marks) : null)
   const selected = $derived(result?.groups.find((g) => g.key === selectedKey) ?? null)
   const regions = $derived(result ? regionsOf(result.groups) : [])
-  const filters = $derived<Filters>({ query, region, kind })
-  const isFiltered = $derived(!!(query.trim() || region || kind))
+  const abilities = $derived(result ? abilitiesOf(result.groups) : [])
+  const filters = $derived<Filters>({ query, region, kind, ability, achievement: achievementOnly })
+  const isFiltered = $derived(!!(query.trim() || region || kind || ability || achievementOnly))
   const shown = $derived(
     result
       ? {
@@ -84,12 +99,22 @@
         }
       : null,
   )
+  const route = $derived(shown ? planRoute([...shown.missing, ...shown.incomplete]) : null)
   $effect(() => {
     if (tab === 'marked' && result && result.marked.length === 0) tab = 'missing'
   })
   $effect(() => {
     if (region && !regions.includes(region)) region = null
+    if (ability && !abilities.includes(ability)) ability = null
   })
+
+  function clearFilters() {
+    query = ''
+    region = null
+    kind = null
+    ability = null
+    achievementOnly = false
+  }
 
   function setCollection(cards: SaveCards, name: string) {
     owned = cards
@@ -143,9 +168,7 @@
     fileName = ''
     restoredAt = null
     error = ''
-    query = ''
-    region = null
-    kind = null
+    clearFilters()
     tab = 'missing'
     clearLastSave()
   }
@@ -156,7 +179,8 @@
     all: 'All Gwent cards',
     marked: 'Gwent cards marked complete',
   }
-  const checklist = () => checklistText(TAB_TITLES[tab], shown?.[tab as keyof typeof shown] ?? [])
+  const checklist = () =>
+    tab === 'route' && route ? routeText(route) : checklistText(TAB_TITLES[tab], shown?.[tab as keyof typeof shown] ?? [])
 
   async function copyChecklist() {
     try {
@@ -329,6 +353,7 @@
               <Tabs.Trigger value="missable"
                 >Missable <span class="tab-count">{result.missables.length}</span></Tabs.Trigger
               >
+              <Tabs.Trigger value="route">Route <span class="tab-count">{route?.regions.length ?? 0}</span></Tabs.Trigger>
               <Tabs.Trigger value="all">All cards <span class="tab-count">{result.groups.length}</span></Tabs.Trigger>
               {#if result.marked.length}
                 <Tabs.Trigger value="marked">Marked <span class="tab-count">{result.marked.length}</span></Tabs.Trigger>
@@ -340,7 +365,7 @@
                   <Search class="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2" />
                   <Input class="bg-card/70 rounded-full pl-9" placeholder="Search name, place…" bind:value={query} />
                 </div>
-                <div class="bg-card/70 flex rounded-full border p-0.5" role="group" aria-label="View">
+                <div class={['bg-card/70 flex rounded-full border p-0.5', tab === 'route' && 'hidden']} role="group" aria-label="View">
                   {#each [['grid', LayoutGrid, 'Grid view'], ['list', List, 'List view']] as const as [v, Icon, label] (v)}
                     <button
                       type="button"
@@ -363,6 +388,35 @@
           {#if tab !== 'missable'}
             <div class="flex items-center gap-2">
               <div class="-mx-1 flex flex-1 gap-1.5 overflow-x-auto px-1 pb-0.5 [scrollbar-width:none]">
+                <button
+                  type="button"
+                  aria-pressed={achievementOnly}
+                  title="Only cards that count toward the Collect 'Em All achievement"
+                  class={['chip inline-flex items-center gap-1', achievementOnly && 'chip-active']}
+                  onclick={() => (achievementOnly = !achievementOnly)}><Trophy class="size-3" /> Collect 'Em All</button
+                >
+                <span class="relative shrink-0">
+                  <select
+                    aria-label="Ability"
+                    bind:value={ability}
+                    class={[
+                      'chip cursor-pointer appearance-none pr-6 [field-sizing:content]',
+                      ability && 'chip-active',
+                    ]}
+                  >
+                    <option value={null}>Any ability</option>
+                    {#each abilities as a (a)}
+                      <option value={a}>{ABILITY[a].label}</option>
+                    {/each}
+                  </select>
+                  <ChevronDown
+                    class={[
+                      'pointer-events-none absolute top-1/2 right-2 size-3 -translate-y-1/2',
+                      ability ? 'text-primary-foreground' : 'text-muted-foreground',
+                    ]}
+                  />
+                </span>
+                <span class="bg-border mx-1 w-px shrink-0"></span>
                 {#each Object.entries(SOURCE_KIND_LABEL) as [k, label] (k)}
                   <button
                     type="button"
@@ -386,11 +440,7 @@
                   <button
                     type="button"
                     class="text-muted-foreground hover:text-foreground px-1.5 text-xs underline"
-                    onclick={() => {
-                      query = ''
-                      region = null
-                      kind = null
-                    }}>Clear</button
+                    onclick={clearFilters}>Clear</button
                   >
                 {/if}
                 <Button variant="ghost" size="icon-sm" title="Copy as checklist" aria-label="Copy as checklist" onclick={copyChecklist}>
@@ -425,6 +475,9 @@
         </Tabs.Content>
         <Tabs.Content value="missable" class="mt-6">
           <MissableList items={result.missables} onselect={selectCard} />
+        </Tabs.Content>
+        <Tabs.Content value="route" class="mt-6">
+          <RoutePlan route={route!} onselect={(g) => (selectedKey = g.key)} />
         </Tabs.Content>
         <Tabs.Content value="all" class="mt-6">
           <CardList
