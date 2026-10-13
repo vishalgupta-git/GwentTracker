@@ -25,18 +25,17 @@ progressing the main story. This tool does.
 5. A toggle at the top lets you widen the view to Hearts of Stone and Blood
    and Wine cards too.
 
-Your save file is parsed on the server, used once, and deleted. Nothing is
-stored.
+Your save file is read **entirely in your browser**. It is never uploaded
+anywhere, and there is no server.
 
 ## Status
 
-- ✅ Research complete
-- ✅ Architecture + hosting split locked in (GitHub Pages frontend + separate Proxmox-hosted API on `gwent-api.urvai.in`)
-- ✅ Frontend stack locked in: Vite + Svelte 5 + TypeScript + Tailwind CSS + shadcn-svelte
-- ✅ Repo scaffolding done (git, docs, license, `.gitignore`)
-- ✅ Phase 1 build — JSON upload + diff + results UI (pending first deploy)
-- ⏳ Phase 2 — direct `.sav` upload wired to the API
-- ⏳ Phase 3 (optional) — parser in-browser (WASM), retire the API
+- ✅ Card catalog, missing / incomplete / missable reports, DLC toggle
+- ✅ Real Gwent card images, grid and list views
+- ✅ Mark cards as complete (saved in your browser)
+- ✅ Direct `.sav` upload, parsed in the browser (no server)
+- ⏳ Public launch on GitHub Pages
+- ⏳ Visual theme pass
 
 Check the [Releases page](https://github.com/vishalgupta-git/GwentTracker/releases)
 for shipped versions.
@@ -56,6 +55,7 @@ automatically before `dev`, `build`, `test` and `check`.
 
 ## Credit
 
+- Save parsing is a minimal TypeScript port of [`rfvgyhn/W3SavegameEditor`](https://github.com/rfvgyhn/W3SavegameEditor) (MIT).
 - Reference card data derived from [`rfvgyhn/gwent-tracker`](https://github.com/rfvgyhn/gwent-tracker) (MIT).
 - Card images © CD Projekt Red; in-game card renders from the
   [Witcher Wiki](https://witcher.fandom.com/), resized and self-hosted

@@ -13,6 +13,8 @@
   import { catalog } from '$lib/catalog'
   import { diff, parseSaveJson } from '$lib/diff'
   import { clearMarks, marks } from '$lib/marks.svelte'
+  import { readSave } from '$lib/readSave'
+  import { isSaveFile } from '$lib/save'
   import type { ReferenceCard, SaveCards } from '$lib/types'
   import LayoutGrid from '@lucide/svelte/icons/layout-grid'
   import List from '@lucide/svelte/icons/list'
@@ -21,6 +23,7 @@
   let owned = $state<SaveCards | null>(null)
   let fileName = $state('')
   let error = $state('')
+  let loading = $state(false)
   let includeDlc = $state(false)
   let query = $state('')
   let tab = $state('missing')
@@ -57,11 +60,26 @@
   }
 
   async function onfile(file: File) {
-    if (file.size > 5_000_000) {
-      error = 'That file is too large to be a gwentCards export.'
+    if (file.size > 64_000_000) {
+      error = 'That file is too large to be a Witcher 3 save.'
       return
     }
-    load(await file.text(), file.name)
+    error = ''
+    const head = new Uint8Array(await file.slice(0, 8).arrayBuffer())
+    if (!isSaveFile(head)) {
+      if (file.name.toLowerCase().endsWith('.sav')) error = "That doesn't look like a Witcher 3 save file."
+      else load(await file.text(), file.name)
+      return
+    }
+    loading = true
+    try {
+      owned = await readSave(file)
+      fileName = file.name
+    } catch (e) {
+      error = e instanceof Error ? e.message : String(e)
+    } finally {
+      loading = false
+    }
   }
 
   async function onsample() {
@@ -91,7 +109,7 @@
   {/if}
 
   {#if !result}
-    <UploadZone {onfile} {onsample} />
+    <UploadZone {onfile} {onsample} {loading} />
   {:else}
     <div class="space-y-6">
       <div class="flex flex-wrap items-center justify-between gap-3">
@@ -228,13 +246,15 @@
         </details>
       {/if}
 
-      <UploadZone compact {onfile} {onsample} />
+      <UploadZone compact {onfile} {onsample} {loading} />
     </div>
   {/if}
 
   <footer class="text-muted-foreground mt-16 space-y-1 border-t pt-6 text-xs">
     <p>
-      Card data from <a class="underline" href="https://github.com/rfvgyhn/gwent-tracker">rfvgyhn/gwent-tracker</a> (MIT).
+      Card data from <a class="underline" href="https://github.com/rfvgyhn/gwent-tracker">rfvgyhn/gwent-tracker</a>, save
+      parsing ported from <a class="underline" href="https://github.com/rfvgyhn/W3SavegameEditor">W3SavegameEditor</a> (both
+      MIT). Card images from the <a class="underline" href="https://witcher.fandom.com/">Witcher Wiki</a>.
       Source on <a class="underline" href="https://github.com/vishalgupta-git/GwentTracker">GitHub</a>.
     </p>
     <p>
