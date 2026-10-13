@@ -20,7 +20,9 @@ progressing the main story. This tool does.
    - **Missing cards** — what you still need, which deck they belong to, and where to find each one (buy from X, win from Y, quest reward from Z).
    - **Missable warnings** — cards you can lose for good if you push past a certain quest without them.
    - **Incomplete sets** — cards where you own some copies but need more.
-4. A toggle at the top lets you widen the view to Hearts of Stone and Blood
+4. Got a card the save doesn't show yet? **Mark it as complete** and it
+   counts as collected (saved in your browser, undo any time).
+5. A toggle at the top lets you widen the view to Hearts of Stone and Blood
    and Wine cards too.
 
 Your save file is parsed on the server, used once, and deleted. Nothing is
@@ -55,8 +57,9 @@ automatically before `dev`, `build`, `test` and `check`.
 ## Credit
 
 - Reference card data derived from [`rfvgyhn/gwent-tracker`](https://github.com/rfvgyhn/gwent-tracker) (MIT).
-- Card artwork © CD Projekt Red, resized copies sourced via the same project's image host
-  (`npm run card-art` re-fetches into `public/cards/`).
+- Card images © CD Projekt Red; in-game card renders from the
+  [Witcher Wiki](https://witcher.fandom.com/), resized and self-hosted
+  (`data/card-faces.json` maps each card; `npm run card-art` re-fetches).
 - The Witcher 3: Wild Hunt, Gwent and all card art are property of CD Projekt Red. This
   project is unaffiliated and non-commercial.
 

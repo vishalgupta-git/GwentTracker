@@ -59,6 +59,8 @@ export interface CardGroup {
   cards: ReferenceCard[]
   have: number
   total: number
+  /** The user marked this card complete by hand; `have` is forced to `total`. */
+  marked: boolean
   locations: Location[]
 }
 
@@ -71,6 +73,8 @@ export interface DiffResult {
   groups: CardGroup[]
   missing: CardGroup[]
   incomplete: CardGroup[]
+  /** Groups the user marked complete that the save alone wouldn't complete. */
+  marked: CardGroup[]
   missables: MissableStatus[]
   unknownInSave: { index: number; raw: OwnedCard }[]
   totals: {

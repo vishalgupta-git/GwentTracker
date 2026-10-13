@@ -24,21 +24,35 @@ export function parseSaveJson(text: string): SaveCards {
   return out
 }
 
-export function diff(catalog: Catalog, owned: SaveCards, includeDlc: boolean): DiffResult {
+/** Stable id for a row: every catalog index sharing deck + name. */
+export const groupKey = (c: { deck: string; name: string }) => `${c.deck}/${c.name}`
+
+/**
+ * @param marked group keys the user marked complete by hand; those count as
+ *   fully collected regardless of the save.
+ */
+export function diff(
+  catalog: Catalog,
+  owned: SaveCards,
+  includeDlc: boolean,
+  marked: ReadonlySet<string> = new Set(),
+): DiffResult {
   const inScope = (c: ReferenceCard) => includeDlc || c.source === 'BaseGame'
   const byIndex = new Map(catalog.cards.map((c) => [c.index, c]))
 
   // Copies held per index, clamped to maxCopies (some saves over-report
   // leaders). Summons mirror their parent since the save never lists them.
-  const haveOf = (c: ReferenceCard): number => {
+  const savedOf = (c: ReferenceCard): number => {
     const index = c.attachedTo ?? c.index
     return Math.min(Math.max(owned[index]?.count ?? 0, 0), c.maxCopies)
   }
+  const haveOf = (c: ReferenceCard): number => (marked.has(groupKey(c)) ? c.maxCopies : savedOf(c))
 
   const groupMap = new Map<string, CardGroup>()
+  const saved = new Map<string, number>()
   for (const card of catalog.cards) {
     if (!inScope(card)) continue
-    const key = `${card.deck}/${card.name}`
+    const key = groupKey(card)
     let g = groupMap.get(key)
     if (!g) {
       g = {
@@ -52,6 +66,7 @@ export function diff(catalog: Catalog, owned: SaveCards, includeDlc: boolean): D
         cards: [],
         have: 0,
         total: 0,
+        marked: marked.has(key),
         locations: [],
       }
       groupMap.set(key, g)
@@ -59,6 +74,7 @@ export function diff(catalog: Catalog, owned: SaveCards, includeDlc: boolean): D
     g.cards.push(card)
     g.missable ||= card.missable
     g.have += haveOf(card)
+    saved.set(key, (saved.get(key) ?? 0) + savedOf(card))
     g.total += card.maxCopies
     g.locations = mergeLocations(g.locations, card.locations)
   }
@@ -66,6 +82,7 @@ export function diff(catalog: Catalog, owned: SaveCards, includeDlc: boolean): D
 
   const missing = groups.filter((g) => g.have === 0)
   const incomplete = groups.filter((g) => g.have > 0 && g.have < g.total)
+  const markedGroups = groups.filter((g) => g.marked && (saved.get(g.key) ?? 0) < g.total)
 
   const missables: MissableStatus[] = []
   for (const group of catalog.missables) {
@@ -86,6 +103,7 @@ export function diff(catalog: Catalog, owned: SaveCards, includeDlc: boolean): D
     groups,
     missing,
     incomplete,
+    marked: markedGroups,
     missables,
     unknownInSave,
     totals: {

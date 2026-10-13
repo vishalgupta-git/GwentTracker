@@ -31,12 +31,11 @@
               <button type="button" class="group w-20 text-left" onclick={() => onselect(card)}>
                 <img
                   src={cardArt(card.index)}
-                  alt=""
+                  alt={card.name}
                   loading="lazy"
-                  class="bg-muted aspect-[300/432] w-full rounded-md border object-cover transition-transform group-hover:scale-105"
+                  class="aspect-[280/527] w-full object-contain drop-shadow transition-transform group-hover:-translate-y-0.5"
                 />
-                <span class="mt-1 block text-xs leading-tight font-medium">{card.name}</span>
-              </button>
+                              </button>
             {/each}
           </div>
           {#if group.notes.length}

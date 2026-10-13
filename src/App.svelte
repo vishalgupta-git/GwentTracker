@@ -3,6 +3,7 @@
   import CardList from '$lib/components/CardList.svelte'
   import MissableList from '$lib/components/MissableList.svelte'
   import UploadZone from '$lib/components/UploadZone.svelte'
+  import { Button } from '$lib/components/ui/button'
   import * as Card from '$lib/components/ui/card'
   import { Input } from '$lib/components/ui/input'
   import { Label } from '$lib/components/ui/label'
@@ -11,7 +12,8 @@
   import * as Tabs from '$lib/components/ui/tabs'
   import { catalog } from '$lib/catalog'
   import { diff, parseSaveJson } from '$lib/diff'
-  import type { CardGroup, ReferenceCard, SaveCards } from '$lib/types'
+  import { clearMarks, marks } from '$lib/marks.svelte'
+  import type { ReferenceCard, SaveCards } from '$lib/types'
   import LayoutGrid from '@lucide/svelte/icons/layout-grid'
   import List from '@lucide/svelte/icons/list'
   import Search from '@lucide/svelte/icons/search'
@@ -22,7 +24,7 @@
   let includeDlc = $state(false)
   let query = $state('')
   let tab = $state('missing')
-  let selected = $state<CardGroup | null>(null)
+  let selectedKey = $state<string | null>(null)
   let view = $state<'grid' | 'list'>(readView())
 
   function readView(): 'grid' | 'list' {
@@ -38,7 +40,11 @@
     } catch {}
   })
 
-  const result = $derived(owned ? diff(catalog, owned, includeDlc) : null)
+  const result = $derived(owned ? diff(catalog, owned, includeDlc, marks) : null)
+  const selected = $derived(result?.groups.find((g) => g.key === selectedKey) ?? null)
+  $effect(() => {
+    if (tab === 'marked' && result && result.marked.length === 0) tab = 'missing'
+  })
 
   function load(text: string, name: string) {
     try {
@@ -64,7 +70,7 @@
   }
 
   function selectCard(card: ReferenceCard) {
-    selected = result?.groups.find((g) => g.cards.some((c) => c.index === card.index)) ?? null
+    selectedKey = result?.groups.find((g) => g.cards.some((c) => c.index === card.index))?.key ?? null
   }
 
   const pct = (a: number, b: number) => (b ? Math.round((a / b) * 100) : 0)
@@ -144,6 +150,9 @@
             <Tabs.Trigger value="missing">Missing ({result.missing.length})</Tabs.Trigger>
             <Tabs.Trigger value="incomplete">Incomplete ({result.incomplete.length})</Tabs.Trigger>
             <Tabs.Trigger value="missable">Missable ({result.missables.length})</Tabs.Trigger>
+            {#if result.marked.length}
+              <Tabs.Trigger value="marked">Marked ({result.marked.length})</Tabs.Trigger>
+            {/if}
           </Tabs.List>
           {#if tab !== 'missable'}
             <div class="flex w-full items-center gap-2 sm:w-auto">
@@ -173,7 +182,7 @@
             {query}
             {view}
             empty="You own at least one copy of every card in this view."
-            onselect={(g) => (selected = g)}
+            onselect={(g) => (selectedKey = g.key)}
           />
         </Tabs.Content>
         <Tabs.Content value="incomplete" class="mt-4">
@@ -183,11 +192,26 @@
             {view}
             showProgress
             empty="Every card you own is at full copies."
-            onselect={(g) => (selected = g)}
+            onselect={(g) => (selectedKey = g.key)}
           />
         </Tabs.Content>
         <Tabs.Content value="missable" class="mt-4">
           <MissableList items={result.missables} onselect={selectCard} />
+        </Tabs.Content>
+        <Tabs.Content value="marked" class="mt-4 space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <p class="text-muted-foreground text-sm">
+              Cards you marked complete yourself. They count as collected; marks are saved in this browser.
+            </p>
+            <Button variant="outline" size="sm" onclick={clearMarks}>Clear all marks</Button>
+          </div>
+          <CardList
+            groups={result.marked}
+            {query}
+            {view}
+            empty="No cards marked."
+            onselect={(g) => (selectedKey = g.key)}
+          />
         </Tabs.Content>
       </Tabs.Root>
 
@@ -220,4 +244,4 @@
   </footer>
 </div>
 
-<CardDetail bind:group={selected} />
+<CardDetail group={selected} onclose={() => (selectedKey = null)} />

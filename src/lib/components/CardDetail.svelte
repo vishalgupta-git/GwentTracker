@@ -1,13 +1,16 @@
 <script lang="ts">
   import { Badge } from '$lib/components/ui/badge'
+  import { Button } from '$lib/components/ui/button'
   import * as Dialog from '$lib/components/ui/dialog'
   import { catalog } from '$lib/catalog'
   import { cardArt, deckColor, SOURCE_LABEL } from '$lib/display'
+  import { marks, toggleMark } from '$lib/marks.svelte'
   import type { CardGroup } from '$lib/types'
+  import Check from '@lucide/svelte/icons/check'
   import MapPin from '@lucide/svelte/icons/map-pin'
   import TriangleAlert from '@lucide/svelte/icons/triangle-alert'
 
-  let { group = $bindable() }: { group: CardGroup | null } = $props()
+  let { group, onclose }: { group: CardGroup | null; onclose: () => void } = $props()
 
   const missables = $derived(
     group ? catalog.missables.filter((m) => group!.cards.some((c) => m.cardIds.includes(c.index))) : [],
@@ -17,7 +20,7 @@
 <Dialog.Root
   open={group !== null}
   onOpenChange={(open) => {
-    if (!open) group = null
+    if (!open) onclose()
   }}
 >
   <Dialog.Content class="max-h-[85vh] overflow-y-auto sm:max-w-lg">
@@ -34,18 +37,29 @@
         <img
           src={cardArt(group.cards[0].index)}
           alt={group.name}
-          class="bg-muted aspect-[300/432] w-28 shrink-0 rounded-lg border object-cover shadow-sm sm:w-36"
+          class="aspect-[280/527] w-28 shrink-0 object-contain drop-shadow-md sm:w-36"
         />
         <div class="space-y-3">
           {#if group.flavor}
             <p class="text-muted-foreground border-l-2 pl-3 text-sm italic">{group.flavor}</p>
           {/if}
-          <div class="flex items-center gap-2 text-sm">
-            <span class="text-muted-foreground">You have</span>
-            <Badge variant={group.have === group.total ? 'secondary' : 'outline'} class="tabular-nums">
-              {group.have} / {group.total}
-            </Badge>
-          </div>
+          {#if marks.has(group.key)}
+            <p class="text-sm text-emerald-700 dark:text-emerald-400">You marked this card as complete.</p>
+          {:else}
+            <div class="flex items-center gap-2 text-sm">
+              <span class="text-muted-foreground">You have</span>
+              <Badge variant={group.have === group.total ? 'secondary' : 'outline'} class="tabular-nums">
+                {group.have} / {group.total}
+              </Badge>
+            </div>
+          {/if}
+          <Button
+            variant={marks.has(group.key) ? 'outline' : 'default'}
+            size="sm"
+            onclick={() => toggleMark(group!.key)}
+          >
+            {#if marks.has(group.key)}Unmark{:else}<Check /> Mark as complete{/if}
+          </Button>
         </div>
       </div>
 

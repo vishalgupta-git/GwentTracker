@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import { catalog } from './catalog'
-import { diff, parseSaveJson } from './diff'
+import { diff, groupKey, parseSaveJson } from './diff'
 import type { SaveCards } from './types'
 
 // a.txt is the acceptance fixture: a real converted save.
@@ -88,5 +88,36 @@ describe('diff rules', () => {
     const every: SaveCards = Object.fromEntries(group.cardIds.map((id) => [id, { count: 1, name: '' }]))
     expect(diff({ cards, missables: [group] }, some, true).missables).toHaveLength(group.cardIds.length > 1 ? 1 : 0)
     expect(diff({ cards, missables: [group] }, every, true).missables).toHaveLength(0)
+  })
+})
+
+describe('mark as complete', () => {
+  const base = diff(catalog, fixture, false)
+
+  it('moves a missing card out of missing and into marked, updating totals', () => {
+    const target = base.missing[0]
+    const result = diff(catalog, fixture, false, new Set([target.key]))
+    expect(result.missing.map((g) => g.key)).not.toContain(target.key)
+    expect(result.marked.map((g) => g.key)).toEqual([target.key])
+    expect(result.totals.copiesOwned).toBe(base.totals.copiesOwned + target.total)
+    expect(result.totals.namesOwned).toBe(base.totals.namesOwned + 1)
+  })
+
+  it('fills an incomplete card to full copies', () => {
+    const scorch = base.incomplete.find((g) => g.name === 'Scorch')!
+    const result = diff(catalog, fixture, false, new Set([scorch.key]))
+    expect(result.incomplete.map((g) => g.key)).not.toContain(scorch.key)
+    expect(result.groups.find((g) => g.key === scorch.key)).toMatchObject({ have: 3, total: 3, marked: true })
+  })
+
+  it('clears a missable warning once its cards are marked', () => {
+    const at = base.missables[0]
+    const keys = new Set(at.missing.map(groupKey))
+    expect(diff(catalog, fixture, false, keys).missables).not.toContainEqual(expect.objectContaining({ group: at.group }))
+  })
+
+  it('does not list a mark the save already satisfies', () => {
+    const decoy = base.groups.find((g) => g.name === 'Decoy')!
+    expect(diff(catalog, fixture, false, new Set([decoy.key])).marked).toHaveLength(0)
   })
 })
