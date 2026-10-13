@@ -28,10 +28,13 @@ stored.
 
 ## Status
 
-- ✅ Research and planning
-- ⏳ **Phase 1 — Frontend (JSON upload):** in progress
-- ⏳ Phase 2 — API for direct `.sav` upload
-- ⏳ Phase 3 (optional) — parser in-browser, no server at all
+- ✅ Research complete
+- ✅ Architecture + hosting split locked in (GitHub Pages frontend + separate Proxmox-hosted API on `gwent-api.urvai.in`)
+- ✅ Frontend stack locked in: Vite + Svelte 5 + TypeScript + Tailwind CSS + shadcn-svelte
+- ✅ Repo scaffolding done (git, docs, license, `.gitignore`)
+- ⏳ **Phase 1 build — not started yet** (JSON upload + diff + results UI)
+- ⏳ Phase 2 — direct `.sav` upload wired to the API
+- ⏳ Phase 3 (optional) — parser in-browser (WASM), retire the API
 
 Check the [Releases page](https://github.com/vishalgupta-git/GwentTracker/releases)
 for shipped versions.
