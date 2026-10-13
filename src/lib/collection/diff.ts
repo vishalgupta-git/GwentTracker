@@ -27,6 +27,14 @@ export function parseSaveJson(text: string): SaveCards {
 /** Stable id for a row: every catalog index sharing deck + name. */
 export const groupKey = (c: { deck: string; name: string }) => `${c.deck}/${c.name}`
 
+/** Which expansions to include alongside the base game. */
+export interface Scope {
+  hos: boolean
+  bw: boolean
+}
+export const BASE_GAME: Scope = { hos: false, bw: false }
+export const ALL_CONTENT: Scope = { hos: true, bw: true }
+
 /**
  * @param marked group keys the user marked complete by hand; those count as
  *   fully collected regardless of the save.
@@ -34,10 +42,11 @@ export const groupKey = (c: { deck: string; name: string }) => `${c.deck}/${c.na
 export function diff(
   catalog: Catalog,
   owned: SaveCards,
-  includeDlc: boolean,
+  scope: Scope,
   marked: ReadonlySet<string> = new Set(),
 ): DiffResult {
-  const inScope = (c: ReferenceCard) => includeDlc || c.source === 'BaseGame'
+  const inScope = (c: ReferenceCard) =>
+    c.source === 'BaseGame' || (c.source === 'HeartsOfStone' ? scope.hos : scope.bw)
   const byIndex = new Map(catalog.cards.map((c) => [c.index, c]))
 
   // Copies held per index, clamped to maxCopies (some saves over-report

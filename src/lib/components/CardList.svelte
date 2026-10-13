@@ -11,33 +11,29 @@
 
   let {
     groups,
-    query = '',
+    filtered = false,
     view = 'grid',
     showProgress = false,
+    dimMissing = false,
     empty,
     onselect,
   }: {
     groups: CardGroup[]
-    query?: string
+    /** True when search/filters are active (changes the empty message). */
+    filtered?: boolean
     view?: 'grid' | 'list'
     showProgress?: boolean
+    /** Fade cards you don't own (used by the "All cards" view). */
+    dimMissing?: boolean
     empty: string
     onselect: (g: CardGroup) => void
   } = $props()
-
-  const filtered = $derived.by(() => {
-    const q = query.trim().toLowerCase()
-    const matches = (g: CardGroup) =>
-      !q ||
-      [g.name, g.deck, g.type, ...g.locations.map(describeLocation)].some((s) => s.toLowerCase().includes(q))
-    return groups.filter(matches)
-  })
 
   // Missable first, then by deck, then name.
   const byDeck = $derived.by(() => {
     const sections = new Map<string, CardGroup[]>()
     const order = (d: string) => (DECK_ORDER.indexOf(d) + 1 || 99)
-    const sorted = [...filtered].sort(
+    const sorted = [...groups].sort(
       (a, b) =>
         order(a.deck) - order(b.deck) || Number(b.missable) - Number(a.missable) || a.name.localeCompare(b.name),
     )
@@ -49,8 +45,10 @@
   const markLabel = (g: CardGroup) => (g.marked ? `Unmark ${g.name}` : `Mark ${g.name} as complete`)
 </script>
 
-{#if filtered.length === 0}
-  <p class="text-muted-foreground py-10 text-center text-sm">{query ? 'No cards match your search.' : empty}</p>
+{#if groups.length === 0}
+  <p class="text-muted-foreground panel py-12 text-center text-sm">
+    {filtered ? 'No cards match your search or filters.' : empty}
+  </p>
 {:else}
   <div class="space-y-10">
     {#each byDeck as [deck, items] (deck)}
@@ -76,7 +74,10 @@
                     alt={g.name}
                     loading="lazy"
                     decoding="async"
-                    class="card-glow aspect-[280/527] w-full object-contain"
+                    class={[
+                      'card-glow aspect-[280/527] w-full object-contain',
+                      dimMissing && g.have === 0 && !g.marked && 'opacity-45 grayscale',
+                    ]}
                   />
                 </button>
                 <button
@@ -123,7 +124,10 @@
                     alt=""
                     loading="lazy"
                     decoding="async"
-                    class="h-20 w-[42px] shrink-0 object-contain drop-shadow"
+                    class={[
+                      'h-20 w-[42px] shrink-0 object-contain drop-shadow',
+                      dimMissing && g.have === 0 && !g.marked && 'opacity-45 grayscale',
+                    ]}
                   />
                   <div class="min-w-0 flex-1">
                     <div class="flex flex-wrap items-center gap-1.5">

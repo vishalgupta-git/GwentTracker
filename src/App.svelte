@@ -13,11 +13,17 @@
   import { Switch } from '$lib/components/ui/switch'
   import * as Tabs from '$lib/components/ui/tabs'
   import { catalog } from '$lib/collection/catalog'
-  import { diff, parseSaveJson } from '$lib/collection/diff'
+  import { BASE_GAME, diff, parseSaveJson, type Scope } from '$lib/collection/diff'
+  import { checklistText } from '$lib/collection/export'
+  import { filterGroups, regionsOf, SOURCE_KIND_LABEL, type Filters, type SourceKind } from '$lib/collection/filters'
+  import { clearLastSave, loadLastSave, storeLastSave } from '$lib/collection/lastSave'
   import { clearMarks, marks } from '$lib/collection/marks.svelte'
   import { readSave } from '$lib/save/read'
   import { isSaveFile } from '$lib/save/parse'
   import type { ReferenceCard, SaveCards } from '$lib/types'
+  import Check from '@lucide/svelte/icons/check'
+  import ClipboardCopy from '@lucide/svelte/icons/clipboard-copy'
+  import Download from '@lucide/svelte/icons/download'
   import FileUp from '@lucide/svelte/icons/file-up'
   import LayoutGrid from '@lucide/svelte/icons/layout-grid'
   import MapPinned from '@lucide/svelte/icons/map-pinned'
@@ -27,40 +33,71 @@
   import List from '@lucide/svelte/icons/list'
   import Search from '@lucide/svelte/icons/search'
 
-  let owned = $state<SaveCards | null>(null)
-  let fileName = $state('')
+  const last = loadLastSave()
+  let owned = $state<SaveCards | null>(last?.owned ?? null)
+  let fileName = $state(last?.fileName ?? '')
+  let restoredAt = $state<number | null>(last?.savedAt ?? null)
   let error = $state('')
   let loading = $state(false)
-  let includeDlc = $state(false)
+  let scope = $state<Scope>(readJson('gwent-tracker:scope', BASE_GAME))
   let query = $state('')
+  let region = $state<string | null>(null)
+  let kind = $state<SourceKind | null>(null)
   let tab = $state('missing')
   let selectedKey = $state<string | null>(null)
-  let view = $state<'grid' | 'list'>(readView())
+  let view = $state<'grid' | 'list'>(readJson('view', 'grid'))
+  let copied = $state(false)
 
-  function readView(): 'grid' | 'list' {
+  function readJson<T>(key: string, fallback: T): T {
     try {
-      return localStorage.getItem('view') === 'list' ? 'list' : 'grid'
+      const raw = localStorage.getItem(key)
+      if (raw === null) return fallback
+      // 'view' was stored as a bare string before.
+      return raw.startsWith('{') ? { ...fallback, ...JSON.parse(raw) } : (raw as T)
     } catch {
-      return 'grid'
+      return fallback
     }
   }
   $effect(() => {
     try {
       localStorage.setItem('view', view)
+      localStorage.setItem('gwent-tracker:scope', JSON.stringify(scope))
     } catch {}
   })
 
-  const result = $derived(owned ? diff(catalog, owned, includeDlc, marks) : null)
+  const result = $derived(owned ? diff(catalog, owned, scope, marks) : null)
   const selected = $derived(result?.groups.find((g) => g.key === selectedKey) ?? null)
+  const regions = $derived(result ? regionsOf(result.groups) : [])
+  const filters = $derived<Filters>({ query, region, kind })
+  const isFiltered = $derived(!!(query.trim() || region || kind))
+  const shown = $derived(
+    result
+      ? {
+          missing: filterGroups(result.missing, filters),
+          incomplete: filterGroups(result.incomplete, filters),
+          all: filterGroups(result.groups, filters),
+          marked: filterGroups(result.marked, filters),
+        }
+      : null,
+  )
   $effect(() => {
     if (tab === 'marked' && result && result.marked.length === 0) tab = 'missing'
   })
+  $effect(() => {
+    if (region && !regions.includes(region)) region = null
+  })
+
+  function setCollection(cards: SaveCards, name: string) {
+    owned = cards
+    fileName = name
+    restoredAt = null
+    error = ''
+    storeLastSave(name, cards)
+  }
 
   function load(text: string, name: string) {
     try {
-      owned = parseSaveJson(text)
-      fileName = name
-      error = ''
+      setCollection(parseSaveJson(text), name)
     } catch (e) {
       error = e instanceof Error ? e.message : String(e)
     }
@@ -80,8 +117,7 @@
     }
     loading = true
     try {
-      owned = await readSave(file)
-      fileName = file.name
+      setCollection(await readSave(file), file.name)
     } catch (e) {
       error = e instanceof Error ? e.message : String(e)
     } finally {
@@ -91,7 +127,7 @@
 
   async function onsample() {
     const { default: text } = await import('../samples/sample-collection.json?raw')
-    load(text, 'sample collection')
+    load(text, 'Sample collection')
   }
 
   function selectCard(card: ReferenceCard) {
@@ -101,9 +137,47 @@
   function reset() {
     owned = null
     fileName = ''
+    restoredAt = null
     error = ''
     query = ''
+    region = null
+    kind = null
     tab = 'missing'
+    clearLastSave()
+  }
+
+  const TAB_TITLES: Record<string, string> = {
+    missing: 'Missing Gwent cards',
+    incomplete: 'Incomplete Gwent cards',
+    all: 'All Gwent cards',
+    marked: 'Gwent cards marked complete',
+  }
+  const checklist = () => checklistText(TAB_TITLES[tab], shown?.[tab as keyof typeof shown] ?? [])
+
+  async function copyChecklist() {
+    try {
+      await navigator.clipboard.writeText(checklist())
+      copied = true
+      setTimeout(() => (copied = false), 1800)
+    } catch {
+      downloadChecklist()
+    }
+  }
+
+  function downloadChecklist() {
+    const url = URL.createObjectURL(new Blob([checklist()], { type: 'text/plain' }))
+    const a = Object.assign(document.createElement('a'), { href: url, download: `gwent-${tab}.txt` })
+    a.click()
+    URL.revokeObjectURL(url)
+  }
+
+  const timeAgo = (t: number) => {
+    const mins = Math.round((Date.now() - t) / 60000)
+    if (mins < 1) return 'just now'
+    if (mins < 60) return `${mins} min ago`
+    const hours = Math.round(mins / 60)
+    if (hours < 24) return `${hours} h ago`
+    return new Date(t).toLocaleDateString()
   }
 
   const FEATURES = [
@@ -165,13 +239,21 @@
       <section class="panel overflow-hidden">
         <div class="flex flex-wrap items-center justify-between gap-3 border-b px-5 py-4 sm:px-6">
           <div class="min-w-0">
-            <p class="text-muted-foreground text-xs font-medium tracking-wider uppercase">Your collection</p>
+            <p class="text-muted-foreground text-xs font-medium tracking-wider uppercase">
+              Your collection{#if restoredAt}<span class="normal-case tracking-normal">
+                  · restored from your last visit ({timeAgo(restoredAt)})</span
+                >{/if}
+            </p>
             <h1 class="truncate text-lg font-semibold sm:text-xl" title={fileName}>{fileName}</h1>
           </div>
-          <div class="flex flex-wrap items-center gap-4">
+          <div class="flex flex-wrap items-center gap-x-5 gap-y-3">
             <div class="flex items-center gap-2">
-              <Switch id="dlc" bind:checked={includeDlc} />
-              <Label for="dlc" class="text-sm">Include DLC</Label>
+              <Switch id="hos" bind:checked={scope.hos} />
+              <Label for="hos" class="text-sm">Hearts of Stone</Label>
+            </div>
+            <div class="flex items-center gap-2">
+              <Switch id="bw" bind:checked={scope.bw} />
+              <Label for="bw" class="text-sm">Blood and Wine</Label>
             </div>
             <Button variant="outline" size="sm" onclick={reset}><FileUp /> New save</Button>
           </div>
@@ -215,39 +297,87 @@
 
       <Tabs.Root bind:value={tab} class="mt-8">
         <div
-          class="bg-background/80 sticky top-0 z-20 -mx-4 flex flex-wrap items-center justify-between gap-3 border-b px-4 py-3 backdrop-blur-md sm:-mx-6 sm:px-6"
+          class="bg-background/85 sticky top-0 z-20 -mx-4 space-y-3 border-b px-4 py-3 backdrop-blur-md sm:-mx-6 sm:px-6"
         >
-          <Tabs.List variant="line" class="flex-wrap">
-            <Tabs.Trigger value="missing">Missing <span class="tab-count">{result.missing.length}</span></Tabs.Trigger>
-            <Tabs.Trigger value="incomplete"
-              >Incomplete <span class="tab-count">{result.incomplete.length}</span></Tabs.Trigger
-            >
-            <Tabs.Trigger value="missable">Missable <span class="tab-count">{result.missables.length}</span></Tabs.Trigger>
-            {#if result.marked.length}
-              <Tabs.Trigger value="marked">Marked <span class="tab-count">{result.marked.length}</span></Tabs.Trigger>
-            {/if}
-          </Tabs.List>
-          {#if tab !== 'missable'}
-            <div class="flex w-full items-center gap-2 sm:w-auto">
-              <div class="relative flex-1 sm:w-64">
-                <Search class="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2" />
-                <Input class="bg-card/70 rounded-full pl-9" placeholder="Search name, deck, place…" bind:value={query} />
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <Tabs.List variant="line" class="max-w-full justify-start overflow-x-auto [scrollbar-width:none]">
+              <Tabs.Trigger value="missing">Missing <span class="tab-count">{result.missing.length}</span></Tabs.Trigger>
+              <Tabs.Trigger value="incomplete"
+                >Incomplete <span class="tab-count">{result.incomplete.length}</span></Tabs.Trigger
+              >
+              <Tabs.Trigger value="missable"
+                >Missable <span class="tab-count">{result.missables.length}</span></Tabs.Trigger
+              >
+              <Tabs.Trigger value="all">All cards <span class="tab-count">{result.groups.length}</span></Tabs.Trigger>
+              {#if result.marked.length}
+                <Tabs.Trigger value="marked">Marked <span class="tab-count">{result.marked.length}</span></Tabs.Trigger>
+              {/if}
+            </Tabs.List>
+            {#if tab !== 'missable'}
+              <div class="flex w-full items-center gap-2 sm:w-auto">
+                <div class="relative flex-1 sm:w-60">
+                  <Search class="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2" />
+                  <Input class="bg-card/70 rounded-full pl-9" placeholder="Search name, place…" bind:value={query} />
+                </div>
+                <div class="bg-card/70 flex rounded-full border p-0.5" role="group" aria-label="View">
+                  {#each [['grid', LayoutGrid, 'Grid view'], ['list', List, 'List view']] as const as [v, Icon, label] (v)}
+                    <button
+                      type="button"
+                      aria-label={label}
+                      aria-pressed={view === v}
+                      class={[
+                        'rounded-full p-1.5 transition-colors',
+                        view === v ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground',
+                      ]}
+                      onclick={() => (view = v)}
+                    >
+                      <Icon class="size-4" />
+                    </button>
+                  {/each}
+                </div>
               </div>
-              <div class="bg-card/70 flex rounded-full border p-0.5" role="group" aria-label="View">
-                {#each [['grid', LayoutGrid, 'Grid view'], ['list', List, 'List view']] as const as [v, Icon, label] (v)}
+            {/if}
+          </div>
+
+          {#if tab !== 'missable'}
+            <div class="flex items-center gap-2">
+              <div class="-mx-1 flex flex-1 gap-1.5 overflow-x-auto px-1 pb-0.5 [scrollbar-width:none]">
+                {#each Object.entries(SOURCE_KIND_LABEL) as [k, label] (k)}
                   <button
                     type="button"
-                    aria-label={label}
-                    aria-pressed={view === v}
-                    class={[
-                      'rounded-full p-1.5 transition-colors',
-                      view === v ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground',
-                    ]}
-                    onclick={() => (view = v)}
+                    aria-pressed={kind === k}
+                    class={['chip', kind === k && 'chip-active']}
+                    onclick={() => (kind = kind === k ? null : (k as SourceKind))}>{label}</button
                   >
-                    <Icon class="size-4" />
-                  </button>
                 {/each}
+                <span class="bg-border mx-1 w-px shrink-0"></span>
+                {#each regions as r (r)}
+                  <button
+                    type="button"
+                    aria-pressed={region === r}
+                    class={['chip', region === r && 'chip-active']}
+                    onclick={() => (region = region === r ? null : r)}>{r}</button
+                  >
+                {/each}
+              </div>
+              <div class="flex shrink-0 items-center gap-1">
+                {#if isFiltered}
+                  <button
+                    type="button"
+                    class="text-muted-foreground hover:text-foreground px-1.5 text-xs underline"
+                    onclick={() => {
+                      query = ''
+                      region = null
+                      kind = null
+                    }}>Clear</button
+                  >
+                {/if}
+                <Button variant="ghost" size="icon-sm" title="Copy as checklist" aria-label="Copy as checklist" onclick={copyChecklist}>
+                  {#if copied}<Check class="text-success" />{:else}<ClipboardCopy />{/if}
+                </Button>
+                <Button variant="ghost" size="icon-sm" title="Download as .txt" aria-label="Download as text file" onclick={downloadChecklist}>
+                  <Download />
+                </Button>
               </div>
             </div>
           {/if}
@@ -255,8 +385,8 @@
 
         <Tabs.Content value="missing" class="mt-6">
           <CardList
-            groups={result.missing}
-            {query}
+            groups={shown!.missing}
+            filtered={isFiltered}
             {view}
             empty="You own at least one copy of every card in this view."
             onselect={(g) => (selectedKey = g.key)}
@@ -264,8 +394,8 @@
         </Tabs.Content>
         <Tabs.Content value="incomplete" class="mt-6">
           <CardList
-            groups={result.incomplete}
-            {query}
+            groups={shown!.incomplete}
+            filtered={isFiltered}
             {view}
             showProgress
             empty="Every card you own is at full copies."
@@ -275,6 +405,17 @@
         <Tabs.Content value="missable" class="mt-6">
           <MissableList items={result.missables} onselect={selectCard} />
         </Tabs.Content>
+        <Tabs.Content value="all" class="mt-6">
+          <CardList
+            groups={shown!.all}
+            filtered={isFiltered}
+            {view}
+            showProgress
+            dimMissing
+            empty="No cards."
+            onselect={(g) => (selectedKey = g.key)}
+          />
+        </Tabs.Content>
         <Tabs.Content value="marked" class="mt-6 space-y-4">
           <div class="flex flex-wrap items-center justify-between gap-2">
             <p class="text-muted-foreground text-sm">
@@ -283,8 +424,8 @@
             <Button variant="outline" size="sm" onclick={clearMarks}>Clear all marks</Button>
           </div>
           <CardList
-            groups={result.marked}
-            {query}
+            groups={shown!.marked}
+            filtered={isFiltered}
             {view}
             empty="No cards marked."
             onselect={(g) => (selectedKey = g.key)}

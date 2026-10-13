@@ -20,13 +20,19 @@ progressing the story. This tool does.
   nothing is uploaded and there is no server.
 - **Missing and incomplete cards**, grouped by faction, shown as the real
   in-game cards. Switch between a card grid and a compact list.
+- **All cards view** — the whole collection, with cards you don't own faded.
 - **Where to find each card** — the merchant, player or quest, with region.
+- **Filter by region and source** — e.g. only cards you can *win* in
+  *Novigrad*, to plan your next trip.
 - **Missable warnings** — cards you lose for good after a certain quest, with
   the cutoff and tips.
 - **Progress at a glance** — unique cards, total copies, and per-faction bars.
 - **Mark as complete** — got a card since your last save? Tick it off; it
   counts as collected (saved in your browser, undo any time).
-- **DLC toggle** for Hearts of Stone and Blood and Wine cards.
+- **Copy or download a checklist** of any list as plain text.
+- **Separate Hearts of Stone and Blood and Wine toggles.**
+- **Remembers your last save** in this browser, so you can come back to it.
+- **Installable** as an app and works offline after the first visit.
 - **Light and dark themes**, works on phones.
 
 No PC save handy? Hit **Try a sample** to see it in action.
@@ -38,7 +44,10 @@ No PC save handy? Hit **Try a sample** to see it in action.
 - ✅ Real Gwent card images, grid and list views, card detail view
 - ✅ Mark cards as complete
 - ✅ Witcher-themed UI with light / dark modes
+- ✅ Region / source filters, All cards view, checklist export
+- ✅ Separate expansion toggles, remembers last save, installable / offline
 - ⏳ Public launch on GitHub Pages
+- 🔬 Quest-aware missable warnings (research in progress)
 
 Check the [Releases page](https://github.com/vishalgupta-git/GwentTracker/releases)
 for shipped versions.
@@ -62,7 +71,8 @@ against a real save. Never commit `.sav` files (they're gitignored).
 src/
   App.svelte, app.css          page layout and theme tokens
   lib/save/                    .sav reader (LZ4 + variable table) in a Web Worker
-  lib/collection/              catalog, diff logic, "mark as complete" store
+  lib/collection/              catalog, diff, filters, checklist export,
+                               "mark as complete" + last-save storage
   lib/components/              UI components (ui/ = shadcn-svelte sources)
 data/catalog/                  card YAMLs vendored from rfvgyhn/gwent-tracker
 data/card-faces.json           card index → card image source

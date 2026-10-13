@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import { catalog } from './catalog'
-import { diff, groupKey, parseSaveJson } from './diff'
+import { ALL_CONTENT, BASE_GAME, diff, groupKey, parseSaveJson } from './diff'
 import type { SaveCards } from '../types'
 
 // the sample collection is the acceptance fixture: a real converted save.
@@ -21,14 +21,22 @@ describe('parseSaveJson', () => {
 })
 
 describe('diff against the sample collection', () => {
-  const base = diff(catalog, fixture, false)
-  const all = diff(catalog, fixture, true)
+  const base = diff(catalog, fixture, BASE_GAME)
+  const all = diff(catalog, fixture, ALL_CONTENT)
 
   it('totals the base game at 199 copies', () => {
     expect(base.totals.copiesTotal).toBe(199)
     expect(base.totals.copiesOwned).toBeGreaterThan(0)
     expect(base.totals.copiesOwned).toBeLessThanOrEqual(199)
     expect(base.totals.namesOwned).toBeLessThanOrEqual(base.totals.namesTotal)
+  })
+
+  it('each expansion toggle adds only its own cards', () => {
+    const hos = diff(catalog, fixture, { hos: true, bw: false })
+    const bw = diff(catalog, fixture, { hos: false, bw: true })
+    expect(new Set(hos.groups.map((g) => g.source))).toEqual(new Set(['BaseGame', 'HeartsOfStone']))
+    expect(new Set(bw.groups.map((g) => g.source))).toEqual(new Set(['BaseGame', 'BloodAndWine']))
+    expect(hos.totals.copiesTotal + bw.totals.copiesTotal - base.totals.copiesTotal).toBe(all.totals.copiesTotal)
   })
 
   it('base view contains no DLC cards; DLC toggle widens totals', () => {
@@ -71,13 +79,13 @@ describe('diff rules', () => {
   it('summons inherit their parent copies', () => {
     const summon = catalog.cards.find((c) => c.attachedTo != null && c.source === 'BloodAndWine')!
     const owned: SaveCards = { [summon.attachedTo!]: { count: 1, name: '' } }
-    const result = diff({ cards: pick(summon.index, summon.attachedTo!), missables: [] }, owned, true)
+    const result = diff({ cards: pick(summon.index, summon.attachedTo!), missables: [] }, owned, ALL_CONTENT)
     expect(result.missing).toHaveLength(0)
   })
 
   it('clamps over-reported copies to maxCopies', () => {
     const owned: SaveCards = { 0: { count: 9, name: 'Decoy' } }
-    const result = diff({ cards: pick(0), missables: [] }, owned, false)
+    const result = diff({ cards: pick(0), missables: [] }, owned, BASE_GAME)
     expect(result.totals.copiesOwned).toBe(3)
   })
 
@@ -86,17 +94,17 @@ describe('diff rules', () => {
     const cards = pick(...group.cardIds)
     const some: SaveCards = { [group.cardIds[0]]: { count: 1, name: '' } }
     const every: SaveCards = Object.fromEntries(group.cardIds.map((id) => [id, { count: 1, name: '' }]))
-    expect(diff({ cards, missables: [group] }, some, true).missables).toHaveLength(group.cardIds.length > 1 ? 1 : 0)
-    expect(diff({ cards, missables: [group] }, every, true).missables).toHaveLength(0)
+    expect(diff({ cards, missables: [group] }, some, ALL_CONTENT).missables).toHaveLength(group.cardIds.length > 1 ? 1 : 0)
+    expect(diff({ cards, missables: [group] }, every, ALL_CONTENT).missables).toHaveLength(0)
   })
 })
 
 describe('mark as complete', () => {
-  const base = diff(catalog, fixture, false)
+  const base = diff(catalog, fixture, BASE_GAME)
 
   it('moves a missing card out of missing and into marked, updating totals', () => {
     const target = base.missing[0]
-    const result = diff(catalog, fixture, false, new Set([target.key]))
+    const result = diff(catalog, fixture, BASE_GAME, new Set([target.key]))
     expect(result.missing.map((g) => g.key)).not.toContain(target.key)
     expect(result.marked.map((g) => g.key)).toEqual([target.key])
     expect(result.totals.copiesOwned).toBe(base.totals.copiesOwned + target.total)
@@ -105,7 +113,7 @@ describe('mark as complete', () => {
 
   it('fills an incomplete card to full copies', () => {
     const scorch = base.incomplete.find((g) => g.name === 'Scorch')!
-    const result = diff(catalog, fixture, false, new Set([scorch.key]))
+    const result = diff(catalog, fixture, BASE_GAME, new Set([scorch.key]))
     expect(result.incomplete.map((g) => g.key)).not.toContain(scorch.key)
     expect(result.groups.find((g) => g.key === scorch.key)).toMatchObject({ have: 3, total: 3, marked: true })
   })
@@ -113,11 +121,11 @@ describe('mark as complete', () => {
   it('clears a missable warning once its cards are marked', () => {
     const at = base.missables[0]
     const keys = new Set(at.missing.map(groupKey))
-    expect(diff(catalog, fixture, false, keys).missables).not.toContainEqual(expect.objectContaining({ group: at.group }))
+    expect(diff(catalog, fixture, BASE_GAME, keys).missables).not.toContainEqual(expect.objectContaining({ group: at.group }))
   })
 
   it('does not list a mark the save already satisfies', () => {
     const decoy = base.groups.find((g) => g.name === 'Decoy')!
-    expect(diff(catalog, fixture, false, new Set([decoy.key])).marked).toHaveLength(0)
+    expect(diff(catalog, fixture, BASE_GAME, new Set([decoy.key])).marked).toHaveLength(0)
   })
 })
