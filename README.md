@@ -72,15 +72,17 @@ against a real save. Never commit `.sav` files (they're gitignored).
 src/
   App.svelte, app.css          page layout and theme tokens
   lib/save/                    .sav reader (LZ4 + variable table) in a Web Worker
-  lib/collection/              catalog, diff, filters, checklist export,
-                               "mark as complete" + last-save storage
+  lib/collection/              catalog, diff, filters, route plan, checklist
+                               export, "mark as complete" + last-save storage
   lib/components/              UI components (ui/ = shadcn-svelte sources)
-data/catalog/                  card YAMLs vendored from rfvgyhn/gwent-tracker
+data/catalog/                  card YAMLs vendored from rfvgyhn/gwent-tracker,
+                               plus achievement.yml (Collect 'Em All)
 data/card-faces.json           card index → card image source
 data/card-stats.json           strength, rows, abilities (from the game files)
 public/cards/                  card images (WebP)
 samples/sample-collection.json data for "Try a sample" and the tests
 scripts/                       catalog build, card image fetch, stats extraction
+e2e/                           Playwright smoke + accessibility tests
 ```
 
 The card catalog (`src/lib/data/catalog.json`) is generated from
@@ -90,7 +92,9 @@ The card catalog (`src/lib/data/catalog.json`) is generated from
 ## Credit
 
 - Save parsing is a minimal TypeScript port of [`rfvgyhn/W3SavegameEditor`](https://github.com/rfvgyhn/W3SavegameEditor) (MIT).
-- Reference card data derived from [`rfvgyhn/gwent-tracker`](https://github.com/rfvgyhn/gwent-tracker) (MIT).
+- Reference card data derived from [`rfvgyhn/gwent-tracker`](https://github.com/rfvgyhn/gwent-tracker) (MIT),
+  checked against The Witcher 3 5.0 game files; card stats and the
+  Collect 'Em All list come from those files.
 - Card images © CD Projekt Red; in-game card renders from the
   [Witcher Wiki](https://witcher.fandom.com/), resized and self-hosted
   (`npm run card-art` re-fetches).
