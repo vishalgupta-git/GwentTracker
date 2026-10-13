@@ -45,12 +45,12 @@ for shipped versions.
 ```bash
 npm install
 npm run dev      # http://localhost:5173/GwentTracker/
-npm test         # diff tests against the a.txt fixture
+npm test         # diff + save parser tests
 npm run build    # outputs dist/
 ```
 
 The card catalog (`src/lib/data/catalog.json`) is generated from the
-YAML files in `data/` by `scripts/build-catalog.mjs`; it runs
+YAML files in `data/catalog/` by `scripts/build-catalog.mjs`; it runs
 automatically before `dev`, `build`, `test` and `check`.
 
 ## Credit

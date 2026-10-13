@@ -1,9 +1,9 @@
-import type { SaveCards } from './types'
+import type { SaveCards } from '../types'
 
 /** Parses a .sav file in a Web Worker. Rejects with a user-facing message. */
 export function readSave(file: File): Promise<SaveCards> {
   return new Promise((resolve, reject) => {
-    const worker = new Worker(new URL('./save.worker.ts', import.meta.url), { type: 'module' })
+    const worker = new Worker(new URL('./worker.ts', import.meta.url), { type: 'module' })
     worker.onmessage = (e: MessageEvent<{ ok: true; cards: SaveCards } | { ok: false; error: string }>) => {
       worker.terminate()
       if (e.data.ok) resolve(e.data.cards)

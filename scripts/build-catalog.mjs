@@ -1,4 +1,4 @@
-// Builds src/lib/data/catalog.json from the vendored YAMLs in data/.
+// Builds src/lib/data/catalog.json from the vendored YAMLs in data/catalog/.
 // Fails loudly on duplicate indices, missing fields, or dangling references
 // so a bad data edit can never ship silently.
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
@@ -31,7 +31,7 @@ const fail = (msg) => errors.push(msg)
 const str = (v) => (v == null ? '' : String(v).trim())
 
 function load(file) {
-  const text = readFileSync(join(root, 'data', `${file}.yml`), 'utf8').replace(/^﻿/, '')
+  const text = readFileSync(join(root, 'data/catalog', `${file}.yml`), 'utf8').replace(/^﻿/, '')
   return parseYaml(text) ?? []
 }
 

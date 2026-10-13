@@ -1,5 +1,5 @@
 // Parses a .sav off the main thread so large saves don't freeze the page.
-import { parseSave, SaveParseError } from './save'
+import { parseSave, SaveParseError } from './parse'
 
 self.onmessage = (e: MessageEvent<ArrayBuffer>) => {
   try {

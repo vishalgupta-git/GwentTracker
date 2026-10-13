@@ -2,13 +2,13 @@ import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import { catalog } from './catalog'
 import { diff, groupKey, parseSaveJson } from './diff'
-import type { SaveCards } from './types'
+import type { SaveCards } from '../types'
 
-// a.txt is the acceptance fixture: a real converted save.
-const fixture = parseSaveJson(readFileSync(new URL('../../a.txt', import.meta.url), 'utf8'))
+// the sample collection is the acceptance fixture: a real converted save.
+const fixture = parseSaveJson(readFileSync(new URL('../../../samples/sample-collection.json', import.meta.url), 'utf8'))
 
 describe('parseSaveJson', () => {
-  it('accepts the a.txt shape and the bare map', () => {
+  it('accepts the the sample collection shape and the bare map', () => {
     expect(parseSaveJson('{"gwentCards":{"0":{"count":2,"name":"Decoy"}}}')).toEqual({ 0: { count: 2, name: 'Decoy' } })
     expect(parseSaveJson('{"0":{"count":2,"name":"Decoy"}}')).toEqual({ 0: { count: 2, name: 'Decoy' } })
   })
@@ -20,7 +20,7 @@ describe('parseSaveJson', () => {
   })
 })
 
-describe('diff against a.txt', () => {
+describe('diff against the sample collection', () => {
   const base = diff(catalog, fixture, false)
   const all = diff(catalog, fixture, true)
 
@@ -46,14 +46,14 @@ describe('diff against a.txt', () => {
   })
 
   it('a card with full copies in the save is not reported', () => {
-    // Decoy: 3/3 in a.txt.
+    // Decoy: 3/3 in the sample collection.
     expect(fixture[0].count).toBe(3)
     const reported = [...base.missing, ...base.incomplete].map((g) => g.name)
     expect(reported).not.toContain('Decoy')
   })
 
   it('a partially owned card is reported as incomplete', () => {
-    // Scorch: 2/3 in a.txt.
+    // Scorch: 2/3 in the sample collection.
     expect(fixture[2].count).toBe(2)
     expect(base.incomplete.find((g) => g.name === 'Scorch')).toMatchObject({ have: 2, total: 3 })
   })

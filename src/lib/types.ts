@@ -40,7 +40,7 @@ export interface Catalog {
   missables: MissableGroup[]
 }
 
-/** Uploaded JSON (same shape as a.txt): `{"gwentCards": {"<index>": OwnedCard}}`. */
+/** Uploaded JSON (same shape as samples/sample-collection.json): `{"gwentCards": {"<index>": OwnedCard}}`. */
 export interface OwnedCard {
   count: number
   name: string

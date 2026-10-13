@@ -15,7 +15,7 @@
 //
 // Gwent cards live inside the "CR4GwintManager" BS (set) variable as a run
 // of VL variables: cardIndex / numCopies pairs, ending at SBSelectedDeckIndex.
-import type { SaveCards } from './types'
+import type { SaveCards } from '../types'
 
 export class SaveParseError extends Error {}
 

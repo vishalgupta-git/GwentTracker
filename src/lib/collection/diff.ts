@@ -1,7 +1,7 @@
-import type { Catalog, CardGroup, DiffResult, Location, MissableStatus, ReferenceCard, SaveCards } from './types'
+import type { Catalog, CardGroup, DiffResult, Location, MissableStatus, ReferenceCard, SaveCards } from '../types'
 
 /**
- * Parses an uploaded collection file. Accepts the a.txt shape
+ * Parses an uploaded collection file. Accepts the sample-collection.json shape
  * `{"gwentCards": {...}}` or the bare `{"<index>": {...}}` map.
  * Throws an Error with a user-facing message on bad input.
  */

@@ -10,11 +10,11 @@
   import { Progress } from '$lib/components/ui/progress'
   import { Switch } from '$lib/components/ui/switch'
   import * as Tabs from '$lib/components/ui/tabs'
-  import { catalog } from '$lib/catalog'
-  import { diff, parseSaveJson } from '$lib/diff'
-  import { clearMarks, marks } from '$lib/marks.svelte'
-  import { readSave } from '$lib/readSave'
-  import { isSaveFile } from '$lib/save'
+  import { catalog } from '$lib/collection/catalog'
+  import { diff, parseSaveJson } from '$lib/collection/diff'
+  import { clearMarks, marks } from '$lib/collection/marks.svelte'
+  import { readSave } from '$lib/save/read'
+  import { isSaveFile } from '$lib/save/parse'
   import type { ReferenceCard, SaveCards } from '$lib/types'
   import LayoutGrid from '@lucide/svelte/icons/layout-grid'
   import List from '@lucide/svelte/icons/list'
@@ -83,7 +83,7 @@
   }
 
   async function onsample() {
-    const { default: text } = await import('../a.txt?raw')
+    const { default: text } = await import('../samples/sample-collection.json?raw')
     load(text, 'sample collection')
   }
 

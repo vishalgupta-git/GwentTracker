@@ -1,8 +1,8 @@
 <script lang="ts">
   import { Badge } from '$lib/components/ui/badge'
-  import { describeLocation } from '$lib/diff'
+  import { describeLocation } from '$lib/collection/diff'
   import { cardArt, DECK_ORDER, deckColor, SOURCE_LABEL } from '$lib/display'
-  import { toggleMark } from '$lib/marks.svelte'
+  import { toggleMark } from '$lib/collection/marks.svelte'
   import type { CardGroup } from '$lib/types'
   import Check from '@lucide/svelte/icons/check'
   import ChevronRight from '@lucide/svelte/icons/chevron-right'

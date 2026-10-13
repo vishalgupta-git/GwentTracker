@@ -1,6 +1,6 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
-import { isSaveFile, lz4DecodeBlock, parseSave, SaveParseError } from './save'
+import { isSaveFile, lz4DecodeBlock, parseSave, SaveParseError } from './parse'
 
 const enc = (s: string) => [...s].map((c) => c.charCodeAt(0))
 const i16 = (n: number) => [n & 0xff, (n >> 8) & 0xff]
