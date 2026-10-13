@@ -240,7 +240,7 @@
           </summary>
           <ul class="mt-2 space-y-0.5 pl-4 font-mono text-xs">
             {#each result.unknownInSave as u (u.index)}
-              <li>#{u.index} — {u.raw.name || 'unnamed'} ×{u.raw.count}</li>
+              <li>#{u.index} — {u.raw.name || 'Unknown card'} ×{u.raw.count}</li>
             {/each}
           </ul>
         </details>
