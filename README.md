@@ -1,5 +1,9 @@
 # Gwent Tracker
 
+[![Latest release](https://img.shields.io/github/v/release/vishalgupta-git/GwentTracker)](https://github.com/vishalgupta-git/GwentTracker/releases)
+[![Deploy](https://github.com/vishalgupta-git/GwentTracker/actions/workflows/pages.yml/badge.svg)](https://github.com/vishalgupta-git/GwentTracker/actions/workflows/pages.yml)
+[![License: MIT](https://img.shields.io/github/license/vishalgupta-git/GwentTracker)](LICENSE)
+
 Find every Witcher 3 Gwent card you're still missing. Drop in your save
 file and see what you need, where to win or buy it, and which cards you're
 about to lose for good.
