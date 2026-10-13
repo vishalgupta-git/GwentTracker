@@ -66,10 +66,19 @@ describe('diff against the sample collection', () => {
     expect(base.incomplete.find((g) => g.name === 'Scorch')).toMatchObject({ have: 2, total: 3 })
   })
 
+  it('counts copies stored under alias indices', () => {
+    // Impera Brigade Guard is saved as 245-248, one copy each.
+    expect(base.groups.find((g) => g.name === 'Impera Brigade Guard')).toMatchObject({ have: 4, total: 4 })
+    expect(base.groups.find((g) => g.name === 'Crinfrid Reavers Dragon Hunter')).toMatchObject({ have: 2, total: 3 })
+  })
+
+  it('knows every index in the sample, including aliases and bonus cards', () => {
+    expect(base.unknownInSave).toEqual([])
+  })
+
   it('surfaces unknown indices with copies, skipping zero-count entries', () => {
-    const indices = base.unknownInSave.map((u) => u.index)
-    expect(indices).toContain(131)
-    expect(indices).not.toContain(26) // GOG artwork Geralt, count 0
+    const result = diff(catalog, { ...fixture, 999: { count: 1, name: '' }, 998: { count: 0, name: '' } }, BASE_GAME)
+    expect(result.unknownInSave.map((u) => u.index)).toEqual([999])
   })
 })
 

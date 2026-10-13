@@ -27,6 +27,12 @@ export function parseSaveJson(text: string): SaveCards {
 /** Stable id for a row: every catalog index sharing deck + name. */
 export const groupKey = (c: { deck: string; name: string }) => `${c.deck}/${c.name}`
 
+/**
+ * Promotional cards outside the collection (GOG Geralt and Ciri art, Roach).
+ * They can appear in a save but don't count toward anything.
+ */
+const BONUS_CARDS = [26, 27, 28]
+
 /** Which expansions to include alongside the base game. */
 export interface Scope {
   hos: boolean
@@ -48,12 +54,17 @@ export function diff(
   const inScope = (c: ReferenceCard) =>
     c.source === 'BaseGame' || (c.source === 'HeartsOfStone' ? scope.hos : scope.bw)
   const byIndex = new Map(catalog.cards.map((c) => [c.index, c]))
+  const known = new Set<number>(BONUS_CARDS)
+  for (const c of catalog.cards) for (const i of [c.index, ...(c.aliases ?? [])]) known.add(i)
+  const countAt = (i: number) => Math.max(owned[i]?.count ?? 0, 0)
 
-  // Copies held per index, clamped to maxCopies (some saves over-report
-  // leaders). Summons mirror their parent since the save never lists them.
+  // Copies held per card, summed over its alias indices and clamped to
+  // maxCopies (some saves over-report leaders). Summons mirror their parent
+  // since the save never lists them.
   const savedOf = (c: ReferenceCard): number => {
-    const index = c.attachedTo ?? c.index
-    return Math.min(Math.max(owned[index]?.count ?? 0, 0), c.maxCopies)
+    const source = c.attachedTo != null ? (byIndex.get(c.attachedTo) ?? c) : c
+    const count = [source.index, ...(source.aliases ?? [])].reduce((n, i) => n + countAt(i), 0)
+    return Math.min(count, c.maxCopies)
   }
   const haveOf = (c: ReferenceCard): number => (marked.has(groupKey(c)) ? c.maxCopies : savedOf(c))
 
@@ -102,7 +113,7 @@ export function diff(
 
   const unknownInSave = Object.entries(owned)
     .map(([k, raw]) => ({ index: Number(k), raw }))
-    .filter(({ index, raw }) => raw.count > 0 && !byIndex.has(index))
+    .filter(({ index, raw }) => raw.count > 0 && !known.has(index))
     .sort((a, b) => a.index - b.index)
 
   const names = new Map<string, boolean>()

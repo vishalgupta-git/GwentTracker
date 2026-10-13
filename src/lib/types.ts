@@ -22,6 +22,8 @@ export interface ReferenceCard {
   flavor?: string
   /** Summon cards are not stored in the save; they mirror this parent index. */
   attachedTo?: number
+  /** Extra save indices holding further copies of this card (the game stores some copies as crinfrid2, crinfrid3, ...). */
+  aliases?: number[]
   locations: Location[]
 }
 

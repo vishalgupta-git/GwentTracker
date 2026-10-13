@@ -325,6 +325,7 @@
     flavor: "\"The Impera Brigade never surrenders. Ever.\""
     type: Unit
     maxCopies: 4
+    aliases: [246, 247, 248]
     locations:
         -   type: Buy from Trader
             npc: Trader
@@ -356,6 +357,7 @@
     flavor: "\"The Emperor will teach the North discipline.\""
     type: Unit
     maxCopies: 3
+    aliases: [251, 252]
     locations:
         -   type: Buy from Trader
             npc: Quartermaster

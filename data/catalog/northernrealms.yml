@@ -184,6 +184,7 @@
     flavor: "\"Haven't had much luck with monsters of late, so we enlisted.\""
     type: Unit
     maxCopies: 3
+    aliases: [131, 132]
     locations:
         -   type: Buy from Trader
             npc: Innkeeper
@@ -224,6 +225,7 @@
     flavor: "\"The gods help those who have better catapults.\""
     type: Unit
     maxCopies: 2
+    aliases: [141]
     locations:
         -   type: Buy from Trader
             npc: Innkeeper
@@ -257,6 +259,7 @@
     flavor: "\"You gotta recalibrate the arm by five degrees.\" \"Do what by the what now?\""
     type: Unit
     maxCopies: 3
+    aliases: [151, 152]
     locations:
         -   type: Base Deck
 -   index: 160

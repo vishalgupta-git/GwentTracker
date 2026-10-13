@@ -92,9 +92,18 @@ for (const file of DECK_FILES) {
     const flavor = str(raw.flavor)
     if (flavor) card.flavor = flavor
     if (raw.attachedTo != null) card.attachedTo = raw.attachedTo
+    if (raw.aliases != null) card.aliases = raw.aliases
     cards.push(card)
   }
 }
+
+// Extra save indices for copies of the same card (e.g. crinfrid2, crinfrid3).
+for (const card of cards)
+  for (const alias of card.aliases ?? []) {
+    if (!Number.isInteger(alias)) fail(`card ${card.index}: alias ${alias} is not an integer`)
+    else if (seen.has(alias)) fail(`card ${card.index}: alias ${alias} is already used`)
+    else seen.set(alias, `alias of ${card.index}`)
+  }
 
 // Summons are never stored in the save; they inherit their parent's copies.
 const byIndex = new Map(cards.map((c) => [c.index, c]))
