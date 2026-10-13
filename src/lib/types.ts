@@ -8,6 +8,8 @@ export interface Location {
   area?: string
   territory?: string
   region?: string
+  /** Extra detail, e.g. how a random reward works. */
+  note?: string
 }
 
 /** One entry of the bundled catalog.json. `index` is the save's card id. */
@@ -19,6 +21,8 @@ export interface ReferenceCard {
   maxCopies: number
   source: Source
   missable: boolean
+  /** Counts toward the "Collect 'Em All" achievement. */
+  achievement: boolean
   flavor?: string
   /** Summon cards are not stored in the save; they mirror this parent index. */
   attachedTo?: number
@@ -57,6 +61,7 @@ export interface CardGroup {
   type: CardType
   source: Source
   missable: boolean
+  achievement: boolean
   flavor?: string
   cards: ReferenceCard[]
   have: number
@@ -84,5 +89,8 @@ export interface DiffResult {
     namesTotal: number
     copiesOwned: number
     copiesTotal: number
+    /** "Collect 'Em All" progress: card names and leaders the game counts. */
+    achievementOwned: number
+    achievementTotal: number
   }
 }

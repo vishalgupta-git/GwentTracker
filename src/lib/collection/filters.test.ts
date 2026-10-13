@@ -9,6 +9,7 @@ const group = (name: string, locations: Location[]): CardGroup => ({
   type: 'Unit',
   source: 'BaseGame',
   missable: false,
+  achievement: false,
   cards: [],
   have: 0,
   total: 1,

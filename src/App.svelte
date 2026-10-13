@@ -274,14 +274,20 @@
           </div>
         </div>
 
-        <div class="grid grid-cols-2 gap-x-4 gap-y-6 p-5 sm:p-6 md:grid-cols-[auto_auto_1fr] md:items-center md:gap-10">
+        <div class="grid grid-cols-3 gap-x-4 gap-y-6 p-5 sm:p-6 lg:grid-cols-[auto_auto_auto_1fr] lg:items-center lg:gap-10">
           <StatRing value={result.totals.namesOwned} total={result.totals.namesTotal} label="Unique cards" />
           <StatRing value={result.totals.copiesOwned} total={result.totals.copiesTotal} label="Total copies" />
+          <StatRing
+            value={result.totals.achievementOwned}
+            total={result.totals.achievementTotal}
+            label="Collect 'Em All"
+            sub="Achievement"
+          />
           <button
             type="button"
             onclick={() => (tab = 'missable')}
             class={[
-              'col-span-2 flex items-center gap-3 rounded-xl border p-4 text-left transition-colors md:col-span-1',
+              'col-span-3 flex items-center gap-3 rounded-xl border p-4 text-left transition-colors lg:col-span-1',
               result.missables.length
                 ? 'border-destructive/40 bg-destructive/10 hover:bg-destructive/15'
                 : 'border-success/30 bg-success/10',

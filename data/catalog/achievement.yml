@@ -1,0 +1,19 @@
+# "Collect 'Em All": which cards the achievement counts. From the game's own
+# data: items tagged GwintCollectorAchievement in def_item_gwint.xml, and the
+# hard-coded leader list in scripts/game/components/inventoryComponent.ws.
+# A card name counts once any of its indices is owned; each leader counts
+# on its own. Northern Realms starter cards and DLC cards are not included.
+cardIds: [
+    0, 1, 2, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 100, 101, 102, 103, 105, 109,
+    130, 140, 170, 200, 201, 202, 203, 205, 206, 207, 208, 209, 210, 211, 212,
+    213, 214, 215, 217, 218, 219, 220, 221, 230, 231, 235, 236, 240, 241, 245,
+    250, 255, 260, 261, 265, 300, 301, 302, 303, 305, 306, 307, 308, 309, 310,
+    311, 312, 313, 320, 321, 322, 325, 326, 330, 331, 332, 335, 336, 337, 340,
+    341, 342, 343, 344, 350, 351, 352, 355, 360, 365, 366, 367, 400, 401, 402,
+    403, 405, 407, 410, 413, 415, 417, 420, 423, 425, 427, 430, 433, 435, 437,
+    440, 443, 445, 447, 450, 451, 452, 453, 455, 456, 457, 460, 461, 462, 463,
+    464, 470, 471, 472, 475, 476, 477
+  ]
+leaders: [
+    1002, 1003, 1004, 2002, 2003, 2004, 3002, 3003, 3004, 4001, 4003, 4004
+  ]

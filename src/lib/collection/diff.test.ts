@@ -66,6 +66,19 @@ describe('diff against the sample collection', () => {
     expect(base.incomplete.find((g) => g.name === 'Scorch')).toMatchObject({ have: 2, total: 3 })
   })
 
+  it("counts Collect 'Em All as 107 names plus 12 leaders", () => {
+    expect(base.totals.achievementTotal).toBe(119)
+    expect(all.totals.achievementTotal).toBe(119)
+    expect(base.groups.find((g) => g.name === 'Ballista')?.achievement).toBe(false) // starter deck
+    expect(base.groups.find((g) => g.name === 'Mahakaman Defender')?.achievement).toBe(true)
+    expect(base.totals.achievementOwned).toBeLessThanOrEqual(119)
+  })
+
+  it('explains random rewards: 51 cards from the merchant pool', () => {
+    const random = catalog.cards.filter((c) => c.locations.some((l) => l.note?.startsWith('Random reward')))
+    expect(random).toHaveLength(51)
+  })
+
   it('counts copies stored under alias indices', () => {
     // Impera Brigade Guard is saved as 245-248, one copy each.
     expect(base.groups.find((g) => g.name === 'Impera Brigade Guard')).toMatchObject({ have: 4, total: 4 })

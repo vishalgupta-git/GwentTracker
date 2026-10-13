@@ -263,11 +263,11 @@
     flavor: "\"Worked a pickaxe all me life. Battleaxe won't be any trouble.\""
     type: Unit
     locations:
-        -   type: Win from NPC
-            npc: Random
-            area: Random
-            territory: Random
-            region: Random
+        -   type: Buy from Trader
+            npc: Stjepan
+            area: The Alchemy
+            territory: Oxenfurt
+            region: Novigrad
             coords: []
 -   index: 336
     deck: Scoia'tael
@@ -275,11 +275,11 @@
     flavor: "\"Worked a pickaxe all me life. Battleaxe won't be any trouble.\""
     type: Unit
     locations:
-        -   type: Buy from Trader
-            npc: Stjepan
-            area: The Alchemy
-            territory: Oxenfurt
-            region: Novigrad
+        -   type: Win from NPC
+            npc: Random
+            area: Random
+            territory: Random
+            region: Random
             coords: []
 -   index: 337
     deck: Scoia'tael
@@ -359,11 +359,11 @@
     flavor: "\"No matter what you may have heard, elves don't take human scalps. Too much lice.\""
     type: Unit
     locations:
-        -   type: Win from NPC
-            npc: Random
-            area: Random
-            territory: Random
-            region: Random
+        -   type: Buy from Trader
+            npc: Innkeeper
+            area: Urialla Harbor
+            territory: An Skellig
+            region: Skellige
             coords: []
 -   index: 351
     deck: Scoia'tael
@@ -383,11 +383,11 @@
     flavor: "\"No matter what you may have heard, elves don't take human scalps. Too much lice.\""
     type: Unit
     locations:
-        -   type: Buy from Trader
-            npc: Innkeeper
-            area: Urialla Harbor
-            territory: An Skellig
-            region: Skellige
+        -   type: Win from NPC
+            npc: Random
+            area: Random
+            territory: Random
+            region: Random
             coords: []
 -   index: 355
     deck: Scoia'tael

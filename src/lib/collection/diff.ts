@@ -82,6 +82,7 @@ export function diff(
         type: card.type,
         source: card.source,
         missable: false,
+        achievement: false,
         flavor: card.flavor,
         cards: [],
         have: 0,
@@ -93,6 +94,7 @@ export function diff(
     }
     g.cards.push(card)
     g.missable ||= card.missable
+    g.achievement ||= card.achievement
     g.have += haveOf(card)
     saved.set(key, (saved.get(key) ?? 0) + savedOf(card))
     g.total += card.maxCopies
@@ -131,6 +133,8 @@ export function diff(
       namesTotal: names.size,
       copiesOwned: groups.reduce((n, g) => n + g.have, 0),
       copiesTotal: groups.reduce((n, g) => n + g.total, 0),
+      achievementOwned: groups.filter((g) => g.achievement && g.have > 0).length,
+      achievementTotal: groups.filter((g) => g.achievement).length,
     },
   }
 }

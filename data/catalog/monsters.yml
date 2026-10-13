@@ -416,11 +416,11 @@
     flavor: "\"If ghouls are part of the Circle of Life... then it's a damn vicious circle.\""
     type: Unit
     locations:
-        -   type: Win from NPC
-            npc: Random
-            area: Random
-            territory: Random
-            region: Random
+        -   type: Buy from Trader
+            npc: Innkeeper
+            area: Harviken
+            territory: Faroe
+            region: Skellige
             coords: []
 -   index: 471
     deck: Monsters
@@ -440,11 +440,11 @@
     flavor: "\"If ghouls are part of the Circle of Life... then it's a damn vicious circle.\""
     type: Unit
     locations:
-        -   type: Buy from Trader
-            npc: Innkeeper
-            area: Harviken
-            territory: Faroe
-            region: Skellige
+        -   type: Win from NPC
+            npc: Random
+            area: Random
+            territory: Random
+            region: Random
             coords: []
 -   index: 475
     deck: Monsters

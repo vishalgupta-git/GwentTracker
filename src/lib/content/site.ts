@@ -48,6 +48,6 @@ export const FAQ: { q: string; a: string }[] = [
   },
   {
     q: 'How many Gwent cards are there in The Witcher 3?',
-    a: 'The base game has 199 card copies across 143 unique cards. Hearts of Stone and Blood and Wine add more, including the full Skellige deck.',
+    a: "The base game has 199 card copies across 143 unique cards. Hearts of Stone and Blood and Wine add more, including the full Skellige deck. The Collect 'Em All achievement counts 119 of them: 107 cards plus 12 leaders. The Northern Realms starter cards you begin with and the DLC cards don't count.",
   },
 ]

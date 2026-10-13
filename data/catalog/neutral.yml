@@ -346,7 +346,7 @@
     deck: Neutral
     name: "Skellige Storm"
     flavor: "\"This ain't no normal storm. This here's the wrath of the gods.\""
-    type: Unit
+    type: Special
     maxCopies: 3
     locations:
         -   type: Win from NPC

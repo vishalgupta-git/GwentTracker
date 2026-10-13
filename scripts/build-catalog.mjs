@@ -26,6 +26,10 @@ const LOCATION_TYPES = new Map(
   ),
 )
 
+const RANDOM_NPC = 'Any merchant who plays Gwent'
+const RANDOM_NOTE =
+  'Random reward: the first time you beat each merchant, they give you one card from a pool of 51. Cards never repeat, so beating more merchants gets you more of the pool.'
+
 const errors = []
 const fail = (msg) => errors.push(msg)
 const str = (v) => (v == null ? '' : String(v).trim())
@@ -52,6 +56,10 @@ function normalizeLocation(loc, cardIndex) {
     }
     if (v) out[key] = v
   }
+  // "Random" cards come from the pool in GiveMerchantRandomGwintCardToPlayerQuest
+  // (scripts/game/quests/quest_function.ws): the first win against each
+  // Gwent-playing merchant gives one card from it, never a repeat.
+  if (out.npc === 'Random' || out.type === 'Random') return { type: 'Win from NPC', npc: RANDOM_NPC, note: RANDOM_NOTE }
   return out
 }
 
@@ -133,6 +141,16 @@ const missables = load('missable').map((raw, i) => {
 
 const missableIds = new Set(missables.flatMap((m) => m.cardIds))
 for (const card of cards) card.missable = missableIds.has(card.index)
+
+// "Collect 'Em All": card names plus leaders the achievement counts.
+const achievement = load('achievement')
+const achievementIds = new Set([...(achievement.cardIds ?? []), ...(achievement.leaders ?? [])])
+for (const id of achievementIds) {
+  const card = byIndex.get(id)
+  if (!card) fail(`achievement: card ${id} not in catalog`)
+  else if (card.source !== 'BaseGame') fail(`achievement: card ${id} is not a base-game card`)
+}
+for (const card of cards) card.achievement = achievementIds.has(card.index)
 
 if (errors.length) {
   console.error(`catalog build failed:\n  ${errors.join('\n  ')}`)

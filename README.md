@@ -14,8 +14,8 @@ Free, no sign-up, and your save never leaves your browser.
 
 ## Why this exists
 
-The in-game "Collect 'Em All" achievement asks you to track down every
-base-game Gwent card. The game doesn't tell you which ones you still need,
+The in-game "Collect 'Em All" achievement asks you to track down 119
+base-game Gwent cards. The game doesn't tell you which ones you still need,
 where they come from, or warn you about the ones you can permanently miss by
 progressing the story. This tool does.
 
@@ -32,7 +32,8 @@ progressing the story. This tool does.
   *Novigrad*, to plan your next trip.
 - **Missable warnings** — cards you lose for good after a certain quest, with
   the cutoff and tips.
-- **Progress at a glance** — unique cards, total copies, and per-faction bars.
+- **Progress at a glance** — unique cards, total copies, "Collect 'Em All"
+  achievement progress (using the game's own rules), and per-faction bars.
 - **Mark as complete** — got a card since your last save? Tick it off; it
   counts as collected (saved in your browser, undo any time).
 - **Copy or download a checklist** of any list as plain text.

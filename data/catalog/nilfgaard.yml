@@ -393,7 +393,7 @@
     deck: Nilfgaard
     name: "Young Emissary"
     flavor: "\"If I acquit myself well, perhaps next they'll post me somewhere civilized.\""
-    type: 
+    type: Unit
     locations:
         -   type: Buy from Trader
             npc: Innkeeper
@@ -405,7 +405,7 @@
     deck: Nilfgaard
     name: "Young Emissary"
     flavor: "\"If I acquit myself well, perhaps next they'll post me somewhere civilized.\""
-    type: 
+    type: Unit
     locations:
         -   type: Buy from Trader
             npc: Innkeeper

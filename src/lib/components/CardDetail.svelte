@@ -9,6 +9,7 @@
   import Check from '@lucide/svelte/icons/check'
   import MapPin from '@lucide/svelte/icons/map-pin'
   import TriangleAlert from '@lucide/svelte/icons/triangle-alert'
+  import Trophy from '@lucide/svelte/icons/trophy'
 
   let { group, onclose }: { group: CardGroup | null; onclose: () => void } = $props()
 
@@ -45,6 +46,9 @@
               </Badge>
               <Badge variant="outline">{group.type}</Badge>
               <Badge variant="outline">{SOURCE_LABEL[group.source]}</Badge>
+              {#if group.achievement}
+                <Badge variant="outline" class="border-gold/50 text-gold gap-1.5"><Trophy /> Collect 'Em All</Badge>
+              {/if}
             </Dialog.Description>
           </Dialog.Header>
 
@@ -105,6 +109,9 @@
                       <p class="font-medium">{l.type}{l.npc ? `: ${l.npc}` : ''}{l.quest ? `: ${l.quest}` : ''}</p>
                       {#if l.area || l.territory || l.region}
                         <p class="text-muted-foreground">{[l.area, l.territory, l.region].filter(Boolean).join(', ')}</p>
+                      {/if}
+                      {#if l.note}
+                        <p class="text-muted-foreground mt-1 text-xs">{l.note}</p>
                       {/if}
                     </div>
                   </li>
