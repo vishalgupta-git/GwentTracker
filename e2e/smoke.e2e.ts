@@ -82,6 +82,7 @@ test('missables use quest progress from the save', async ({ page }) => {
   const owned = JSON.parse(readFileSync(SAMPLE, 'utf8')).gwentCards
   delete owned[1004] // High Stakes leader
   delete owned[101] // A Dangerous Game card
+  delete owned[7] // Thaler's card: no rule, shows advice
   await page.addInitScript((o) => {
     const last = { fileName: 'Test.sav', owned: o, facts: ['sq306_completed'], savedAt: Date.now() }
     localStorage.setItem('gwent-tracker:last-save', JSON.stringify(last))
@@ -91,6 +92,8 @@ test('missables use quest progress from the save', async ({ page }) => {
   await page.getByRole('tab', { name: /Missable/ }).click()
   await expect(page.getByText(/Missed in this playthrough: your save is past High Stakes/)).toBeVisible()
   await expect(page.getByText(/Still possible: you haven't reached The Isle of Mists/)).toBeVisible()
+  await expect(page.getByText(/Play Gwent with Thaler at the Seven Cats Inn/)).toBeVisible()
+  expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([])
 })
 
 test('a file that is not a save gets a clear error', async ({ page }) => {

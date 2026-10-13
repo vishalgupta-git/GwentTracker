@@ -151,6 +151,7 @@ const missables = load('missable').map((raw, i) => {
     details: str(raw.details) || null,
     notes: (raw.notes ?? []).map(str).filter(Boolean),
     passedWhen: (raw.passedWhen ?? []).map(str).filter(Boolean),
+    advice: str(raw.advice) || null,
   }
 })
 

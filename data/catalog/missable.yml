@@ -32,6 +32,8 @@
     region: Novigrad
     questName: "Gwent: Playing Thaler"
     cutoff: Reason of State
+    # Shown when the save can't tell (no reliable fact for Reason of State).
+    advice: Play Gwent with Thaler at the Seven Cats Inn in Novigrad and win his card before you start Reason of State.
     details: "https://witcher.fandom.com/wiki/Gwent:_Playing_Thaler"
     notes:
         - Find Thaler by completing A Deadly Plot.

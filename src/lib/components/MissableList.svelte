@@ -4,6 +4,7 @@
   import type { MissableStatus, ReferenceCard } from '$lib/types'
   import CircleCheck from '@lucide/svelte/icons/circle-check'
   import CircleX from '@lucide/svelte/icons/circle-x'
+  import Lightbulb from '@lucide/svelte/icons/lightbulb'
   import TriangleAlert from '@lucide/svelte/icons/triangle-alert'
 
   let { items, onselect }: { items: MissableStatus[]; onselect: (card: ReferenceCard) => void } = $props()
@@ -19,6 +20,7 @@
 {:else}
   <div class="grid gap-4 sm:grid-cols-2">
     {#each sorted as { group, missing, passed } (group.questName)}
+      {@const tip = passed === null && group.advice}
       <Card.Root
         class={passed
           ? 'bg-muted/40'
@@ -43,6 +45,11 @@
             <p class="font-medium">
               Missed in this playthrough: your save is past {group.cutoff ?? group.questName}, so these can't be won
               any more.
+            </p>
+          {:else if tip}
+            <p class="text-gold flex items-start gap-1.5 font-medium">
+              <Lightbulb class="mt-0.5 size-4 shrink-0" />
+              {tip}
             </p>
           {:else if passed === false}
             <p class="text-success flex items-center gap-1.5 font-medium">

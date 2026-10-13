@@ -95,6 +95,8 @@ export interface MissableGroup {
   notes: string[]
   /** Save facts meaning the cutoff has passed; a trailing `*` matches a prefix. */
   passedWhen: string[]
+  /** What to do when the save can't tell whether the cutoff has passed. */
+  advice: string | null
 }
 
 export interface Catalog {

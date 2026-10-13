@@ -176,6 +176,12 @@ describe('missable cutoffs from save facts', () => {
     expect(cutoffPassed(byQuest('Gwent: Playing Thaler'), ['sq306_completed'])).toBeNull() // no rule
   })
 
+  it('only Thaler needs advice instead of a rule', () => {
+    const advised = catalog.missables.filter((m) => m.advice).map((m) => m.questName)
+    expect(advised).toEqual(['Gwent: Playing Thaler'])
+    expect(byQuest('Gwent: Playing Thaler').passedWhen).toEqual([])
+  })
+
   it('marks missables as missed in diff', () => {
     const result = diff(catalog, fixture, ALL_CONTENT, new Set(), ['sq301_completed'])
     for (const m of result.missables)
