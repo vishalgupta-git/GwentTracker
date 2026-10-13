@@ -14,7 +14,7 @@ progressing the main story. This tool does.
 
 ## What it will do
 
-1. You open [gwent.urvai.in](https://gwent.urvai.in) in your browser.
+1. You open the tool at [`vishalgupta-git.github.io/GwentTracker`](https://vishalgupta-git.github.io/GwentTracker/) in your browser.
 2. You upload your Witcher 3 save file (`.sav` from `Documents/The Witcher 3/gamesaves/`).
 3. The tool shows you:
    - **Missing cards** — what you still need, which deck they belong to, and where to find each one (buy from X, win from Y, quest reward from Z).
