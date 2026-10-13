@@ -31,7 +31,7 @@
   import { ABILITY } from '$lib/display'
   import { clearLastSave, loadLastSave, storeLastSave } from '$lib/collection/lastSave'
   import { clearMarks, marks } from '$lib/collection/marks.svelte'
-  import { FAN_DISCLAIMER } from '$lib/content/site'
+  import { COMPATIBILITY, FAN_DISCLAIMER } from '$lib/content/site'
   import { readSave } from '$lib/save/read'
   import { isSaveFile } from '$lib/save/parse'
   import type { Ability, ReferenceCard, SaveCards } from '$lib/types'
@@ -45,6 +45,8 @@
   import ShieldCheck from '@lucide/svelte/icons/shield-check'
   import TriangleAlert from '@lucide/svelte/icons/triangle-alert'
   import Trophy from '@lucide/svelte/icons/trophy'
+  import Route from '@lucide/svelte/icons/route'
+  import Swords from '@lucide/svelte/icons/swords'
   import X from '@lucide/svelte/icons/x'
   import List from '@lucide/svelte/icons/list'
   import Search from '@lucide/svelte/icons/search'
@@ -220,8 +222,15 @@
 
   const FEATURES = [
     { icon: ShieldCheck, title: 'Private by design', text: 'Your save is read in your browser. Nothing is uploaded.' },
+    {
+      icon: Trophy,
+      title: "Collect 'Em All progress",
+      text: 'Counted with the game’s own rule: 119 cards, without the starter deck.',
+    },
+    { icon: Route, title: 'Route planner', text: 'What you still need, grouped by region and who to visit.' },
     { icon: MapPinned, title: 'Where to find them', text: 'Merchants, players and quests for every missing card.' },
     { icon: TriangleAlert, title: 'Missable warnings', text: "Cards you'll lose for good if you move on too soon." },
+    { icon: Swords, title: 'Card stats', text: 'Strength, row and abilities, with a filter for Spy, Medic and more.' },
   ]
 </script>
 
@@ -251,7 +260,7 @@
     {#if !result || home}
       <section class="grid items-center gap-10 pt-4 sm:pt-10 lg:grid-cols-[1.05fr_1fr] lg:gap-14">
         <div class="order-2 text-center lg:order-1 lg:text-left">
-          <p class="text-gold mb-3 text-xs font-semibold tracking-[0.3em] uppercase">The Witcher 3 · Gwent tracker</p>
+          <p class="text-gold mb-3 text-xs font-semibold tracking-[0.3em] uppercase">The Witcher 3: Wild Hunt · Complete Edition</p>
           <h1 class="font-display text-gold-gradient text-4xl leading-tight font-bold sm:text-5xl xl:text-6xl">
             Complete your Gwent collection
           </h1>
@@ -271,6 +280,11 @@
             </div>
           {/if}
           <UploadZone {onfile} {onsample} {loading} />
+          <ul class="mt-4 flex flex-wrap justify-center gap-1.5 lg:justify-start" aria-label="Works with">
+            {#each COMPATIBILITY as c (c)}
+              <li class="chip inline-flex items-center gap-1"><Check class="text-success size-3" />{c}</li>
+            {/each}
+          </ul>
         </div>
         <div class="order-1 px-6 lg:order-2 lg:px-0">
           <CardFan />

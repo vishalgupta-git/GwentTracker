@@ -46,6 +46,9 @@ progressing the story. This tool does.
 - **Installable** as an app and works offline after the first visit.
 - **Light and dark themes**, works on phones.
 
+Works with Complete Edition / next-gen (4.0+) saves and older ones, from
+Steam, GOG or Epic, including Steam Deck.
+
 No PC save handy? Hit **Try a sample** to see it in action.
 
 ## Development

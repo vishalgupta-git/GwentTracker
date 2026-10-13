@@ -3,7 +3,7 @@ import tailwindcss from '@tailwindcss/vite'
 import { fileURLToPath } from 'node:url'
 import { defineConfig, type Plugin } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
-import { FAN_DISCLAIMER, FAQ, SITE_DESCRIPTION, SITE_TITLE, SITE_URL, STEPS } from './src/lib/content/site.ts'
+import { COMPATIBILITY, FAN_DISCLAIMER, FAQ, SITE_DESCRIPTION, SITE_TITLE, SITE_URL, STEPS } from './src/lib/content/site.ts'
 
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 
@@ -53,6 +53,7 @@ function seo(): Plugin {
       <main style="max-width:48rem;margin:0 auto;padding:3rem 1rem;font-family:system-ui,sans-serif">
         <h1>Witcher 3 Gwent Card Tracker</h1>
         <p>${esc(SITE_DESCRIPTION)}</p>
+        <p>Works with: ${esc(COMPATIBILITY.join(', '))}.</p>
         <h2>How it works</h2>
         <ol>${STEPS.map((s) => `<li><strong>${esc(s.title)}.</strong> ${esc(s.text)}</li>`).join('')}</ol>
         <h2>Frequently asked questions</h2>

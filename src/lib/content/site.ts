@@ -5,7 +5,17 @@
 export const SITE_URL = 'https://vishalgupta-git.github.io/GwentTracker/'
 export const SITE_TITLE = 'Witcher 3 Gwent Card Tracker – Find Your Missing Gwent Cards'
 export const SITE_DESCRIPTION =
-  "Upload your Witcher 3 save and instantly see every Gwent card you're missing, where to buy or win it, and which cards are missable. Free, private, runs in your browser."
+  "Upload your Witcher 3 save (Complete Edition / next-gen or older) and see every Gwent card you're missing, where to get it, which are missable, and your Collect 'Em All progress. Free, private, runs in your browser."
+
+/** Versions and platforms the save reader has been tested with. */
+export const COMPATIBILITY = [
+  'Complete Edition (next-gen 4.0+)',
+  'Older saves',
+  'Hearts of Stone',
+  'Blood and Wine',
+  'Steam · GOG · Epic',
+  'Steam Deck',
+]
 
 /** Required wording from CD PROJEKT RED's Fan Content Guidelines. */
 export const FAN_DISCLAIMER = 'This is an unofficial fan work and is not approved/endorsed by CD PROJEKT RED.'
@@ -13,7 +23,7 @@ export const FAN_DISCLAIMER = 'This is an unofficial fan work and is not approve
 export const STEPS = [
   {
     title: 'Find your save',
-    text: 'On PC, open Documents › The Witcher 3 › gamesaves and pick your latest .sav file.',
+    text: 'On PC, open Documents › The Witcher 3 › gamesaves and pick your latest .sav file. Steam, GOG and Epic all save there.',
   },
   {
     title: 'Drop it in',
@@ -35,8 +45,8 @@ export const FAQ: { q: string; a: string }[] = [
     a: "No. The save is read entirely in your browser. There is no server, and the file never leaves your computer. Only your card counts are remembered in this browser so you can come back later.",
   },
   {
-    q: 'Does it work with the next-gen (4.0) update and the DLCs?',
-    a: 'Yes. It reads both classic and current-gen PC saves. Hearts of Stone and Blood and Wine cards can be switched on separately.',
+    q: 'Does it work with the Complete Edition (next-gen update) and the DLCs?',
+    a: 'Yes. It reads saves from the Complete Edition, the free next-gen update (4.0 and later), as well as older saves, whether you play on Steam, GOG or Epic. Hearts of Stone and Blood and Wine cards can be switched on separately.',
   },
   {
     q: 'Can I use a PlayStation, Xbox or Switch save?',
