@@ -33,7 +33,7 @@
         >
           <img
             src={cardArt(group.cards[0].index)}
-            alt={group.name}
+            alt={group.name} width="280" height="527"
             class="aspect-[280/527] w-36 object-contain drop-shadow-[0_12px_24px_rgba(0,0,0,0.45)] sm:w-full"
           />
         </div>
@@ -122,7 +122,7 @@
           {/each}
 
           <div class="space-y-2">
-            <h4 class="font-display text-sm font-semibold tracking-wider uppercase">Where to find it</h4>
+            <h3 class="font-display text-sm font-semibold tracking-wider uppercase">Where to find it</h3>
             {#if group.locations.length === 0}
               <p class="text-muted-foreground text-sm">No known location.</p>
             {:else}

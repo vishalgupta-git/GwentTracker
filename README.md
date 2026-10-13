@@ -56,6 +56,7 @@ npm run dev      # http://localhost:5173/GwentTracker/
 npm test         # diff + save parser tests
 npm run check    # type-check
 npm run build    # outputs dist/
+npm run test:e2e # browser smoke + accessibility tests (after build)
 ```
 
 Optional: `GWENT_SAVE=/path/to/file.sav npm test` also runs the parser

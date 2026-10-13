@@ -31,7 +31,7 @@
               <button type="button" class="group w-24 text-left" onclick={() => onselect(card)}>
                 <img
                   src={cardArt(card.index)}
-                  alt={card.name}
+                  alt={card.name} width="280" height="527"
                   loading="lazy"
                   class="card-glow aspect-[280/527] w-full object-contain"
                 />

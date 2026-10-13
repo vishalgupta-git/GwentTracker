@@ -53,12 +53,12 @@
   <div class="space-y-10">
     {#each byDeck as [deck, items] (deck)}
       <section>
-        <h3 class="mb-4 flex items-center gap-3">
+        <h2 class="mb-4 flex items-center gap-3">
           <span class={['h-5 w-1 rounded-full', deckColor(deck)]}></span>
           <span class="font-display text-lg font-semibold tracking-wide">{deck}</span>
           <span class="text-muted-foreground bg-muted rounded-full px-2 text-xs tabular-nums">{items.length}</span>
           <span class="bg-border h-px flex-1"></span>
-        </h3>
+        </h2>
 
         {#if view === 'grid'}
           <ul class="grid grid-cols-3 gap-x-4 gap-y-6 sm:grid-cols-4 md:grid-cols-6">
@@ -71,7 +71,7 @@
                 >
                   <img
                     src={cardArt(g.cards[0].index)}
-                    alt={g.name}
+                    alt={g.name} width="280" height="527"
                     loading="lazy"
                     decoding="async"
                     class={[
@@ -121,7 +121,7 @@
                 >
                   <img
                     src={cardArt(g.cards[0].index)}
-                    alt=""
+                    alt="" width="280" height="527"
                     loading="lazy"
                     decoding="async"
                     class={[

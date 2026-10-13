@@ -16,7 +16,7 @@
     class="bg-card/80 hover:border-gold/60 flex items-center gap-2 rounded-lg border py-1 pr-2.5 pl-1 text-left text-sm transition-colors"
     onclick={() => onselect(g)}
   >
-    <img src={cardArt(g.cards[0].index)} alt="" loading="lazy" class="aspect-[280/527] h-10 rounded-sm object-cover object-top" />
+    <img src={cardArt(g.cards[0].index)} alt="" width="280" height="527" loading="lazy" class="aspect-[280/527] h-10 w-auto rounded-sm object-cover object-top" />
     <span class="leading-tight">
       {g.name}
       {#if g.total - g.have > 1}<span class="text-muted-foreground tabular-nums"> ×{g.total - g.have}</span>{/if}
@@ -36,7 +36,7 @@
     {#each route.regions as r (r.region)}
       <section class="panel overflow-hidden">
         <header class="bg-surface-1/60 flex items-baseline justify-between gap-3 border-b px-5 py-3">
-          <h3 class="font-display text-lg font-semibold">{r.region}</h3>
+          <h2 class="font-display text-lg font-semibold">{r.region}</h2>
           <span class="text-muted-foreground text-sm tabular-nums">{r.cardCount} card{r.cardCount === 1 ? '' : 's'}</span>
         </header>
         <ul class="divide-y">
@@ -66,9 +66,9 @@
     {#if route.random.length}
       <section class="panel overflow-hidden">
         <header class="bg-surface-1/60 flex items-baseline justify-between gap-3 border-b px-5 py-3">
-          <h3 class="font-display flex items-center gap-2 text-lg font-semibold">
+          <h2 class="font-display flex items-center gap-2 text-lg font-semibold">
             <Dices class="text-gold size-4" /> Random merchant rewards
-          </h3>
+          </h2>
           <span class="text-muted-foreground text-sm tabular-nums"
             >{route.random.length} card{route.random.length === 1 ? '' : 's'}</span
           >
