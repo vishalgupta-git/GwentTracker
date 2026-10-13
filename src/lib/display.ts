@@ -19,3 +19,6 @@ const DECK_COLOR: Record<string, string> = {
 export const deckColor = (deck: string) => DECK_COLOR[deck] ?? 'bg-muted-foreground'
 
 export const DECK_ORDER = Object.keys(DECK_COLOR)
+
+/** Self-hosted art fetched by scripts/fetch-card-art.mjs. */
+export const cardArt = (index: number) => `${import.meta.env.BASE_URL}cards/${index}.webp`

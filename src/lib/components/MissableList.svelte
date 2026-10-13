@@ -1,5 +1,6 @@
 <script lang="ts">
   import * as Card from '$lib/components/ui/card'
+  import { cardArt } from '$lib/display'
   import type { MissableStatus, ReferenceCard } from '$lib/types'
   import TriangleAlert from '@lucide/svelte/icons/triangle-alert'
 
@@ -25,13 +26,17 @@
           </Card.Description>
         </Card.Header>
         <Card.Content class="space-y-3 text-sm">
-          <div class="flex flex-wrap gap-1.5">
+          <div class="flex flex-wrap gap-2">
             {#each missing as card (card.index)}
-              <button
-                type="button"
-                class="bg-muted hover:bg-muted/70 rounded-md px-2 py-1 text-xs font-medium"
-                onclick={() => onselect(card)}>{card.name}</button
-              >
+              <button type="button" class="group w-20 text-left" onclick={() => onselect(card)}>
+                <img
+                  src={cardArt(card.index)}
+                  alt=""
+                  loading="lazy"
+                  class="bg-muted aspect-[300/432] w-full rounded-md border object-cover transition-transform group-hover:scale-105"
+                />
+                <span class="mt-1 block text-xs leading-tight font-medium">{card.name}</span>
+              </button>
             {/each}
           </div>
           {#if group.notes.length}

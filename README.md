@@ -55,7 +55,9 @@ automatically before `dev`, `build`, `test` and `check`.
 ## Credit
 
 - Reference card data derived from [`rfvgyhn/gwent-tracker`](https://github.com/rfvgyhn/gwent-tracker) (MIT).
-- The Witcher 3: Wild Hunt and Gwent are property of CD Projekt Red. This
+- Card artwork © CD Projekt Red, resized copies sourced via the same project's image host
+  (`npm run card-art` re-fetches into `public/cards/`).
+- The Witcher 3: Wild Hunt, Gwent and all card art are property of CD Projekt Red. This
   project is unaffiliated and non-commercial.
 
 ## License

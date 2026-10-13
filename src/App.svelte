@@ -12,6 +12,8 @@
   import { catalog } from '$lib/catalog'
   import { diff, parseSaveJson } from '$lib/diff'
   import type { CardGroup, ReferenceCard, SaveCards } from '$lib/types'
+  import LayoutGrid from '@lucide/svelte/icons/layout-grid'
+  import List from '@lucide/svelte/icons/list'
   import Search from '@lucide/svelte/icons/search'
 
   let owned = $state<SaveCards | null>(null)
@@ -21,6 +23,20 @@
   let query = $state('')
   let tab = $state('missing')
   let selected = $state<CardGroup | null>(null)
+  let view = $state<'grid' | 'list'>(readView())
+
+  function readView(): 'grid' | 'list' {
+    try {
+      return localStorage.getItem('view') === 'list' ? 'list' : 'grid'
+    } catch {
+      return 'grid'
+    }
+  }
+  $effect(() => {
+    try {
+      localStorage.setItem('view', view)
+    } catch {}
+  })
 
   const result = $derived(owned ? diff(catalog, owned, includeDlc) : null)
 
@@ -130,9 +146,24 @@
             <Tabs.Trigger value="missable">Missable ({result.missables.length})</Tabs.Trigger>
           </Tabs.List>
           {#if tab !== 'missable'}
-            <div class="relative w-full sm:w-64">
-              <Search class="text-muted-foreground absolute top-1/2 left-2.5 size-4 -translate-y-1/2" />
-              <Input class="pl-8" placeholder="Search name, deck, place…" bind:value={query} />
+            <div class="flex w-full items-center gap-2 sm:w-auto">
+              <div class="relative flex-1 sm:w-64">
+                <Search class="text-muted-foreground absolute top-1/2 left-2.5 size-4 -translate-y-1/2" />
+                <Input class="pl-8" placeholder="Search name, deck, place…" bind:value={query} />
+              </div>
+              <div class="flex rounded-md border p-0.5" role="group" aria-label="View">
+                {#each [['grid', LayoutGrid, 'Grid view'], ['list', List, 'List view']] as const as [v, Icon, label] (v)}
+                  <button
+                    type="button"
+                    aria-label={label}
+                    aria-pressed={view === v}
+                    class={['rounded p-1.5', view === v ? 'bg-muted text-foreground' : 'text-muted-foreground hover:text-foreground']}
+                    onclick={() => (view = v)}
+                  >
+                    <Icon class="size-4" />
+                  </button>
+                {/each}
+              </div>
             </div>
           {/if}
         </div>
@@ -140,6 +171,7 @@
           <CardList
             groups={result.missing}
             {query}
+            {view}
             empty="You own at least one copy of every card in this view."
             onselect={(g) => (selected = g)}
           />
@@ -148,6 +180,7 @@
           <CardList
             groups={result.incomplete}
             {query}
+            {view}
             showProgress
             empty="Every card you own is at full copies."
             onselect={(g) => (selected = g)}
@@ -180,7 +213,10 @@
       Card data from <a class="underline" href="https://github.com/rfvgyhn/gwent-tracker">rfvgyhn/gwent-tracker</a> (MIT).
       Source on <a class="underline" href="https://github.com/vishalgupta-git/GwentTracker">GitHub</a>.
     </p>
-    <p>The Witcher 3: Wild Hunt and Gwent are property of CD Projekt Red. Unaffiliated fan project.</p>
+    <p>
+      The Witcher 3: Wild Hunt, Gwent and all card artwork are property of CD Projekt Red. Unaffiliated,
+      non-commercial fan project.
+    </p>
   </footer>
 </div>
 

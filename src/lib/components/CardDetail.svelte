@@ -2,7 +2,7 @@
   import { Badge } from '$lib/components/ui/badge'
   import * as Dialog from '$lib/components/ui/dialog'
   import { catalog } from '$lib/catalog'
-  import { deckColor, SOURCE_LABEL } from '$lib/display'
+  import { cardArt, deckColor, SOURCE_LABEL } from '$lib/display'
   import type { CardGroup } from '$lib/types'
   import MapPin from '@lucide/svelte/icons/map-pin'
   import TriangleAlert from '@lucide/svelte/icons/triangle-alert'
@@ -30,15 +30,23 @@
         </Dialog.Description>
       </Dialog.Header>
 
-      {#if group.flavor}
-        <p class="text-muted-foreground border-l-2 pl-3 text-sm italic">{group.flavor}</p>
-      {/if}
-
-      <div class="flex items-center gap-2 text-sm">
-        <span class="text-muted-foreground">You have</span>
-        <Badge variant={group.have === group.total ? 'secondary' : 'outline'} class="tabular-nums">
-          {group.have} / {group.total}
-        </Badge>
+      <div class="flex gap-4">
+        <img
+          src={cardArt(group.cards[0].index)}
+          alt={group.name}
+          class="bg-muted aspect-[300/432] w-28 shrink-0 rounded-lg border object-cover shadow-sm sm:w-36"
+        />
+        <div class="space-y-3">
+          {#if group.flavor}
+            <p class="text-muted-foreground border-l-2 pl-3 text-sm italic">{group.flavor}</p>
+          {/if}
+          <div class="flex items-center gap-2 text-sm">
+            <span class="text-muted-foreground">You have</span>
+            <Badge variant={group.have === group.total ? 'secondary' : 'outline'} class="tabular-nums">
+              {group.have} / {group.total}
+            </Badge>
+          </div>
+        </div>
       </div>
 
       {#each missables as m (m.questName)}
