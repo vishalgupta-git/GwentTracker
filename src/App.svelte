@@ -53,6 +53,8 @@
   let owned = $state<SaveCards | null>(last?.owned ?? null)
   let fileName = $state(last?.fileName ?? '')
   let restoredAt = $state<number | null>(last?.savedAt ?? null)
+  // Showing the home page while a collection stays loaded.
+  let home = $state(false)
   let error = $state('')
   let loading = $state(false)
   let scope = $state<Scope>(readJson('gwent-tracker:scope', BASE_GAME))
@@ -121,7 +123,14 @@
     fileName = name
     restoredAt = null
     error = ''
+    home = false
     storeLastSave(name, cards)
+  }
+
+  function goHome() {
+    home = true
+    error = ''
+    window.scrollTo({ top: 0 })
   }
 
   function load(text: string, name: string) {
@@ -168,6 +177,7 @@
     fileName = ''
     restoredAt = null
     error = ''
+    home = false
     clearFilters()
     tab = 'missing'
     clearLastSave()
@@ -219,7 +229,7 @@
 
 <div class="mx-auto flex min-h-dvh max-w-6xl flex-col px-4 sm:px-6">
   <header class="flex items-center justify-between py-5">
-    <button type="button" class="group flex items-center gap-2.5" onclick={reset} aria-label="Gwent Tracker home">
+    <button type="button" class="group flex items-center gap-2.5" onclick={goHome} aria-label="Gwent Tracker home">
       <img src="{import.meta.env.BASE_URL}favicon.svg" alt="" class="size-8 transition-transform group-hover:-rotate-6" />
       <span class="font-display text-lg font-semibold tracking-wide">Gwent Tracker</span>
     </button>
@@ -238,7 +248,7 @@
       </div>
     {/if}
 
-    {#if !result}
+    {#if !result || home}
       <section class="grid items-center gap-10 pt-4 sm:pt-10 lg:grid-cols-[1.05fr_1fr] lg:gap-14">
         <div class="order-2 text-center lg:order-1 lg:text-left">
           <p class="text-gold mb-3 text-xs font-semibold tracking-[0.3em] uppercase">The Witcher 3 · Gwent tracker</p>
@@ -250,6 +260,16 @@
             you're about to lose for good.
           </p>
           <Ornament class="mx-auto my-7 max-w-xs lg:mx-0" />
+          {#if result}
+            <div class="panel mb-4 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 px-4 py-3 text-sm lg:justify-between">
+              <Button size="sm" onclick={() => (home = false)}>
+                Continue with <span class="max-w-48 truncate">{fileName}</span>
+              </Button>
+              <button type="button" class="text-muted-foreground hover:text-foreground text-xs underline" onclick={reset}
+                >Forget this save</button
+              >
+            </div>
+          {/if}
           <UploadZone {onfile} {onsample} {loading} />
         </div>
         <div class="order-1 px-6 lg:order-2 lg:px-0">
@@ -294,7 +314,7 @@
               <Switch id="bw" bind:checked={scope.bw} />
               <Label for="bw" class="text-sm">Blood and Wine</Label>
             </div>
-            <Button variant="outline" size="sm" onclick={reset}><FileUp /> New save</Button>
+            <Button variant="outline" size="sm" onclick={goHome}><FileUp /> New save</Button>
           </div>
         </div>
 

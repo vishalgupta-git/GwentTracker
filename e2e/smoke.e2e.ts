@@ -63,6 +63,20 @@ test('uploading a collection file works and is remembered', async ({ page }) => 
   await expect(page.getByText(/restored from your last visit/)).toBeVisible()
 })
 
+test('the logo goes home without forgetting the save', async ({ page }) => {
+  await loadSample(page)
+  await page.getByRole('button', { name: 'Gwent Tracker home' }).click()
+  await expect(page.getByText('Drop your save file here')).toBeVisible()
+  await page.getByRole('button', { name: /Continue with/ }).click()
+  await expect(page.getByText('Sample collection')).toBeVisible()
+
+  await page.getByRole('button', { name: 'Gwent Tracker home' }).click()
+  await page.getByRole('button', { name: 'Forget this save' }).click()
+  await expect(page.getByRole('button', { name: /Continue with/ })).toHaveCount(0)
+  await page.reload()
+  await expect(page.getByText('Drop your save file here')).toBeVisible()
+})
+
 test('a file that is not a save gets a clear error', async ({ page }) => {
   await page.goto('./')
   await page.locator('input[type=file]').setInputFiles({ name: 'bad.sav', mimeType: 'application/octet-stream', buffer: Buffer.from('nope') })
