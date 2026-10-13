@@ -1,4 +1,13 @@
-import type { Catalog, CardGroup, DiffResult, Location, MissableStatus, ReferenceCard, SaveCards } from '../types'
+import type {
+  Catalog,
+  CardGroup,
+  DiffResult,
+  Location,
+  MissableGroup,
+  MissableStatus,
+  ReferenceCard,
+  SaveCards,
+} from '../types'
 
 /**
  * Parses an uploaded collection file. Accepts the sample-collection.json shape
@@ -41,15 +50,30 @@ export interface Scope {
 export const BASE_GAME: Scope = { hos: false, bw: false }
 export const ALL_CONTENT: Scope = { hos: true, bw: true }
 
+/** Fact name prefixes the save reader should collect for missable cutoffs. */
+export function questFactPrefixes(catalog: Catalog): string[] {
+  return [...new Set(catalog.missables.flatMap((m) => m.passedWhen.map((f) => f.replace(/\*$/, ''))))]
+}
+
+/** Whether a missable's cutoff has passed, given the save's facts. */
+export function cutoffPassed(group: MissableGroup, facts: readonly string[] | null): boolean | null {
+  if (!facts || group.passedWhen.length === 0) return null
+  return group.passedWhen.some((rule) =>
+    rule.endsWith('*') ? facts.some((f) => f.startsWith(rule.slice(0, -1))) : facts.includes(rule),
+  )
+}
+
 /**
  * @param marked group keys the user marked complete by hand; those count as
  *   fully collected regardless of the save.
+ * @param facts quest facts from the save (see questFactPrefixes); null = unknown.
  */
 export function diff(
   catalog: Catalog,
   owned: SaveCards,
   scope: Scope,
   marked: ReadonlySet<string> = new Set(),
+  facts: readonly string[] | null = null,
 ): DiffResult {
   const inScope = (c: ReferenceCard) =>
     c.source === 'BaseGame' || (c.source === 'HeartsOfStone' ? scope.hos : scope.bw)
@@ -110,7 +134,7 @@ export function diff(
   for (const group of catalog.missables) {
     const cards = group.cardIds.map((id) => byIndex.get(id)).filter((c): c is ReferenceCard => !!c && inScope(c))
     const lacking = cards.filter((c) => haveOf(c) === 0)
-    if (lacking.length) missables.push({ group, missing: lacking })
+    if (lacking.length) missables.push({ group, missing: lacking, passed: cutoffPassed(group, facts) })
   }
 
   const unknownInSave = Object.entries(owned)

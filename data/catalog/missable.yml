@@ -10,6 +10,9 @@
     region: Novigrad
     questName: A Matter of Life and Death
     cutoff: self
+    # Save facts that mean the cutoff has passed (from the game's quest files,
+    # checked against a real 5.0 save). A trailing * matches a prefix.
+    passedWhen: [sq301_completed, sq301_failed]
     details: "https://witcher.fandom.com/wiki/A_Matter_of_Life_and_Death_(The_Witcher_3)#Notes"
     notes:
         - There'll be a small gwent tournament going on in the main courtyard where you'll need to win all the rounds to get all the cards.
@@ -17,6 +20,7 @@
     region: Novigrad
     questName: "High Stakes"
     cutoff: self
+    passedWhen: [sq306_completed, sq306_finished]
     details: 
     notes:
         - If you leave the vicinity of Passiflora the quest will fail. Do not start the quest if you are unsure of winning the gwent matches. You will not be able to go and get more cards If you already signed up for the tournament.
@@ -35,6 +39,8 @@
     region: Novigrad
     questName: A Dangerous Game
     cutoff: The Isle of Mists
+    # q402 is The Isle of Mists; q403 (Kaer Morhen) only starts after it.
+    passedWhen: [q402_escort_completed, q403_*]
     details: "https://witcher.fandom.com/wiki/A_Dangerous_Game#Notes"
     notes:
         - Choose to keep the cards.

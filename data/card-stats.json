@@ -1712,5 +1712,115 @@
    "tightBond"
   ],
   "strength": 4
+ },
+ "1001": {
+  "rows": [],
+  "abilities": [],
+  "leader": "pickFog"
+ },
+ "1002": {
+  "rows": [],
+  "abilities": [],
+  "leader": "clearWeather"
+ },
+ "1003": {
+  "rows": [],
+  "abilities": [],
+  "leader": "siegeHorn"
+ },
+ "1004": {
+  "rows": [],
+  "abilities": [],
+  "leader": "siegeScorch"
+ },
+ "1005": {
+  "rows": [],
+  "abilities": [],
+  "leader": "rangedScorch"
+ },
+ "2001": {
+  "rows": [],
+  "abilities": [],
+  "leader": "pickRain"
+ },
+ "2002": {
+  "rows": [],
+  "abilities": [],
+  "leader": "view3"
+ },
+ "2003": {
+  "rows": [],
+  "abilities": [],
+  "leader": "counterLeader"
+ },
+ "2004": {
+  "rows": [],
+  "abilities": [],
+  "leader": "takeFromEnemyDiscard"
+ },
+ "2005": {
+  "rows": [],
+  "abilities": [],
+  "leader": "randomRestore"
+ },
+ "3001": {
+  "rows": [],
+  "abilities": [],
+  "leader": "pickFrost"
+ },
+ "3002": {
+  "rows": [],
+  "abilities": [],
+  "leader": "extraCard"
+ },
+ "3003": {
+  "rows": [],
+  "abilities": [],
+  "leader": "rangedHorn"
+ },
+ "3004": {
+  "rows": [],
+  "abilities": [],
+  "leader": "meleeScorch"
+ },
+ "3005": {
+  "rows": [],
+  "abilities": [],
+  "leader": "agileReposition"
+ },
+ "4001": {
+  "rows": [],
+  "abilities": [],
+  "leader": "pickWeather"
+ },
+ "4002": {
+  "rows": [],
+  "abilities": [],
+  "leader": "meleeHorn"
+ },
+ "4003": {
+  "rows": [],
+  "abilities": [],
+  "leader": "discard2Pick1"
+ },
+ "4004": {
+  "rows": [],
+  "abilities": [],
+  "leader": "restoreToHand"
+ },
+ "4005": {
+  "rows": [],
+  "abilities": [],
+  "leader": "doubleSpy"
+ },
+ "5001": {
+  "rows": [],
+  "abilities": [],
+  "leader": "halfWeather"
+ },
+ "5002": {
+  "rows": [],
+  "abilities": [],
+  "leader": "reshuffleDiscards"
  }
 }

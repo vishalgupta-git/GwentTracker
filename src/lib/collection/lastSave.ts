@@ -1,12 +1,15 @@
 import type { SaveCards } from '../types'
 
 // The last loaded collection, so reopening the page shows it again.
-// Only card counts are stored (a few KB), never the save file itself.
+// Only card counts and a few quest facts are stored (a few KB), never the
+// save file itself.
 const KEY = 'gwent-tracker:last-save'
 
 export interface LastSave {
   fileName: string
   owned: SaveCards
+  /** Quest facts for missable cutoffs; absent in older stored data. */
+  facts?: string[] | null
   savedAt: number
 }
 
@@ -18,9 +21,9 @@ export function loadLastSave(): LastSave | null {
   return null
 }
 
-export function storeLastSave(fileName: string, owned: SaveCards) {
+export function storeLastSave(fileName: string, owned: SaveCards, facts: string[] | null) {
   try {
-    localStorage.setItem(KEY, JSON.stringify({ fileName, owned, savedAt: Date.now() } satisfies LastSave))
+    localStorage.setItem(KEY, JSON.stringify({ fileName, owned, facts, savedAt: Date.now() } satisfies LastSave))
   } catch {}
 }
 

@@ -42,7 +42,7 @@ export const FAQ: { q: string; a: string }[] = [
   },
   {
     q: 'Is my save file uploaded anywhere?',
-    a: "No. The save is read entirely in your browser. There is no server, and the file never leaves your computer. Only your card counts are remembered in this browser so you can come back later.",
+    a: "No. The save is read entirely in your browser. There is no server, and the file never leaves your computer. Only your card counts and a few quest milestones are remembered in this browser so you can come back later.",
   },
   {
     q: 'Does it work with The Witcher 3 Remastered (5.0) and the DLCs?',
@@ -54,7 +54,7 @@ export const FAQ: { q: string; a: string }[] = [
   },
   {
     q: 'What is a missable Gwent card?',
-    a: 'Some cards can only be won during a specific quest or before a certain point in the story, for example the High Stakes tournament in Novigrad. If you move on without them they are gone for that playthrough. The tracker flags these so you can grab them in time.',
+    a: "Some cards can only be won during a specific quest or before a certain point in the story, for example the High Stakes tournament in Novigrad. If you move on without them they are gone for that playthrough. The tracker flags these so you can grab them in time, and reads your quest progress from the save to tell you which ones you've already missed.",
   },
   {
     q: 'How many Gwent cards are there in The Witcher 3?',

@@ -17,7 +17,7 @@
   import { Switch } from '$lib/components/ui/switch'
   import * as Tabs from '$lib/components/ui/tabs'
   import { catalog } from '$lib/collection/catalog'
-  import { BASE_GAME, diff, parseSaveJson, type Scope } from '$lib/collection/diff'
+  import { BASE_GAME, diff, parseSaveJson, questFactPrefixes, type Scope } from '$lib/collection/diff'
   import { checklistText, routeText } from '$lib/collection/export'
   import { planRoute } from '$lib/collection/route'
   import {
@@ -36,6 +36,7 @@
   import { isSaveFile } from '$lib/save/parse'
   import type { Ability, ReferenceCard, SaveCards } from '$lib/types'
   import Check from '@lucide/svelte/icons/check'
+  import CircleX from '@lucide/svelte/icons/circle-x'
   import ChevronDown from '@lucide/svelte/icons/chevron-down'
   import ClipboardCopy from '@lucide/svelte/icons/clipboard-copy'
   import Download from '@lucide/svelte/icons/download'
@@ -51,8 +52,10 @@
   import List from '@lucide/svelte/icons/list'
   import Search from '@lucide/svelte/icons/search'
 
+  const QUEST_FACT_PREFIXES = questFactPrefixes(catalog)
   const last = loadLastSave()
   let owned = $state<SaveCards | null>(last?.owned ?? null)
+  let facts = $state<string[] | null>(last?.facts ?? null)
   let fileName = $state(last?.fileName ?? '')
   let restoredAt = $state<number | null>(last?.savedAt ?? null)
   // Showing the home page while a collection stays loaded.
@@ -87,7 +90,9 @@
     } catch {}
   })
 
-  const result = $derived(owned ? diff(catalog, owned, scope, marks) : null)
+  const result = $derived(owned ? diff(catalog, owned, scope, marks, facts) : null)
+  const atRisk = $derived(result ? result.missables.filter((m) => !m.passed) : [])
+  const missed = $derived(result ? result.missables.filter((m) => m.passed) : [])
   const selected = $derived(result?.groups.find((g) => g.key === selectedKey) ?? null)
   const regions = $derived(result ? regionsOf(result.groups) : [])
   const abilities = $derived(result ? abilitiesOf(result.groups) : [])
@@ -120,13 +125,14 @@
     achievementOnly = false
   }
 
-  function setCollection(cards: SaveCards, name: string) {
+  function setCollection(cards: SaveCards, name: string, questFacts: string[] | null = null) {
     owned = cards
+    facts = questFacts
     fileName = name
     restoredAt = null
     error = ''
     home = false
-    storeLastSave(name, cards)
+    storeLastSave(name, cards, questFacts)
   }
 
   function goHome() {
@@ -157,7 +163,8 @@
     }
     loading = true
     try {
-      setCollection(await readSave(file), file.name)
+      const save = await readSave(file, QUEST_FACT_PREFIXES)
+      setCollection(save.cards, file.name, save.facts)
     } catch (e) {
       error = e instanceof Error ? e.message : String(e)
     } finally {
@@ -176,6 +183,7 @@
 
   function reset() {
     owned = null
+    facts = null
     fileName = ''
     restoredAt = null
     error = ''
@@ -346,18 +354,32 @@
             onclick={() => (tab = 'missable')}
             class={[
               'col-span-3 flex items-center gap-3 rounded-xl border p-4 text-left transition-colors lg:col-span-1',
-              result.missables.length
+              atRisk.length
                 ? 'border-destructive/40 bg-destructive/10 hover:bg-destructive/15'
-                : 'border-success/30 bg-success/10',
+                : missed.length
+                  ? 'bg-muted/60 hover:bg-muted'
+                  : 'border-success/30 bg-success/10',
             ]}
           >
-            {#if result.missables.length}
+            {#if atRisk.length}
               <TriangleAlert class="text-destructive size-8 shrink-0" />
               <span>
                 <span class="font-display text-destructive block text-lg font-semibold">
-                  {result.missables.length} missable quest{result.missables.length === 1 ? '' : 's'} at risk
+                  {atRisk.length} missable quest{atRisk.length === 1 ? '' : 's'} at risk
                 </span>
-                <span class="text-muted-foreground text-sm">Get these before the cutoff quest.</span>
+                <span class="text-muted-foreground text-sm">
+                  {missed.length
+                    ? `Plus ${missed.length} already missed in this playthrough.`
+                    : 'Get these before the cutoff quest.'}
+                </span>
+              </span>
+            {:else if missed.length}
+              <CircleX class="text-muted-foreground size-8 shrink-0" />
+              <span>
+                <span class="font-display block text-lg font-semibold">
+                  {missed.length} missable quest{missed.length === 1 ? '' : 's'} already missed
+                </span>
+                <span class="text-muted-foreground text-sm">Nothing else is at risk.</span>
               </span>
             {:else}
               <ShieldCheck class="text-success size-8 shrink-0" />

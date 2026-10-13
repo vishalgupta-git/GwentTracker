@@ -1,4 +1,4 @@
-import { ABILITY } from '../display'
+import { ABILITY, LEADER_ABILITY } from '../display'
 import type { Ability, CardGroup, Location } from '../types'
 import { describeLocation } from './diff'
 
@@ -63,7 +63,15 @@ export function filterGroups(groups: CardGroup[], f: Filters): CardGroup[] {
   const q = f.query.trim().toLowerCase()
   return groups.filter((g) => {
     const abilities = g.cards[0]?.abilities ?? []
-    const haystack = [g.name, g.deck, g.type, ...abilities.map((a) => ABILITY[a].label), ...g.locations.map(describeLocation)]
+    const leader = g.cards[0]?.leaderAbility
+    const haystack = [
+      g.name,
+      g.deck,
+      g.type,
+      ...abilities.map((a) => ABILITY[a].label),
+      ...(leader ? [LEADER_ABILITY[leader]] : []),
+      ...g.locations.map(describeLocation),
+    ]
     if (q && !haystack.some((s) => s.toLowerCase().includes(q))) return false
     if (f.ability && !abilities.includes(f.ability)) return false
     if (f.achievement && !g.achievement) return false

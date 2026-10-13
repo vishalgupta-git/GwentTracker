@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import { catalog } from './catalog'
-import { ALL_CONTENT, BASE_GAME, diff, groupKey, parseSaveJson } from './diff'
+import { ALL_CONTENT, BASE_GAME, cutoffPassed, diff, groupKey, parseSaveJson, questFactPrefixes } from './diff'
 import type { SaveCards } from '../types'
 
 // the sample collection is the acceptance fixture: a real converted save.
@@ -79,6 +79,13 @@ describe('diff against the sample collection', () => {
     expect(random).toHaveLength(51)
   })
 
+  it('gives every leader an ability and every other card stats', () => {
+    for (const c of catalog.cards) {
+      if (c.type === 'Leader') expect(c.leaderAbility, c.name).toBeTruthy()
+      else expect(c.leaderAbility).toBeUndefined()
+    }
+  })
+
   it('counts copies stored under alias indices', () => {
     // Impera Brigade Guard is saved as 245-248, one copy each.
     expect(base.groups.find((g) => g.name === 'Impera Brigade Guard')).toMatchObject({ have: 4, total: 4 })
@@ -149,5 +156,29 @@ describe('mark as complete', () => {
   it('does not list a mark the save already satisfies', () => {
     const decoy = base.groups.find((g) => g.name === 'Decoy')!
     expect(diff(catalog, fixture, BASE_GAME, new Set([decoy.key])).marked).toHaveLength(0)
+  })
+})
+
+describe('missable cutoffs from save facts', () => {
+  const byQuest = (q: string) => catalog.missables.find((m) => m.questName === q)!
+
+  it('collects only the prefixes the rules need', () => {
+    expect(questFactPrefixes(catalog).sort()).toEqual(
+      ['q402_escort_completed', 'q403_', 'sq301_completed', 'sq301_failed', 'sq306_completed', 'sq306_finished'].sort(),
+    )
+  })
+
+  it('matches exact facts and prefixes, and says unknown without data', () => {
+    expect(cutoffPassed(byQuest('High Stakes'), ['sq306_completed'])).toBe(true)
+    expect(cutoffPassed(byQuest('High Stakes'), ['sq301_completed'])).toBe(false)
+    expect(cutoffPassed(byQuest('A Dangerous Game'), ['q403_race_geralt_won'])).toBe(true)
+    expect(cutoffPassed(byQuest('High Stakes'), null)).toBeNull()
+    expect(cutoffPassed(byQuest('Gwent: Playing Thaler'), ['sq306_completed'])).toBeNull() // no rule
+  })
+
+  it('marks missables as missed in diff', () => {
+    const result = diff(catalog, fixture, ALL_CONTENT, new Set(), ['sq301_completed'])
+    for (const m of result.missables)
+      expect(m.passed).toBe(m.group.questName === 'A Matter of Life and Death' ? true : m.group.passedWhen.length ? false : null)
   })
 })

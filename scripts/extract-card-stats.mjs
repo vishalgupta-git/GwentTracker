@@ -1,4 +1,5 @@
-// One-time extraction of card stats (strength, rows, abilities) from an
+// One-time extraction of card stats (strength, rows, abilities, leader
+// abilities) from an
 // installed copy of The Witcher 3 into data/card-stats.json. The output is
 // committed, so the site builds without the game.
 //   node scripts/extract-card-stats.mjs "/path/to/The Witcher 3"
@@ -54,16 +55,47 @@ const EFFECTS = {
 }
 const WEATHER = { EFFECT_MELEE: 'melee', EFFECT_RANGED: 'ranged', EFFECT_SIEGE: 'siege' }
 
-const xml = readFromBundle(
-  join(gameDir, 'content/content0/bundles/xml.bundle'),
-  'gameplay\\items_plus\\def_gwint_cards_final.xml',
-).replace(/<!--[\s\S]*?-->/g, '')
+// Leader (king) card flags → our leader ability ids.
+const LEADER = {
+  CP_PICK_FOG_CARD: 'pickFog',
+  CP_PICK_RAIN_CARD: 'pickRain',
+  CP_PICK_FROST_CARD: 'pickFrost',
+  CP_PICK_WEATHER_CARD: 'pickWeather',
+  CP_CLEAR_WEATHER: 'clearWeather',
+  CP_MELEE_HORN: 'meleeHorn',
+  CP_RANGE_HORN: 'rangedHorn',
+  CP_SIEGE_HORN: 'siegeHorn',
+  CP_MELEE_SCORCH: 'meleeScorch',
+  EFFECT_RANGED_SCORCH: 'rangedScorch',
+  CP_SIEGE_SCORCH: 'siegeScorch',
+  CP_VIEW_3_ENEMY_CARDS: 'view3',
+  CP_COUNTER_KING_ABLILITY: 'counterLeader',
+  CP_RESURECT_FROM_ENEMY: 'takeFromEnemyDiscard',
+  CP_RESURECT_CARD: 'restoreToHand',
+  EFFECT_RANDOM_RESSURECT: 'randomRestore',
+  CP_11TH_CARD: 'extraCard',
+  EFFECT_AGILE_REPOSITION: 'agileReposition',
+  CP_BIN2_PICK1: 'discard2Pick1',
+  EFFECT_DOUBLE_SPY: 'doubleSpy',
+  EFFECT_WEATHER_RESISTANT: 'halfWeather',
+  EFFECT_GRAVEYARD_SHUFFLE: 'reshuffleDiscards',
+}
+
+const bundle = join(gameDir, 'content/content0/bundles/xml.bundle')
+const read = (file) => readFromBundle(bundle, `gameplay\\items_plus\\${file}`).replace(/<!--[\s\S]*?-->/g, '')
+const xml = read('def_gwint_cards_final.xml') + read('def_gwint_battle_king_cards.xml')
 
 const stats = {}
 for (const [, attrs, body] of xml.matchAll(/<card\s+([^>]*)>([\s\S]*?)<\/card>/g)) {
   const a = Object.fromEntries([...attrs.matchAll(/(\w+)="([^"]*)"/g)].map((m) => [m[1], m[2]]))
   const types = [...(body.match(/<type_flags>([\s\S]*?)<\/type_flags>/)?.[1] ?? '').matchAll(/name="(\w+)"/g)].map((m) => m[1])
   const effects = [...(body.match(/<effect_flags>([\s\S]*?)<\/effect_flags>/)?.[1] ?? '').matchAll(/name="(\w+)"/g)].map((m) => m[1])
+  if (types.includes('TYPE_KING')) {
+    const leader = effects.map((e) => LEADER[e]).find(Boolean)
+    if (!leader) throw new Error(`leader ${a.index}: unknown ability ${effects}`)
+    stats[a.index] = { rows: [], abilities: [], leader }
+    continue
+  }
   const isUnit = types.includes('TYPE_CREATURE')
   const isWeather = types.includes('TYPE_WEATHER')
 

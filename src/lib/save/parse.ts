@@ -15,7 +15,7 @@
 //
 // Gwent cards live inside the "CR4GwintManager" BS (set) variable as a run
 // of VL variables: cardIndex / numCopies pairs, ending at SBSelectedDeckIndex.
-import type { SaveCards } from '../types'
+import type { SaveCards, SaveData } from '../types'
 
 export class SaveParseError extends Error {}
 
@@ -94,6 +94,15 @@ function decompress(file: Uint8Array): Uint8Array {
 
 /** Extracts `{ "<cardIndex>": { count } }` from a .sav file's bytes. */
 export function parseSave(file: Uint8Array): SaveCards {
+  return parseSaveData(file).cards
+}
+
+/**
+ * Cards plus the quest facts whose names start with one of `factPrefixes`
+ * (only facts with a positive value). `facts` is null when the facts block
+ * can't be read, e.g. an older save layout; cards still work then.
+ */
+export function parseSaveData(file: Uint8Array, factPrefixes: readonly string[] = []): SaveData {
   const data = decompress(file)
   const view = new DataView(data.buffer, data.byteOffset, data.byteLength)
   const headerSize = new DataView(file.buffer, file.byteOffset).getInt32(12, true)
@@ -156,5 +165,58 @@ export function parseSave(file: Uint8Array): SaveCards {
     }
   }
   if (Object.keys(cards).length === 0) throw new SaveParseError('No Gwent cards found in this save.')
-  return cards
+
+  const factsAt = entries.findIndex(
+    (e) => inBounds(e.offset, 4) && ascii(data, e.offset, 2) === 'BS' && nameAt(e.offset + 2) === 'facts',
+  )
+  const stream = factsAt >= 0 ? entries[factsAt + 1] : undefined
+  let facts: string[] | null = null
+  try {
+    if (stream && factPrefixes.length) facts = readFacts(data, view, stream, factPrefixes)
+  } catch {
+    // Quest status is a bonus; a facts layout we don't know never blocks the cards.
+  }
+  return { cards, facts }
+}
+
+/**
+ * The facts database is one SS stream: "SXAP" + 3 ints, "SBDF", a count,
+ * then per fact a length-prefixed name, two u16 counts and 10-byte entries
+ * (value i16, time f32, expiry f32), ending in "EBDF". Any surprise → null.
+ */
+function readFacts(
+  data: Uint8Array,
+  view: DataView,
+  stream: { offset: number; size: number },
+  prefixes: readonly string[],
+): string[] | null {
+  const end = stream.offset + stream.size
+  let p = stream.offset + 6
+  if (end > data.length || ascii(data, p, 4) !== 'SXAP' || ascii(data, p + 16, 4) !== 'SBDF') return null
+  p += 20
+  const count = view.getInt32(p, true)
+  p += 4
+  if (count < 0 || count > 1_000_000) return null
+  const found: string[] = []
+  for (let i = 0; i < count; i++) {
+    if (p >= end) return null
+    let b = data[p++]
+    let len = b & 0x3f
+    for (let shift = 6, more = b & 0x40; more; shift += 7) {
+      b = data[p++]
+      len |= (b & 0x7f) << shift
+      more = b & 0x80
+    }
+    if (len === 0 || len > 512 || p + len + 4 > end) return null
+    const name = ascii(data, p, len)
+    p += len
+    const n = view.getUint16(p + 2, true)
+    p += 4
+    if (p + n * 10 > end) return null
+    let sum = 0
+    for (let j = 0; j < n; j++) sum += view.getInt16(p + j * 10, true)
+    p += n * 10
+    if (sum > 0 && prefixes.some((pre) => name.startsWith(pre))) found.push(name)
+  }
+  return ascii(data, p, 4) === 'EBDF' ? found.sort() : null
 }

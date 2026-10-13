@@ -110,12 +110,11 @@ const stats = JSON.parse(readFileSync(join(root, 'data/card-stats.json'), 'utf8'
 for (const card of cards) {
   const st = stats[card.index]
   if (!st) {
-    if (card.type !== 'Leader') fail(`card ${card.index}: no stats in data/card-stats.json`)
-    card.rows = []
-    card.abilities = []
+    fail(`card ${card.index}: no stats in data/card-stats.json`)
     continue
   }
   if (st.strength != null) card.strength = st.strength
+  if (st.leader) card.leaderAbility = st.leader
   card.rows = st.rows
   card.abilities = st.abilities
 }
@@ -151,6 +150,7 @@ const missables = load('missable').map((raw, i) => {
     cutoff: cutoff === 'self' ? questName : cutoff === 'None' ? null : cutoff || null,
     details: str(raw.details) || null,
     notes: (raw.notes ?? []).map(str).filter(Boolean),
+    passedWhen: (raw.passedWhen ?? []).map(str).filter(Boolean),
   }
 })
 

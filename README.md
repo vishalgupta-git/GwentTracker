@@ -35,7 +35,9 @@ progressing the story. This tool does.
 - **Filter by region and source** — e.g. only cards you can *win* in
   *Novigrad*, to plan your next trip.
 - **Missable warnings** — cards you lose for good after a certain quest, with
-  the cutoff and tips.
+  the cutoff and tips. Your quest progress is read from the save, so it can
+  tell you which ones are still possible and which you've already missed.
+- **Leader abilities** — every leader card's ability, alongside the card stats.
 - **Progress at a glance** — unique cards, total copies, "Collect 'Em All"
   achievement progress (using the game's own rules), and per-faction bars.
 - **Mark as complete** — got a card since your last save? Tick it off; it

@@ -3,7 +3,7 @@
   import { Button } from '$lib/components/ui/button'
   import * as Dialog from '$lib/components/ui/dialog'
   import { catalog } from '$lib/collection/catalog'
-  import { ABILITY, cardArt, deckColor, ROW_LABEL, SOURCE_LABEL } from '$lib/display'
+  import { ABILITY, cardArt, deckColor, LEADER_ABILITY, ROW_LABEL, SOURCE_LABEL } from '$lib/display'
   import { marks, toggleMark } from '$lib/collection/marks.svelte'
   import type { CardGroup } from '$lib/types'
   import Check from '@lucide/svelte/icons/check'
@@ -59,7 +59,7 @@
             </blockquote>
           {/if}
 
-          {#if card && (card.strength != null || card.rows.length || card.abilities.length)}
+          {#if card && (card.strength != null || card.rows.length || card.abilities.length || card.leaderAbility)}
             <div class="space-y-2 text-sm">
               {#if card.strength != null || card.rows.length}
                 <dl class="flex flex-wrap gap-x-5 gap-y-1">
@@ -76,6 +76,12 @@
                     </div>
                   {/if}
                 </dl>
+              {/if}
+              {#if card.leaderAbility}
+                <p>
+                  <span class="font-semibold">Leader ability:</span>
+                  <span class="text-muted-foreground">{LEADER_ABILITY[card.leaderAbility]}</span>
+                </p>
               {/if}
               {#each card.abilities as a (a)}
                 <p><span class="font-semibold">{ABILITY[a].label}:</span> <span class="text-muted-foreground">{ABILITY[a].text}</span></p>

@@ -1,6 +1,6 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
-import { isSaveFile, lz4DecodeBlock, parseSave, SaveParseError } from './parse'
+import { isSaveFile, lz4DecodeBlock, parseSave, parseSaveData, SaveParseError } from './parse'
 
 const enc = (s: string) => [...s].map((c) => c.charCodeAt(0))
 const i16 = (n: number) => [n & 0xff, (n >> 8) & 0xff]
@@ -25,8 +25,8 @@ function lz4Literal(data: number[]): number[] {
  * numCopies pairs, a trailing SBSelectedDeckIndex, string table, variable
  * table and footer, wrapped in the chunked LZ4 container.
  */
-function buildSave(cards: [number, number][]): Uint8Array {
-  const names = ['CR4GwintManager', 'cardIndex', 'numCopies', 'Int32', 'SBSelectedDeckIndex']
+function buildSave(cards: [number, number][], facts: [string, number[]][] = []): Uint8Array {
+  const names = ['CR4GwintManager', 'cardIndex', 'numCopies', 'Int32', 'SBSelectedDeckIndex', 'facts']
   const id = (n: string) => names.indexOf(n) + 1
   const HEADER = 16 + 12 // one chunk
   const body: number[] = [...enc('SAV3'), ...i32(0), ...i32(0), ...i32(0)]
@@ -46,6 +46,20 @@ function buildSave(cards: [number, number][]): Uint8Array {
   }
   vl('SBSelectedDeckIndex', 0)
   set.size = at() - set.offset
+
+  // facts: a BS set wrapping one SS stream (see readFacts in parse.ts)
+  const factsSet = { offset: at(), size: 0 }
+  vars.push(factsSet)
+  body.push(...enc('BS'), ...i16(id('facts')))
+  const stream: number[] = [...enc('SXAP'), ...i32(0), ...i32(0), ...i32(0), ...enc('SBDF'), ...i32(facts.length)]
+  for (const [name, values] of facts) {
+    stream.push(name.length, ...enc(name), ...i16(0), ...i16(values.length)) // names here are < 64 chars
+    for (const v of values) stream.push(...i16(v), ...i32(0), ...i32(0))
+  }
+  stream.push(...enc('EBDF'))
+  vars.push({ offset: at(), size: 6 + stream.length })
+  body.push(...enc('SS'), ...i32(stream.length), ...stream)
+  factsSet.size = at() - factsSet.offset
 
   const nm = at()
   body.push(...enc('NM'), ...enc('MANU'), ...i32(names.length), ...i32(0))
@@ -99,6 +113,32 @@ describe('parseSave', () => {
     })
   })
 
+  it('reads quest facts with a positive value and a wanted prefix', () => {
+    const save = buildSave(
+      [[0, 1]],
+      [
+        ['sq301_completed', [1]],
+        ['sq301_started', [1]],
+        ['sq306_chase', [0]],
+        ['q403_race_geralt_won', [1, 1]],
+        ['mq9999_other', [1]],
+      ],
+    )
+    expect(parseSaveData(save, ['sq301_completed', 'sq306_', 'q403_'])).toEqual({
+      cards: { 0: { count: 1, name: '' } },
+      facts: ['q403_race_geralt_won', 'sq301_completed'],
+    })
+  })
+
+  it('keeps the cards when the facts block is unreadable', () => {
+    const save = buildSave([[0, 1]], [['sq301_completed', [1]]])
+    const broken = new Uint8Array(save)
+    const at = broken.findIndex((_, i) => String.fromCharCode(...broken.subarray(i, i + 4)) === 'SBDF')
+    broken[at + 4] = 0xff // absurd fact count
+    // The container is one literal LZ4 run, so patching the raw bytes patches the save.
+    expect(parseSaveData(broken, ['sq301_'])).toEqual({ cards: { 0: { count: 1, name: '' } }, facts: null })
+  })
+
   it('rejects non-save input with a readable message', () => {
     expect(() => parseSave(new TextEncoder().encode('{"gwentCards":{}}'))).toThrow(/Witcher 3 save/)
   })
@@ -114,5 +154,7 @@ describe('parseSave', () => {
     const cards = parseSave(new Uint8Array(readFileSync(real!)))
     expect(Object.keys(cards).length).toBeGreaterThan(50)
     expect(cards[0].count).toBeGreaterThan(0) // everyone starts with Decoy
+    const { facts } = parseSaveData(new Uint8Array(readFileSync(real!)), ['sq301_', 'q403_'])
+    expect(facts).not.toBeNull()
   })
 })
