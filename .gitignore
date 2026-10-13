@@ -1,46 +1,23 @@
-# --- Secrets / user data -------------------------------------------------
-# Never commit a user's Witcher 3 save file.
+# User data — never commit a Witcher 3 save file
 *.sav
-*.sav.bak
 
-# Local environment files
+# Local env
 .env
 .env.*
-!.env.example
 
-# --- Python --------------------------------------------------------------
+# Python (venv + notebook scratch)
 venv/
-.venv/
-env/
 __pycache__/
-*.py[cod]
-*$py.class
-*.egg-info/
-.pytest_cache/
-.mypy_cache/
-.ruff_cache/
+*.pyc
 .ipynb_checkpoints/
 
-# --- Node / frontend tooling ---------------------------------------------
+# Frontend tooling
 node_modules/
 dist/
 build/
-.cache/
-.parcel-cache/
 
-# --- Docker / API build artifacts ----------------------------------------
-*.pid
-*.log
-
-# --- Cloudflare Tunnel credentials ---------------------------------------
-# Config file lives in the repo; the credentials json does not.
-.cloudflared/*.json
-cloudflared-credentials.json
-
-# --- IDE / OS ------------------------------------------------------------
+# IDE / OS
 .vscode/
 .idea/
-*.swp
-*.swo
 .DS_Store
 Thumbs.db
