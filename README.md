@@ -4,7 +4,9 @@ Find every Witcher 3 Gwent card you're still missing. Drop in your save
 file and see what you need, where to win or buy it, and which cards you're
 about to lose for good.
 
-> ⚠️ **Not yet live.** Work in progress — see [Releases](https://github.com/vishalgupta-git/GwentTracker/releases) for build updates.
+### ▶ [Open the tracker](https://vishalgupta-git.github.io/GwentTracker/)
+
+Free, no sign-up, and your save never leaves your browser.
 
 ## Why this exists
 
@@ -36,21 +38,6 @@ progressing the story. This tool does.
 - **Light and dark themes**, works on phones.
 
 No PC save handy? Hit **Try a sample** to see it in action.
-
-## Status
-
-- ✅ Save parsing in the browser, card catalog, missing / incomplete /
-  missable reports, DLC toggle
-- ✅ Real Gwent card images, grid and list views, card detail view
-- ✅ Mark cards as complete
-- ✅ Witcher-themed UI with light / dark modes
-- ✅ Region / source filters, All cards view, checklist export
-- ✅ Separate expansion toggles, remembers last save, installable / offline
-- ⏳ Public launch on GitHub Pages
-- 🔬 Quest-aware missable warnings (research in progress)
-
-Check the [Releases page](https://github.com/vishalgupta-git/GwentTracker/releases)
-for shipped versions.
 
 ## Development
 
