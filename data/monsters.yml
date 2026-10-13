@@ -1,0 +1,560 @@
+﻿---
+-   index: 400
+    deck: Monsters
+    name: "Draug"
+    flavor: "\"Some men cannot admit defeat. Some keep fighting from beyond the grave.\""
+    type: Hero
+    locations:
+        -   type: Gwent Quest
+            npc: Crach an Craite
+            area: Kaer Trolde
+            territory: Ard Skellig
+            region: Skellige
+            coords: []
+-   index: 401
+    deck: Monsters
+    name: "Kayran"
+    flavor: "\"Kill a kayran? Simple. Take your best sword... then sell it and hire a witcher.\""
+    type: Hero
+    locations:
+        -   type: Win from NPC
+            npc: Random
+            area: Random
+            territory: Random
+            region: Random
+            coords: []
+-   index: 402
+    deck: Monsters
+    name: "Imlerith"
+    flavor: "\"Ladd nahw! Kill them! Litter the earth with their entrails!\""
+    type: Hero
+    locations:
+        -   type: Win from NPC
+            npc: Random
+            area: Random
+            territory: Random
+            region: Random
+            coords: []
+-   index: 403
+    deck: Monsters
+    name: "Leshen"
+    flavor: "\"We never hunt in these woods. Not even if it means the whole village starves.\""
+    type: Hero
+    locations:
+        -   type: Gwent Quest
+            npc: Ermion
+            area: Gedyneith
+            territory: Ard Skellig
+            region: Skellige
+            coords: []
+-   index: 405
+    deck: Monsters
+    name: "Forktail"
+    flavor: "\"Fork tails… Bah! Fuckers' tails're more like cleavers.\""
+    type: Unit
+    locations:
+        -   type: Win from NPC
+            npc: Random
+            area: Random
+            territory: Random
+            region: Random
+            coords: []
+-   index: 407
+    deck: Monsters
+    name: "Earth Elemental"
+    flavor: "\"How to fight an earth elemental? You don't. You run. Fast as you can.\""
+    type: Unit
+    locations:
+        -   type: Buy from Trader
+            npc: Innkeeper
+            area: New Port Inn
+            territory: Kaer Trolde Harbor
+            region: Skellige
+            coords: []
+-   index: 410
+    deck: Monsters
+    name: "Fiend"
+    flavor: "\"A fiend looks a bit like a deer. An enormous, evil deer.\""
+    type: Unit
+    locations:
+        -   type: Buy from Trader
+            npc: Innkeeper
+            area: Arinbjorn
+            territory: 
+            region: Skellige 
+            coords: []
+-   index: 413
+    deck: Monsters
+    name: "Plague Maiden"
+    flavor: "\"The sick rave about a boil-pocked woman surrounded by herds of rabid rats…\""
+    type: Unit
+    locations:
+        -   type: Win from NPC
+            npc: Random
+            area: Random 
+            territory: Random
+            region: Random
+            coords: []
+-   index: 415
+    deck: Monsters
+    name: "Griffin"
+    flavor: "\"Griffins like to toy with their prey. Eat 'em alive, piece by piece.\""
+    type: Unit
+    locations:
+        -   type: Random
+            npc: Random
+            area: Random
+            territory: Random
+            region: Random
+            coords: []
+-   index: 417
+    deck: Monsters
+    name: "Werewolf"
+    flavor: "\"Wolves aren't as bad as they say. Werewolves, though - they're worse.\""
+    type: Unit
+    locations:
+        -   type: Buy from Trader
+            npc: Innkeeper
+            area: Urialla Harbor
+            territory: An Skellig
+            region: Skellige
+            coords: []
+-   index: 420
+    deck: Monsters
+    name: "Botchling"
+    flavor: "\"Admit your mistakes and bury them proper - else they'll come back to haunt you.\""
+    type: Unit
+    locations:
+        -   type: Buy from Trader
+            npc: Innkeeper
+            area: New Port Inn
+            territory: Kaer Trolde Harbor
+            region: Skellige
+            coords: []
+-   index: 423
+    deck: Monsters
+    name: "Frightener"
+    flavor: "\"What have I done?\" the mage cried out, frightened of his own creation."
+    type: Unit
+    locations:
+        -   type: Win from NPC
+            npc: Random
+            area: Random 
+            territory: Random
+            region: Random
+            coords: []
+-   index: 425
+    deck: Monsters
+    name: "Ice Giant"
+    flavor: "\"Fled one time in my life. From the Ice Giant. And I'm not a bit ashamed.\""
+    type: Unit
+    locations:
+        -   type: Buy from Trader
+            npc: Innkeeper
+            area: Svorlag
+            territory: Spikeroog
+            region: Skellige
+            coords: []
+-   index: 427
+    deck: Monsters
+    name: "Endrega"
+    flavor: "\"The nest! Take out the nest, or the bastards'll just keep coming!\""
+    type: Unit
+    locations:
+        -   type: Win from NPC
+            npc: Random
+            area: Random
+            territory: Random
+            region: Random
+            coords: []
+-   index: 430
+    deck: Monsters
+    name: "Harpy"
+    flavor: "\"There are many species of harpy, and all are kleptomaniacs.\""
+    type: Unit
+    locations:
+        -   type: Buy from Trader
+            npc: Innkeeper
+            area: Harviken
+            territory: Faroe
+            region: Skellige
+            coords: []
+-   index: 433
+    deck: Monsters
+    name: "Cockatrice"
+    flavor: "\"Born of an egg laid by a cockerel... if you believe such peasant drivel.\""
+    type: Unit
+    locations:
+        -   type: Win from NPC
+            npc: Random
+            area: Random
+            territory: Random
+            region: Random
+            coords: []
+-   index: 435
+    deck: Monsters
+    name: "Gargoyle"
+    flavor: "\"Ancient sculptors' nightmarish fantasies, brought to life by bored mages.\""
+    type: Unit
+    locations:
+        -   type: Win from NPC
+            npc: Random
+            area: Random
+            territory: Random
+            region: Random
+            coords: []
+-   index: 437
+    deck: Monsters
+    name: "Celaeno Harpy"
+    flavor: "\"Common harpies feed on carrion. Celaeno harpies… they feed on dreams.\""
+    type: Unit
+    locations:
+        -   type: Win from NPC
+            npc: Random
+            area: Random
+            territory: Random
+            region: Random
+            coords: []
+-   index: 440
+    deck: Monsters
+    name: "Grave Hag"
+    flavor: "\"Their long tongues're for slurping marrow - and whipping prey.\""
+    type: Unit
+    locations:
+        -   type: Win from NPC
+            npc: Random
+            area: Random
+            territory: Random
+            region: Random
+            coords: []
+-   index: 443
+    deck: Monsters
+    name: "Fire Elemental"
+    flavor: "\"Fire is so delightful.\""
+    type: Unit
+    locations:
+        -   type: Win from NPC
+            npc: Random
+            area: Random
+            territory: Random
+            region: Random
+            coords: []
+-   index: 445
+    deck: Monsters
+    name: "Foglet"
+    flavor: "\"Fog creeps on little cat feet. Foglets creep over the bodies of their victims.\""
+    type: Unit
+    locations:
+        -   type: Buy from Trader
+            npc: Innkeeper
+            area: Svorlag
+            territory: Spikeroog
+            region: Skellige
+            coords: []
+-   index: 447
+    deck: Monsters
+    name: "Wyvern"
+    flavor: "\"Imagine a cross between a winged snake and a nightmare. Wyverns are worse.\""
+    type: Unit
+    locations:
+        -   type: Win from NPC
+            npc: Random
+            area: Random
+            territory: Random
+            region: Random
+            coords: []
+-   index: 450
+    deck: Monsters
+    name: "Arachas Behemoth"
+    flavor: "\"Like a cross between a crab, a spider… and a ploughin' mountain.\""
+    type: Unit
+    locations:
+        -   type: Win from NPC
+            npc: Random
+            area: Random
+            territory: Random
+            region: Random
+            coords: []
+-   index: 451
+    deck: Monsters
+    name: "Arachas"
+    flavor: "\"Ugly - nature's way of saying 'Stay the fuck away.'\""
+    type: Unit
+    locations:
+        -   type: Buy from Trader
+            npc: Innkeeper
+            area: Arinbjorn
+            territory: 
+            region: Skellige
+            coords: []
+-   index: 452
+    deck: Monsters
+    name: "Arachas"
+    flavor: "\"Ugly - nature's way of saying 'Stay the fuck away.'\""
+    type: Unit
+    locations:
+        -   type: Buy from Trader
+            npc: Innkeeper
+            area: Urialla Harbor
+            territory: An Skellig
+            region: Skellige
+            coords: []
+-   index: 453
+    deck: Monsters
+    name: "Arachas"
+    flavor: "\"Ugly - nature's way of saying 'Stay the fuck away.'\""
+    type: Unit
+    locations:
+        -   type: Buy from Trader
+            npc: Innkeeper
+            area: Svorlag
+            territory: Spikeroog
+            region: Skellige
+            coords: []
+-   index: 455
+    deck: Monsters
+    name: "Nekker"
+    flavor: "\"Damn things are almost cute, if you ignore the whole vicious killer aspect.\""
+    type: Unit
+    locations:
+        -   type: Secondary Quest
+            quest: id# (Following the Thead)
+            npc: Hammond's corpse
+            area: Trottheim
+            territory: Faroe
+            region: Skellige
+            coords: []
+-   index: 456
+    deck: Monsters
+    name: "Nekker"
+    flavor: "\"Damn things are almost cute, if you ignore the whole vicious killer aspect.\""
+    type: Unit
+    locations:
+        -   type: Buy from Trader
+            npc: Innkeeper
+            area: Harviken
+            territory: Faroe
+            region: Skellige
+            coords: []
+-   index: 457
+    deck: Monsters
+    name: "Nekker"
+    flavor: "\"Damn things are almost cute, if you ignore the whole vicious killer aspect.\""
+    type: Unit
+    locations:
+        -   type: Win from NPC
+            npc: Random
+            area: Random
+            territory: Random
+            region: Random
+            coords: []
+-   index: 460
+    deck: Monsters
+    name: "Vampire: Ekimmara"
+    flavor: "\"Who would think overgrown bats would have a taste for gaudy jewelry?\""
+    type: Unit
+    locations:
+        -   type: Buy from Trader
+            npc: Innkeeper
+            area: Svorlag
+            territory: Spikeroog
+            region: Skellige
+            coords: []
+-   index: 461
+    deck: Monsters
+    name: "Vampire: Fleder"
+    flavor: "\"Higher vampires embrace their victims. Fleders rip them to shreds.\""
+    type: Unit
+    locations:
+        -   type: Buy from Trader
+            npc: Innkeeper
+            area: Harviken
+            territory: Faroe
+            region: Skellige
+            coords: []
+-   index: 462
+    deck: Monsters
+    name: "Vampire: Garkain"
+    flavor: "\"Blood-drinkers and corpse-eaters so foul their very ugliness paralyses foes.\""
+    type: Unit
+    locations:
+        -   type: Win from NPC
+            npc: Random
+            area: Random
+            territory: Random
+            region: Random
+            coords: []
+-   index: 463
+    deck: Monsters
+    name: "Vampire: Bruxa"
+    flavor: "\"A vile, bloodthirsty, man-eating hag. Kind of like my mother-in-law.\""
+    type: Unit
+    locations:
+        -   type: Secondary Quest
+            quest: id# (a Matter of Life and Death)
+            npc: 
+            area: 
+            territory: 
+            region: Novigrad
+            notes: Win a match at the masquerade ball at Vegelbud Estate 
+            coords: []
+-   index: 464
+    deck: Monsters
+    name: "Vampire: Katakan"
+    flavor: "\"Drinking the blood of the Continent since the Conjunction.\""
+    type: Unit
+    locations:
+        -   type: Gwent Quest
+            npc: Madman Lugos
+            area: Kaer Muire
+            territory: Ard Skellig
+            region: Skellige
+            coords: []
+-   index: 470
+    deck: Monsters
+    name: "Ghoul"
+    flavor: "\"If ghouls are part of the Circle of Life... then it's a damn vicious circle.\""
+    type: Unit
+    locations:
+        -   type: Win from NPC
+            npc: Random
+            area: Random
+            territory: Random
+            region: Random
+            coords: []
+-   index: 471
+    deck: Monsters
+    name: "Ghoul"
+    flavor: "\"If ghouls are part of the Circle of Life... then it's a damn vicious circle.\""
+    type: Unit
+    locations:
+        -   type: Win from NPC
+            npc: Random
+            area: Random
+            territory: Random
+            region: Random
+            coords: []
+-   index: 472
+    deck: Monsters
+    name: "Ghoul"
+    flavor: "\"If ghouls are part of the Circle of Life... then it's a damn vicious circle.\""
+    type: Unit
+    locations:
+        -   type: Buy from Trader
+            npc: Innkeeper
+            area: Harviken
+            territory: Faroe
+            region: Skellige
+            coords: []
+-   index: 475
+    deck: Monsters
+    name: "Crone: Brewess"
+    flavor: "\"We'll cut you up, boy. A fine broth you will make.\""
+    type: Unit
+    locations:
+        -   type: Win from NPC
+            npc: Random
+            area: Random
+            territory: Random
+            region: Random
+            coords: []
+-   index: 476
+    deck: Monsters
+    name: "Crone: Weavess"
+    flavor: "\"I sense your pain. I see your fear…\""
+    type: Unit
+    locations:
+        -   type: Gwent Quest
+            quest: id# (Gwent- Velen Players)
+            npc: Old Sage
+            area: Benek
+            territory: 
+            region: Velen
+            coords: []
+-   index: 477
+    deck: Monsters
+    name: "Crone: Whispess"
+    flavor: "\"I'd be your best - and last.\""
+    type: Unit
+    locations:
+        -   type: Buy from Trader
+            npc: Innkeeper
+            area: Arinbjorn
+            territory: Ard Skellig
+            region: Skellige
+            coords: []
+-   index: 478
+    deck: Monsters
+    name: "Toad"
+    flavor: "\"Big. Bad. Ugly. Squats in the sewers.\""
+    type: Unit
+    locations:
+        -   type: Win from NPC
+            npc: Olgierd von Everec
+            area: 
+            territory: 
+            region: Redania
+            coords: []
+        -   type: Loot
+            area: The Alchemy
+            territory: Oxenfurt
+            region: Redania
+            coords: []
+-   index: 4001
+    deck: Monsters
+    name: "Eredin: King of the Wild Hunt"
+    flavor: "\"I've long awaited this...\""
+    type: Leader
+    locations:
+        -   type: Base Deck
+-   index: 4002
+    deck: Monsters
+    name: "Eredin: Commander of the Red Riders"
+    flavor: "\"Have some dignity. You know how this will end.\""
+    type: Leader
+    locations:
+        -   type: Buy from Trader
+            npc: Innkeeper
+            area: The New Port
+            territory: Kaer Trolde Harbor
+            region: Skellige
+            coords: []
+-   index: 4003
+    deck: Monsters
+    name: "Eredin: Destroyer of Worlds"
+    flavor: "\"It is unavoidable.\""
+    type: Leader
+    locations:
+        -   type: Gwent Quest
+            quest: id# (Gwent- Velen Players)
+            npc: 
+            area: 
+            territory: 
+            region: Velen
+            coords: []
+-   index: 4004
+    deck: Monsters
+    name: "Eredin: Bringer of Death"
+    flavor: "\"Go on. Show me your spins, pirouettes and feints. I want to watch.\""
+    type: Leader
+    locations:
+        -   type: Secondary Quest
+            quest: id# (High Stakes)
+            npc: 
+            area: 
+            territory: Passiflora
+            region: Novigrad
+            coords: []
+-   index: 4005
+    deck: Monsters
+    name: "Eredin Bréacc Glas: The Treacherous"
+    flavor: "\"I'm enjoying this. You are my toy.\""
+    type: Leader
+    locations:
+        -   type: Win From NPC
+            npc: Dulla kh'Amanni
+            area: Upper Mill
+            territory: Gustfields
+            region: Redania
+            coords: []
+

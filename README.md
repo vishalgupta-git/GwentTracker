@@ -7,8 +7,8 @@ cards you're still missing and where to find them.
 
 ## Why this exists
 
-The in-game "Collect 'Em All" quest asks you to track down 120 unique
-Gwent cards. The game doesn't tell you which ones you still need, where
+The in-game "Collect 'Em All" achievement asks you to track down every
+base-game Gwent card. The game doesn't tell you which ones you still need, where
 they come from, or warn you about the ones you can permanently miss by
 progressing the main story. This tool does.
 
@@ -32,12 +32,25 @@ stored.
 - ✅ Architecture + hosting split locked in (GitHub Pages frontend + separate Proxmox-hosted API on `gwent-api.urvai.in`)
 - ✅ Frontend stack locked in: Vite + Svelte 5 + TypeScript + Tailwind CSS + shadcn-svelte
 - ✅ Repo scaffolding done (git, docs, license, `.gitignore`)
-- ⏳ **Phase 1 build — not started yet** (JSON upload + diff + results UI)
+- ✅ Phase 1 build — JSON upload + diff + results UI (pending first deploy)
 - ⏳ Phase 2 — direct `.sav` upload wired to the API
 - ⏳ Phase 3 (optional) — parser in-browser (WASM), retire the API
 
 Check the [Releases page](https://github.com/vishalgupta-git/GwentTracker/releases)
 for shipped versions.
+
+## Development
+
+```bash
+npm install
+npm run dev      # http://localhost:5173/GwentTracker/
+npm test         # diff tests against the a.txt fixture
+npm run build    # outputs dist/
+```
+
+The card catalog (`src/lib/data/catalog.json`) is generated from the
+YAML files in `data/` by `scripts/build-catalog.mjs`; it runs
+automatically before `dev`, `build`, `test` and `check`.
 
 ## Credit
 
