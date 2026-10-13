@@ -5,12 +5,12 @@
 export const SITE_URL = 'https://vishalgupta-git.github.io/GwentTracker/'
 export const SITE_TITLE = 'Witcher 3 Gwent Card Tracker – Find Your Missing Gwent Cards'
 export const SITE_DESCRIPTION =
-  "Upload your Witcher 3 save (Complete Edition / next-gen or older) and see every Gwent card you're missing, where to get it, which are missable, and your Collect 'Em All progress. Free, private, runs in your browser."
+  "Upload your Witcher 3 save (Remastered 5.0 or next-gen 4.0) and see every Gwent card you're missing, where to get it, which are missable, and your Collect 'Em All progress. Free, private, runs in your browser."
 
 /** Versions and platforms the save reader has been tested with. */
 export const COMPATIBILITY = [
-  'Complete Edition (next-gen 4.0+)',
-  'Older saves',
+  'Remastered (5.0)',
+  'Next-gen (4.0)',
   'Hearts of Stone',
   'Blood and Wine',
   'Steam · GOG · Epic',
@@ -45,8 +45,8 @@ export const FAQ: { q: string; a: string }[] = [
     a: "No. The save is read entirely in your browser. There is no server, and the file never leaves your computer. Only your card counts are remembered in this browser so you can come back later.",
   },
   {
-    q: 'Does it work with the Complete Edition (next-gen update) and the DLCs?',
-    a: 'Yes. It reads saves from the Complete Edition, the free next-gen update (4.0 and later), as well as older saves, whether you play on Steam, GOG or Epic. Hearts of Stone and Blood and Wine cards can be switched on separately.',
+    q: 'Does it work with The Witcher 3 Remastered (5.0) and the DLCs?',
+    a: "Yes. It reads saves from the Remastered update (5.0) and the earlier next-gen update (4.0), whether you play on Steam, GOG or Epic, and the card list has been checked against the 5.0 game files. Hearts of Stone and Blood and Wine cards can be switched on separately.",
   },
   {
     q: 'Can I use a PlayStation, Xbox or Switch save?',

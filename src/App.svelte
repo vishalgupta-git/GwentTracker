@@ -260,7 +260,7 @@
     {#if !result || home}
       <section class="grid items-center gap-10 pt-4 sm:pt-10 lg:grid-cols-[1.05fr_1fr] lg:gap-14">
         <div class="order-2 text-center lg:order-1 lg:text-left">
-          <p class="text-gold mb-3 text-xs font-semibold tracking-[0.3em] uppercase">The Witcher 3: Wild Hunt · Complete Edition</p>
+          <p class="text-gold mb-3 text-xs font-semibold tracking-[0.3em] uppercase">The Witcher 3: Wild Hunt · Remastered 5.0</p>
           <h1 class="font-display text-gold-gradient text-4xl leading-tight font-bold sm:text-5xl xl:text-6xl">
             Complete your Gwent collection
           </h1>
