@@ -23,84 +23,96 @@
     if (!open) onclose()
   }}
 >
-  <Dialog.Content class="max-h-[85vh] overflow-y-auto sm:max-w-lg">
+  <Dialog.Content class="max-h-[90vh] overflow-y-auto p-0 sm:max-w-2xl">
     {#if group}
-      <Dialog.Header>
-        <Dialog.Title>{group.name}</Dialog.Title>
-        <Dialog.Description class="flex flex-wrap items-center gap-1.5">
-          <span class={['size-2 rounded-full', deckColor(group.deck)]}></span>
-          {group.deck} · {group.type} · {SOURCE_LABEL[group.source]}
-        </Dialog.Description>
-      </Dialog.Header>
+      <div class="grid gap-0 sm:grid-cols-[13rem_1fr]">
+        <div
+          class="from-gold/20 relative flex items-center justify-center bg-gradient-to-b to-transparent p-6 sm:rounded-l-xl"
+        >
+          <img
+            src={cardArt(group.cards[0].index)}
+            alt={group.name}
+            class="aspect-[280/527] w-36 object-contain drop-shadow-[0_12px_24px_rgba(0,0,0,0.45)] sm:w-full"
+          />
+        </div>
 
-      <div class="flex gap-4">
-        <img
-          src={cardArt(group.cards[0].index)}
-          alt={group.name}
-          class="aspect-[280/527] w-28 shrink-0 object-contain drop-shadow-md sm:w-36"
-        />
-        <div class="space-y-3">
-          {#if group.flavor}
-            <p class="text-muted-foreground border-l-2 pl-3 text-sm italic">{group.flavor}</p>
-          {/if}
-          {#if marks.has(group.key)}
-            <p class="text-sm text-emerald-700 dark:text-emerald-400">You marked this card as complete.</p>
-          {:else}
-            <div class="flex items-center gap-2 text-sm">
-              <span class="text-muted-foreground">You have</span>
-              <Badge variant={group.have === group.total ? 'secondary' : 'outline'} class="tabular-nums">
-                {group.have} / {group.total}
+        <div class="space-y-5 p-6 sm:pl-2">
+          <Dialog.Header class="space-y-2 text-left">
+            <Dialog.Title class="font-display text-2xl leading-tight">{group.name}</Dialog.Title>
+            <Dialog.Description class="flex flex-wrap items-center gap-1.5">
+              <Badge variant="outline" class="gap-1.5">
+                <span class={['size-2 rounded-full', deckColor(group.deck)]}></span>{group.deck}
               </Badge>
-            </div>
-          {/if}
-          <Button
-            variant={marks.has(group.key) ? 'outline' : 'default'}
-            size="sm"
-            onclick={() => toggleMark(group!.key)}
-          >
-            {#if marks.has(group.key)}Unmark{:else}<Check /> Mark as complete{/if}
-          </Button>
-        </div>
-      </div>
+              <Badge variant="outline">{group.type}</Badge>
+              <Badge variant="outline">{SOURCE_LABEL[group.source]}</Badge>
+            </Dialog.Description>
+          </Dialog.Header>
 
-      {#each missables as m (m.questName)}
-        <div class="border-destructive/30 bg-destructive/5 space-y-1.5 rounded-lg border p-3 text-sm">
-          <p class="text-destructive flex items-center gap-1.5 font-medium">
-            <TriangleAlert class="size-4" /> Missable — {m.questName} ({m.region})
-          </p>
-          {#if m.cutoff}
-            <p>Lost after: <span class="font-medium">{m.cutoff}</span></p>
+          {#if group.flavor}
+            <blockquote class="border-gold/60 text-muted-foreground border-l-2 pl-3 text-sm italic">
+              {group.flavor}
+            </blockquote>
           {/if}
-          {#each m.notes as note}
-            <p class="text-muted-foreground">{note}</p>
-          {/each}
-          {#if m.details}
-            <a class="text-primary underline underline-offset-4" href={m.details} target="_blank" rel="noreferrer"
-              >Wiki notes</a
+
+          <div class="flex flex-wrap items-center gap-3">
+            {#if marks.has(group.key)}
+              <span class="text-success text-sm font-medium">Marked as complete</span>
+            {:else}
+              <span class="text-sm">
+                <span class="text-muted-foreground">You have</span>
+                <span class="font-display ml-1 text-lg font-semibold tabular-nums">{group.have}/{group.total}</span>
+              </span>
+            {/if}
+            <Button
+              variant={marks.has(group.key) ? 'outline' : 'default'}
+              size="sm"
+              class="ml-auto"
+              onclick={() => toggleMark(group!.key)}
             >
-          {/if}
-        </div>
-      {/each}
+              {#if marks.has(group.key)}Unmark{:else}<Check /> Mark as complete{/if}
+            </Button>
+          </div>
 
-      <div class="space-y-2">
-        <h4 class="text-sm font-medium">Where to find it</h4>
-        {#if group.locations.length === 0}
-          <p class="text-muted-foreground text-sm">No known location.</p>
-        {:else}
-          <ul class="space-y-2">
-            {#each group.locations as l}
-              <li class="bg-muted/50 flex gap-2.5 rounded-md p-2.5 text-sm">
-                <MapPin class="text-muted-foreground mt-0.5 size-4 shrink-0" />
-                <div>
-                  <p class="font-medium">{l.type}{l.npc ? `: ${l.npc}` : ''}{l.quest ? `: ${l.quest}` : ''}</p>
-                  <p class="text-muted-foreground">
-                    {[l.area, l.territory, l.region].filter(Boolean).join(', ') || '—'}
-                  </p>
-                </div>
-              </li>
-            {/each}
-          </ul>
-        {/if}
+          {#each missables as m (m.questName)}
+            <div class="border-destructive/30 bg-destructive/10 space-y-1.5 rounded-xl border p-3.5 text-sm">
+              <p class="text-destructive flex items-center gap-1.5 font-semibold">
+                <TriangleAlert class="size-4" /> Missable · {m.questName} ({m.region})
+              </p>
+              {#if m.cutoff}
+                <p>Lost after <span class="font-semibold">{m.cutoff}</span></p>
+              {/if}
+              {#each m.notes as note}
+                <p class="text-muted-foreground">{note}</p>
+              {/each}
+              {#if m.details}
+                <a class="text-gold underline underline-offset-4" href={m.details} target="_blank" rel="noreferrer"
+                  >Wiki notes</a
+                >
+              {/if}
+            </div>
+          {/each}
+
+          <div class="space-y-2">
+            <h4 class="font-display text-sm font-semibold tracking-wider uppercase">Where to find it</h4>
+            {#if group.locations.length === 0}
+              <p class="text-muted-foreground text-sm">No known location.</p>
+            {:else}
+              <ul class="space-y-2">
+                {#each group.locations as l}
+                  <li class="bg-muted/60 flex gap-3 rounded-lg p-3 text-sm">
+                    <MapPin class="text-gold mt-0.5 size-4 shrink-0" />
+                    <div>
+                      <p class="font-medium">{l.type}{l.npc ? `: ${l.npc}` : ''}{l.quest ? `: ${l.quest}` : ''}</p>
+                      {#if l.area || l.territory || l.region}
+                        <p class="text-muted-foreground">{[l.area, l.territory, l.region].filter(Boolean).join(', ')}</p>
+                      {/if}
+                    </div>
+                  </li>
+                {/each}
+              </ul>
+            {/if}
+          </div>
+        </div>
       </div>
     {/if}
   </Dialog.Content>

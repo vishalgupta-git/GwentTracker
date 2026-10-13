@@ -52,17 +52,18 @@
 {#if filtered.length === 0}
   <p class="text-muted-foreground py-10 text-center text-sm">{query ? 'No cards match your search.' : empty}</p>
 {:else}
-  <div class="space-y-6">
+  <div class="space-y-10">
     {#each byDeck as [deck, items] (deck)}
       <section>
-        <h3 class="text-muted-foreground mb-2 flex items-center gap-2 text-xs font-semibold tracking-wide uppercase">
-          <span class={['size-2 rounded-full', deckColor(deck)]}></span>
-          {deck}
-          <span class="font-normal">· {items.length}</span>
+        <h3 class="mb-4 flex items-center gap-3">
+          <span class={['h-5 w-1 rounded-full', deckColor(deck)]}></span>
+          <span class="font-display text-lg font-semibold tracking-wide">{deck}</span>
+          <span class="text-muted-foreground bg-muted rounded-full px-2 text-xs tabular-nums">{items.length}</span>
+          <span class="bg-border h-px flex-1"></span>
         </h3>
 
         {#if view === 'grid'}
-          <ul class="grid grid-cols-3 gap-x-3 gap-y-4 sm:grid-cols-5 md:grid-cols-6">
+          <ul class="grid grid-cols-3 gap-x-4 gap-y-6 sm:grid-cols-4 md:grid-cols-6">
             {#each items as g (g.key)}
               <li class="group relative">
                 <button
@@ -75,7 +76,7 @@
                     alt={g.name}
                     loading="lazy"
                     decoding="async"
-                    class="aspect-[280/527] w-full object-contain drop-shadow-md transition-transform duration-200 group-hover:-translate-y-1"
+                    class="card-glow aspect-[280/527] w-full object-contain"
                   />
                 </button>
                 <button
@@ -83,17 +84,17 @@
                   aria-label={markLabel(g)}
                   title={g.marked ? 'Unmark' : 'Mark as complete'}
                   class={[
-                    'absolute top-1.5 right-1.5 grid size-7 place-items-center rounded-full border shadow transition-opacity',
+                    'absolute top-2 right-2 grid size-8 place-items-center rounded-full border shadow-lg backdrop-blur transition-all',
                     g.marked
-                      ? 'border-emerald-600 bg-emerald-600 text-white'
-                      : 'bg-background/90 text-foreground hover:bg-emerald-600 hover:text-white sm:opacity-0 sm:group-hover:opacity-100 sm:focus-visible:opacity-100',
+                      ? 'border-success bg-success text-white'
+                      : 'bg-background/85 text-foreground hover:border-success hover:bg-success hover:text-white sm:opacity-0 sm:group-hover:opacity-100 sm:focus-visible:opacity-100',
                   ]}
                   onclick={() => toggleMark(g.key)}
                 >
                   {#if g.marked}<Undo2 class="size-3.5" />{:else}<Check class="size-4" />{/if}
                 </button>
                 {#if g.missable || count(g) || g.source !== 'BaseGame'}
-                  <div class="mt-1.5 flex flex-wrap items-center gap-1">
+                  <div class="mt-2 flex flex-wrap items-center justify-center gap-1">
                     {#if g.missable}
                       <Badge variant="destructive"><TriangleAlert /> Missable</Badge>
                     {/if}
@@ -109,12 +110,12 @@
             {/each}
           </ul>
         {:else}
-          <ul class="divide-border bg-card divide-y overflow-hidden rounded-lg border">
+          <ul class="panel divide-border divide-y overflow-hidden">
             {#each items as g (g.key)}
               <li class="flex items-center">
                 <button
                   type="button"
-                  class="hover:bg-muted/60 focus-visible:bg-muted/60 flex min-w-0 flex-1 items-center gap-3 px-3 py-2.5 text-left outline-none"
+                  class="hover:bg-gold/5 focus-visible:bg-gold/5 flex min-w-0 flex-1 items-center gap-4 px-4 py-3 text-left outline-none"
                   onclick={() => onselect(g)}
                 >
                   <img
@@ -122,11 +123,11 @@
                     alt=""
                     loading="lazy"
                     decoding="async"
-                    class="h-16 w-[34px] shrink-0 object-contain"
+                    class="h-20 w-[42px] shrink-0 object-contain drop-shadow"
                   />
                   <div class="min-w-0 flex-1">
                     <div class="flex flex-wrap items-center gap-1.5">
-                      <span class="font-medium">{g.name}</span>
+                      <span class="font-display font-semibold">{g.name}</span>
                       {#if g.missable}
                         <Badge variant="destructive"><TriangleAlert /> Missable</Badge>
                       {/if}
@@ -155,8 +156,8 @@
                   class={[
                     'mx-2 grid size-8 shrink-0 place-items-center rounded-full border',
                     g.marked
-                      ? 'border-emerald-600 bg-emerald-600 text-white'
-                      : 'text-muted-foreground hover:border-emerald-600 hover:bg-emerald-600 hover:text-white',
+                      ? 'border-success bg-success text-white'
+                      : 'text-muted-foreground hover:border-success hover:bg-success hover:text-white',
                   ]}
                   onclick={() => toggleMark(g.key)}
                 >
